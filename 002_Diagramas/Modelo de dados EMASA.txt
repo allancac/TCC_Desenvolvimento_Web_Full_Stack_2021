@@ -1,0 +1,52 @@
+Tabela de Produtos:
+	ID do Produto (chave primária)
+	Nome do Produto
+	Descrição
+	Preço por metro cúbico
+
+Tabela de Clientes:
+	ID do Cliente (chave primária)
+	Nome da Empresa
+	Número de Telefone
+	Email
+	CNPJ
+	Data de Cadastro
+
+Tabela de Endereços:
+	ID do Endereço (chave primária)
+	ID do Cliente (chave estrangeira para Tabela de Clientes)
+	Logradouro
+	Cidade
+	Estado (Rio de Janeiro)
+	CEP
+	Tipo (Entrega ou Não-Entrega)
+	Data de cadastro
+
+Tabela de Vendas:
+	ID da Venda (chave primária)
+	ID do Produto (chave estrangeira para Tabela de Produtos)
+	ID do Cliente (chave estrangeira para Tabela de Clientes)
+	Data da Venda
+	Quantidade vendida (em metros cúbicos)
+	Preço total
+
+Tabela de Estoque:
+	ID do Estoque (chave primária)
+	ID do Produto (chave estrangeira para Tabela de Produtos)
+	Tipo (Silo ou Pilha)
+	Quantidade em estoque (em metros cúbicos)
+	Data de atualização do estoque
+
+Tabela de Veículos:
+	Placa (chave primária)
+	Marca
+	Modelo
+	Data de cadastro
+	ID do Cliente (chave estrangeira para Tabela de Clientes, permitindo nulo)
+
+Tabela de Motoristas:
+	Placa (chave estrangeira para Tabela de Veículos)
+	Nome do Motorista
+	Número de Telefone
+	Email
+

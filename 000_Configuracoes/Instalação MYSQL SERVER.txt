@@ -1,0 +1,25 @@
+sudo apt install mysql-server-8.0
+sudo info -a mysql-server-8.0
+apt-cache search mysql-server
+
+sudo mysql_secure_installation
+mysql -u
+
+MYSQL --VERSION
+
+
+******Alteração do serviço MYSQL no WSL***************
+sudo /etc/init.d/mysql start
+sudo /etc/init.d/mysql status
+sudo /etc/init.d/mysql stop
+sudo /etc/init.d/mysql restart
+sudo /etc/init.d/mysql reload
+sudo /etc/init.d/mysql force-reload
+
+
+******Alteração do serviço MYSQL no LINUX***************
+sudo systemctl status mysql.service
+sudo systemctl start mysql.service
+sudo systemctl enable mysql.service
+sudo systemctl restart mysql.service
+
