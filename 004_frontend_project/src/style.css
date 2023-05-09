@@ -1,0 +1,12 @@
+.card {
+  box-shadow: 0px 0px 20px gray;
+  margin: 20px;
+}
+
+.card:active {
+  scale: 0.95;
+}
+
+.card:hover {
+  box-shadow: 0px 2px 20px green;
+}
