@@ -25,3 +25,20 @@ export const CartaoEstoque = ({ estoque: { produto, volume, localizacao, tipo } 
     </Card>
   )
 }
+
+export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj, endereco } }) => {
+  return (
+    <Card style={{ width: '11em' }} type='button'>
+      {/* <Card.Img src={`https://dummyimage.com/250x250/aaa/fff.jpg&text=${tipo + ' ' + produto.properties.nome.example}`} /> */}
+      <Card.Body>
+        <Card.Title>{nome}</Card.Title>
+        <Card.Text>
+          ID do Cliente: {id}
+          Telefone: {telefone}.
+          CNPJ: {cnpj}.
+          Endereço: {endereco}
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  )
+}
