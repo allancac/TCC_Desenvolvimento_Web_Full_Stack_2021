@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Offcanvas } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { OffCanvasClientes } from './OffCanvas';
 
 export const Pagina1 = () => {
   // Hook e funções para controle de exibição do Offcanvas
   const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-  };
+
   const handleShow = () => {
     setShow(true);
   };
@@ -62,24 +61,7 @@ export const Pagina1 = () => {
         </Container>
       </Form.Group>
 
-      <Offcanvas show={show} onHide={handleClose} placement={'end'}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Selecionar o Cliente</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <ul>
-            <li>
-              Cliente A<Button className='mx-4'>Selecionar</Button>
-            </li>
-            <li>
-              Cliente B<Button className='mx-4'>Selecionar</Button>
-            </li>
-            <li>
-              Cliente C<Button className='mx-4'>Selecionar</Button>
-            </li>
-          </ul>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <OffCanvasClientes show={show} setShow={setShow} />
     </fieldset>
   );
 };

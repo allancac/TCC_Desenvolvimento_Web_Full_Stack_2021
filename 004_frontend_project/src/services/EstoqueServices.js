@@ -12,7 +12,7 @@ class EstoqueServices {
 
   async buscarListaEstoques() {
     try {
-      const response = await this.axiosInstance.get('/estoque/?bodyLimit=10&pagelimit=1');
+      const response = await this.axiosInstance.get('/estoque/?bodyLimit=10&pagelimit=10');
       return response.data;
     } catch (error) {
       console.error(error);
