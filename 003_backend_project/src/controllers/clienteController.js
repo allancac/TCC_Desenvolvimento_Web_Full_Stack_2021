@@ -28,9 +28,9 @@ async function getClienteById(req, res) {
 
 // Handler para criar um novo cliente
 async function createCliente(req, res) {
-  const { nome, idade, email } = req.body;
+  const { ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO } = req.body;
   try {
-    const cliente = await clienteService.createCliente(nome, idade, email);
+    const cliente = await clienteService.createCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO);
     res.status(201).json(cliente);
   } catch (error) {
     console.error('Erro ao criar o cliente:', error);
@@ -40,10 +40,10 @@ async function createCliente(req, res) {
 
 // Handler para atualizar um cliente
 async function updateCliente(req, res) {
-  const { id } = req.params;
-  const { nome, idade, email } = req.body;
+  const { ID } = req.params;
+  const { NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO } = req.body;
   try {
-    const cliente = await clienteService.updateCliente(id, nome, idade, email);
+    const cliente = await clienteService.updateCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO);
     if (!cliente) {
       return res.status(404).json({ error: 'Cliente não encontrado' });
     }
