@@ -1,9 +1,7 @@
 const express = require('express');
 const sequelize = require('./config/database');
 const clienteRoutes = require('./routes/clienteRoutes');
-
-
-
+const enderecoRoutes = require('./routes/enderecoRoutes');
 
 // Definição das rotas da API
 const app = express();
@@ -13,7 +11,7 @@ app.use(express.json());
 
 // Configuração das rotas
 app.use(clienteRoutes);
-
+app.use(enderecoRoutes);
 
 // Inicialização do servidor
 const PORT = 5500;
