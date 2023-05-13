@@ -1,49 +1,78 @@
 const Cliente = require('../models/clienteModel');
 
-// Função para obter todos os clientes
-async function getAllClientes() {
-  return await Cliente.findAll();
-}
-
-// Função para obter um cliente pelo ID
-async function getClienteById(id) {
-  return await Cliente.findByPk(id);
-}
-
-// Função para criar um novo cliente
-async function createCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO) {
-  return await Cliente.create({ ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO });
-}
-
-// Função para atualizar um cliente
-async function updateCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO) {
-  const cliente = await Cliente.findByPk(ID);
-  if (cliente) {
-    cliente.NOME_CLIENTE = NOME_CLIENTE;
-    cliente.TELEFONE = TELEFONE;
-    cliente.EMAIL = EMAIL;
-    cliente.CNPJ = CNPJ;
-    cliente.DATA_REGISTRO = DATA_REGISTRO;
-    await cliente.save();
-    return cliente;
+class ClienteService {
+  // Função para obter todos os clientes
+  static async getAllClientes() {
+    try {
+      const clientes = await Cliente.findAll();
+      if (!clientes) {
+        throw new Error('Nenhum cliente foi encontrado.');
+      }
+      return clientes
+    } catch (error) {
+      throw new Error('Não foi possível listar os clientes.');
+    }
   }
-  return null;
-}
 
-// Função para excluir um cliente
-async function deleteCliente(id) {
-  const cliente = await Cliente.findByPk(id);
-  if (cliente) {
-    await cliente.destroy();
-    return cliente;
+  // Função para obter um cliente pelo ID
+  static async getClienteById(id) {
+    try {
+      const cliente = await Cliente.findByPk(id);
+      if (!cliente) {
+        throw new Error(`Cliente não foi encontrado.`);
+      }
+      return cliente;
+    } catch (error) {
+      throw new Error(`Não foi possível buscar o cliente ${id}.`);
+    }
   }
-  return null;
-}
 
-module.exports = {
-  getAllClientes,
-  getClienteById,
-  createCliente,
-  updateCliente,
-  deleteCliente,
-};
+  // Função para criar um novo cliente
+  static async createCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO) {
+    return await Cliente.create({ ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO });
+  }
+
+  // Função para criar um novo cliente
+  static async createCliente(clienteData) {
+    try {
+      const cliente = await Cliente.create(clienteData);
+      if (!cliente) {
+        throw new Error('Erro ao criar o cliente.');
+      }
+      return cliente;
+    } catch (error) {
+      throw new Error('Não foi possível criar o cliente.');
+    }
+  }
+
+  // Função para atualizar um cliente
+  static async updateCliente(id, clienteData) {
+    try {
+      const cliente = await Cliente.findByPk(id);
+      if (!cliente) {
+        throw new Error('Cliente não encontrado.');
+      } else {
+        await cliente.update(clienteData);
+        return cliente;
+      }
+    } catch (error) {
+      throw new Error('Erro ao atualizar o cliente', error);
+    }
+  }
+
+  // Função para excluir um cliente
+  static async deleteCliente(id) {
+    try {
+      const cliente = await Cliente.findByPk(id);
+      if (!cliente) {
+        throw new Error('Cliente não encontrado.');
+      } else {
+        await cliente.destroy();
+        return cliente;
+      }
+    } catch (error) {
+      throw new Error('Não foi possível excluir o cliente.', error);
+    }
+  }
+}
+module.exports = ClienteService;

@@ -1,56 +1,73 @@
 const Endereco = require('../models/enderecoModel');
 
-// Função para obter todos os endereços
-async function getAllEnderecos() {
-  return await Endereco.findAll();
-}
+class EnderecoService {
+  // Função para obter todos os endereços
+  static async getAllEnderecos() {
+    try {
+      const enderecos = await Endereco.findAll();
+      if (!enderecos) {
+        throw new Error('Nenhum enderço foi encontrado.');
+      }
+      return enderecos
+    } catch (error) {
+      throw new Error('Não foi possível listar os enderecos.', error);
+    }
+  }
+  // Função para obter um endereço pelo ID
+  static async getEnderecoById(id) {
+    try {
+      const endereco = await Endereco.findByPk(id);
+      if (!endereco) {
+        throw new Error(`Endereço não foi encontrado.`);
+      }
+      return endereco;
+    } catch (error) {
+      throw new Error('Não foi possível buscar o endereço', error);
+    }
+  }
+  // Função para criar um novo endereço
+  static async createEndereco(enderecoData) {
+    try {
+      const endereco = await Endereco.create(enderecoData);
+      if (!endereco) {
+        throw new Error('Erro ao criar o endereço.');
+      }
+      return endereco;
+    } catch (error) {
+      throw new Error('Não foi possível criar o endereço.', error);
+    }
+  }
 
-// Função para obter um endereço pelo ID
-async function getEnderecoById(id) {
-  return await Endereco.findByPk(id)
-}
+  // Função para atualizar um endereço
+  static async updateEndereco(id, enderecoData) {
+    try {
+      const endereco = await Endereco.findByPk(id);
+      if (!endereco) {
+        throw new Error('Endereço não encontrado.');
+      } else {
+        await endereco.update(enderecoData);
+        return endereco;
+      }
+    } catch (error) {
+      throw new Error('Erro ao atualizar endereço', error);
+    }
+  }
 
-// Função para criar um novo endereço
-async function createEndereco(ID, ID_CLIENTE, LOGRADOURO, CIDADE, ESTADO, CEP, TIPO, DATA_REGISTRO) {
-  return await Endereco.create(ID, ID_CLIENTE, LOGRADOURO, CIDADE, ESTADO, CEP, TIPO, DATA_REGISTRO);
-}
-
-// Função para atualizar um endereço
-async function updateEndereco(ID, ID_CLIENTE, LOGRADOURO, CIDADE, ESTADO, CEP, TIPO, DATA_REGISTRO) {
-  const endereco = Endereco.findByPk(ID);
-  if (endereco) {
-    endereco.ID = ID;
-    endereco.ID_CLIENTE = ID_CLIENTE;
-    endereco.LOGRADOURO = LOGRADOURO;
-    endereco.CIDADE = ID;
-    endereco.ID = CIDADE;
-    endereco.ESTADO = ESTADO;
-    endereco.CEP = CEP;
-    endereco.TIPO = TIPO;
-    endereco.DATA_REGISTRO = DATA_REGISTRO;
-    await endereco.save();
-    return cliente;
-  } else {
-    return null;
+  // Função para excluir um endereço
+  static async deleteEndereco(id) {
+    try {
+      const endereco = await Endereco.findByPk(id);
+      if (!endereco) {
+        throw new Error('Endereço não encontrado.');
+      } else {
+        await endereco.destroy();
+        return endereco;
+      }
+    } catch (error) {
+      throw new Error('Não foi possível excluir o endereço.', error);
+    }
   }
 }
-
-// Função para excluir um endereço
-async function deleteEndereco(id) {
-  const endereco = await Endereco.findByPk(id);
-  if (endereco) {
-    await endereco.destroy();
-    return endereco;
-  }
-  return null;
-}
-
-module.exports = {
-  getAllEnderecos,
-  getEnderecoById,
-  createEndereco,
-  updateEndereco,
-  deleteEndereco,
-};
+module.exports = EnderecoService;
 
 
