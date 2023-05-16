@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
+    "server": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Allan Chaves <allancac@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "config": "^3.3.9",
     "express": "^4.18.2",
+    "express-validator": "^7.0.1",
     "mysql2": "^3.3.0",
     "sequelize": "^6.31.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

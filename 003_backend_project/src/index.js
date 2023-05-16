@@ -2,6 +2,8 @@ const express = require('express');
 const sequelize = require('./config/database');
 const clienteRoutes = require('./routes/clienteRoutes');
 const enderecoRoutes = require('./routes/enderecoRoutes');
+const veiculoRoutes = require('./routes/veiculoRoutes');
+const motoristaRoutes = require('./routes/motoristaRoutes');
 
 // Definição das rotas da API
 const app = express();
@@ -12,19 +14,21 @@ app.use(express.json());
 // Configuração das rotas
 app.use(clienteRoutes);
 app.use(enderecoRoutes);
+app.use(veiculoRoutes);
+app.use(motoristaRoutes);
 
 // Inicialização do servidor
-const PORT = 5500;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+const PORT = process.env.Port || 5500;
+
 
 // Sincronização do modelo com o banco de dados
 (async () => {
   try {
     await sequelize.authenticate();
     console.log('Conexão estabelecida com sucesso.');
-
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
     await sequelize.sync();
     console.log('As tabelas "CLIENTES", "VEICULOS", "MOTORISTAS" E "ENDERECOS" foram sincronizadas com o banco de dados.');
   } catch (error) {
