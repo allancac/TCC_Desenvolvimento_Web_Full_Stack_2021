@@ -4,12 +4,15 @@ const clienteRoutes = require('./routes/clienteRoutes');
 const enderecoRoutes = require('./routes/enderecoRoutes');
 const veiculoRoutes = require('./routes/veiculoRoutes');
 const motoristaRoutes = require('./routes/motoristaRoutes');
-
+const serviceResponseMiddleware = require('./middlewares/serviceResponseMiddleware');
 // Definição das rotas da API
 const app = express();
 
 // Configuração do body parser para receber dados no formato JSON
 app.use(express.json());
+
+// Middleware para tratar respostas da camada Service
+app.use(serviceResponseMiddleware);
 
 // Configuração das rotas
 app.use(clienteRoutes);
