@@ -1,68 +1,93 @@
 const Motorista = require('../models/motoristaModel');
+const {
+  BadRequest,
+  Unauthorized,
+  Forbidden,
+  NotFound,
+  InternalServerError,
+  Conflict
+} = require('./serviceErrors');
 
 class MotoristaService {
-  // Função para obter todos os motoristas
-  static async getAllMotoristas() {
+  // Obtém todos os motoristas com paginação
+  static async getAllMotoristas(offset = 0, limit = 20) {
     try {
-      const motoristas = await Motorista.findAll();
-      if (!motoristas) {
-        throw new Error('Nenhum Motorista foi encontrado.');
+      const motoristas = await Motorista.findAll({
+        offset: parseInt(offset),
+        limit: parseInt(limit),
+      });
+      // Verifica se há motoristas encontrados
+      if (motoristas.length > 0) {
+        return motoristas;
+      } else {
+        throw new NotFound('Nenhum motorista foi encontrado.');
       }
-      return motoristas;
     } catch (error) {
-      throw new Error('Não foi possível listar os motoristas.', error);
+      throw new InternalServerError('Não foi possível listar os motoristas.', error);
     }
   }
-  // Função para obter um motorista pelo ID
-  static async getMotoristaById(id) {
+
+  // Obtém um motorista pelo CPF
+  static async getMotoristaByCPF(cpf) {
     try {
-      const motorista = await Motorista.findByPk(id, { include: 'veiculo' });
-      if (!motorista) {
-        throw new Error(`Motorista não encontrado.`);
+      const motorista = await Motorista.findByPk(cpf, {
+        include: 'veiculo', // Inclui a entidade Veículo na consulta
+      });
+      // Verifica se o motorista foi encontrado
+      if (motorista) {
+        return motorista;
+      } else {
+        throw new NotFound('Motorista não encontrado.');
       }
-      return motorista;
     } catch (error) {
-      throw new Error('Não foi possível buscar o motorista', error);
+      throw new InternalServerError('Não foi possível buscar o motorista.', error);
     }
   }
-  // Função para criar um novo motorista
+
+  // Cria um novo motorista
   static async createMotorista(motoristaData) {
     try {
       const motorista = await Motorista.create(motoristaData);
-      if (!motorista) {
-        throw new Error('Erro ao criar o motorista.');
+      // Verifica se o motorista foi criado com sucesso
+      if (motorista) {
+        return motorista;
+      } else {
+        throw new InternalServerError('Erro ao criar o motorista.');
       }
-      return motorista;
     } catch (error) {
-      throw new Error('Não foi possível criar o motorista.', error);
+      throw new InternalServerError('Não foi possível criar o motorista.', error);
     }
   }
-  // Função para atualizar um motorista
-  static async updateMotorista(id, motoristaData) {
+
+  // Atualiza um motorista existente pelo CPF
+  static async updateMotorista(cpf, motoristaData) {
     try {
-      const motorista = await Motorista.findByPk(id);
-      if (!motorista) {
-        throw new Error('Motorista não encontrado.');
-      } else {
+      const motorista = await Motorista.findByPk(cpf);
+      // Verifica se o motorista foi encontrado
+      if (motorista) {
         await motorista.update(motoristaData);
         return motorista;
+      } else {
+        throw new NotFound('Motorista não encontrado.');
       }
     } catch (error) {
-      throw new Error('Não foi possível atualizar o motorista.', error);
+      throw new InternalServerError('Não foi possível atualizar o motorista.', error);
     }
   }
-  // Função para excluir um motorista
-  static async deleteMotorista(id) {
+
+  // Deleta um motorista pelo CPF
+  static async deleteMotorista(cpf) {
     try {
-      const motorista = await Motorista.findByPk(id);
-      if (!motorista) {
-        throw new Error('Motorista não encontrado.');
-      } else {
+      const motorista = await Motorista.findByPk(cpf);
+      // Verifica se o motorista foi encontrado
+      if (motorista) {
         await motorista.destroy();
         return motorista;
+      } else {
+        throw new NotFound('Motorista não encontrado.');
       }
     } catch (error) {
-      throw new Error('Não foi possível excluir o motorista.', error);
+      throw new InternalServerError('Não foi possível excluir o motorista.', error);
     }
   }
 }
