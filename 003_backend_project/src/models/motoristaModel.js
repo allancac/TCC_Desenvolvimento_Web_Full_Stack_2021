@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { sequelize } = require('../config/database');
 const Veiculo = require('./veiculoModel');
 
 // Definição do modelo Motorista (tabela MOTORISTAS)
@@ -22,12 +22,12 @@ const Motorista = sequelize.define('MOTORISTAS', {
   },
   telefone: {
     type: DataTypes.STRING(15),
-    allowNull: false,
+    allowNull: true,
     comment: 'Uma string de até 15 caracteres que contém o número de telefone do motorista.'
   },
   email: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
     comment: 'Uma string de até 50 caracteres que contém o endereço de e-mail do motorista.'
   },
   dataRegistro: {
