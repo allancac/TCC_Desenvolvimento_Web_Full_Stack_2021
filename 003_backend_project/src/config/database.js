@@ -1,31 +1,21 @@
 // Configuração do banco de dados
 const { Sequelize } = require('sequelize');
-
-
 const schema = process.env.SCHEMA || 'EMASA'
-const user = /*process.env.USER || */'DFEEMS001'
+const dbUser = process.env.DBUSER || 'DFEEMS001'
 const password = process.env.PASSWORD || 'Ubuntu@20'
 
-const sequelize = new Sequelize(schema, user, password, {
-  host: 'localhost',
-  dialect: 'mysql',
-  define: {
-    timestamps: false
-  },
-  logging: false
-}
-
-);
 const configureDatabase = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Conexão estabelecida com sucesso.');
-    console.log('As tabelas "CLIENTES", "VEICULOS", "MOTORISTAS" E "ENDERECOS" foram sincronizadas com o banco de dados.');
-    await sequelize.sync();
-
-  } catch (error) {
-
+  const sequelize = new Sequelize(schema, dbUser, password, {
+    host: 'localhost',
+    dialect: 'mysql',
+    timezone: '+00:00',
+    define: {
+      timestamps: false
+    },
+    logging: false
   }
+  );
+  return sequelize
 }
 
-module.exports = { sequelize, configureDatabase };
+module.exports = configureDatabase;
