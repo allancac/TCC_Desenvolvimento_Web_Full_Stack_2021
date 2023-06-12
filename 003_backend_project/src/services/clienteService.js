@@ -1,78 +1,129 @@
-const Cliente = require('../models/clienteModel');
+const {
+  BadRequest,           //400
+  Unauthorized,         //401
+  Forbidden,            //403
+  Conflict,             //409
+  NotFound,             //404
+  InternalServerError,  //500
+} = require('./serviceErrors');
 
-class ClienteService {
+const createClienteService = (Cliente) => {
   // Função para obter todos os clientes
-  static async getAllClientes() {
+  const getAllClientes = async (offset = 0, limit = 10) => {
     try {
-      const clientes = await Cliente.findAll();
-      if (!clientes) {
-        throw new Error('Nenhum cliente foi encontrado.');
+      const clientes = await Cliente.findAll(
+        {
+          offset: parseInt(offset),
+          limit: parseInt(limit),
+        }
+      );
+      // Verifica se há clientes encontrados
+      if (clientes) {
+        return clientes
       }
-      return clientes
+      // Lança um erro genérico que será tratado
+      throw new error('404');
     } catch (error) {
-      throw new Error('Não foi possível listar os clientes.');
+      if (error.message === '404') {
+        throw new NotFound('Nenhum cliente foi encontrado.');
+      } else {
+        throw new InternalServerError('Não foi possível listar os clientes.');
+      }
     }
   }
 
   // Função para obter um cliente pelo ID
-  static async getClienteById(id) {
+  const getClienteById = async (id) => {
     try {
       const cliente = await Cliente.findByPk(id);
-      if (!cliente) {
-        throw new Error(`Cliente não foi encontrado.`);
+      // Verifica se o cliente foi encontrado
+      if (cliente) {
+        return cliente;
+      } else {
+        throw new Error('404');
       }
-      return cliente;
     } catch (error) {
-      throw new Error(`Não foi possível buscar o cliente ${id}.`);
+      if (error.message === '404') {
+        throw new NotFound('Cliente não encontrado.');
+      } else {
+        throw new InternalServerError('Não foi possível buscar o cliente.');
+      }
     }
   }
-
   // Função para criar um novo cliente
-  static async createCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO) {
-    return await Cliente.create({ ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO });
-  }
-
-  // Função para criar um novo cliente
-  static async createCliente(clienteData) {
+  const createCliente = async (clienteData) => {
     try {
-      const cliente = await Cliente.create(clienteData);
-      if (!cliente) {
-        throw new Error('Erro ao criar o cliente.');
+      const cnpjExiste = await Cliente.findByPk(clienteData.cnpj);
+      // Verifica se o CNPJ do cliente ja foi cadastrado
+      if (cnpjExiste) {
+        throw new Error('409');
+      } else {
+        const cliente = await Cliente.create(clienteData);
+        // Verifica se o cliente foi criado com sucesso
+        if (cliente) {
+          return cliente;
+        } else {
+          throw new Error('500');
+        }
       }
-      return cliente;
     } catch (error) {
-      throw new Error('Não foi possível criar o cliente.');
+      if (error.message === '409') {
+        throw new Conflict('Cliente já é cadastrado no sistema.');
+      } else {
+        throw new InternalServerError('Não foi possível criar o cliente.');
+      }
     }
   }
 
   // Função para atualizar um cliente
-  static async updateCliente(id, clienteData) {
+  const updateCliente = async (id, clienteData) => {
     try {
       const cliente = await Cliente.findByPk(id);
-      if (!cliente) {
-        throw new Error('Cliente não encontrado.');
-      } else {
-        await cliente.update(clienteData);
+      // Verifica se o cliente foi encontrado
+      if (cliente) {
+        await Cliente.update(clienteData);
         return cliente;
+      } else {
+        throw new Error('404');
       }
     } catch (error) {
-      throw new Error('Erro ao atualizar o cliente', error);
+      if (error.message === '404') {
+        throw new NotFound('Cliente não encontrado.');
+      } else {
+        throw new InternalServerError('Não foi possível atualizar o cliente.');
+      }
     }
   }
 
   // Função para excluir um cliente
-  static async deleteCliente(id) {
+  const deleteCliente = async (cpf) => {
     try {
-      const cliente = await Cliente.findByPk(id);
-      if (!cliente) {
-        throw new Error('Cliente não encontrado.');
-      } else {
-        await cliente.destroy();
+      const cliente = await Cliente.findByPk(cpf);
+      // Verifica se o cliente foi encontrado
+      if (cliente) {
+        await Cliente.destroy();
         return cliente;
+      } else {
+        throw new Error('404');
       }
     } catch (error) {
-      throw new Error('Não foi possível excluir o cliente.', error);
+      if (error.message === '404') {
+        throw new NotFound('Cliente não encontrado.');
+      } else {
+        throw new InternalServerError('Não foi possível excluir o cliente.');
+      }
     }
   }
+
+
+  return {
+    getAllClientes,
+    getClienteById,
+    createCliente,
+    updateCliente,
+    deleteCliente,
+
+  }
 }
-module.exports = ClienteService;
+
+module.exports = createClienteService;
