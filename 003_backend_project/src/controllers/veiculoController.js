@@ -7,14 +7,14 @@ const {
   Conflict
 } = require('../services/serviceErrors');
 
-
-const createMotoristaController = (service) => {
-  // Handler para obter todos os motoristas
-  const getAllMotoristas = async (req, res) => {
+const createVeiculosController = (service) => {
+  // Handler para obter todos os veículos
+  const getAllVeiculos = async (req, res) => {
     const { offset, limit } = req.query;
     try {
-      const motoristas = await service.getAllMotoristas(offset, limit);
-      if (motoristas) {
+      const veiculos = await service.getAllVeiculos(offset, limit);
+      
+      if (veiculos) {
         res.status(200).json(
           {
             status: {
@@ -24,10 +24,10 @@ const createMotoristaController = (service) => {
             metadata: {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
-              count: motoristas.length, // Total de registros retornados na requisição atual
+              count: veiculos.length, // Total de registros retornados na requisição atual
 
             },
-            data: motoristas
+            data: veiculos
           }
 
         );
@@ -55,13 +55,13 @@ const createMotoristaController = (service) => {
     }
   }
 
-  // Handler para obter um motorista pelo CPF
-  const getMotoristaByCPF = async (req, res) => {
+  // Handler para obter um veículo pela placa
+  const getVeiculoByPlaca = async (req, res) => {
     try {
-      const { cpf } = req.params;
-      const motorista = await service.getMotoristaByCPF(cpf);
+      const { placa } = req.params;
+      const veiculo = await service.getVeiculoByPlaca(placa);
       const resultado = []
-      resultado.push(motorista)
+      resultado.push(veiculo)
       res.status(200).json({
         status: {
           code: 200,
@@ -88,15 +88,14 @@ const createMotoristaController = (service) => {
       }
     }
   }
-
-  // Handler para criar um novo Motorista
-  const createMotorista = async (req, res) => {
+  // Handler para criar um novo veículo
+  const createVeiculo = async (req, res) => {
     try {
-      const motoristaData = req.body;
-      const motorista = await service.createMotorista(motoristaData);
+      const veiculoData = req.body;
+      const veiculo = await service.createVeiculo(veiculoData);
       const resultado = []
-      resultado.push(motorista)
-      if (motorista) {
+      resultado.push(veiculo)
+      if (veiculo) {
         res.status(200).json(
           {
             status: {
@@ -129,15 +128,15 @@ const createMotoristaController = (service) => {
       }
     }
   }
+  // Handler para atualizar um veículo
 
-  // Handler para atualizar um motorista
-  const updateMotorista = async (req, res) => {
+  const updateVeiculo = async (req, res) => {
     try {
-      const { cpf } = req.params;
-      const motoristaData = req.body;
-      const motorista = await service.updateMotorista(cpf, motoristaData);
+      const { placa } = req.params;
+      const veiculoData = req.body;
+      const veiculo = await service.updateVeiculo(placa, veiculoData);
       const resultado = []
-      resultado.push(motorista)
+      resultado.push(veiculo)
       res.status(200).json(
         {
           status: {
@@ -147,7 +146,7 @@ const createMotoristaController = (service) => {
           data: resultado
         });
     } catch (error) {
-      // Tratamento de erro para motorista não encontrado
+      // Tratamento de erro para veiculo não encontrado
       if (error instanceof NotFound) {
         res.status(404).json({
           status: {
@@ -169,15 +168,15 @@ const createMotoristaController = (service) => {
     }
   }
 
-  // Handler para deletar um motorista
-  const deleteMotorista = async (req, res) => {
+  // Handler para excluir um veículo
+  const deleteVeiculo = async (req, res) => {
     try {
-      const { cpf } = req.params;
-      await service.deleteMotorista(cpf);
+      const { placa } = req.params;
+      await service.deleteVeiculo(placa);
       res.status(200).json({
         status: {
           code: 200,
-          message: "Motorista excluído com sucesso.",
+          message: "Veiculo excluído com sucesso.",
         }
       });
     } catch (error) {
@@ -200,11 +199,12 @@ const createMotoristaController = (service) => {
     }
   }
   return {
-    getAllMotoristas,
-    getMotoristaByCPF,
-    createMotorista,
-    updateMotorista,
-    deleteMotorista
+    getAllVeiculos,
+    getVeiculoByPlaca,
+    createVeiculo,
+    updateVeiculo,
+    deleteVeiculo
   }
 }
-module.exports = createMotoristaController
+
+module.exports = createVeiculosController

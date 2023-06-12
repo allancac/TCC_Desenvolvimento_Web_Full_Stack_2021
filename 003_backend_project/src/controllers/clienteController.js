@@ -1,78 +1,210 @@
-const clienteService = require('../services/clienteService');
+const {
+  BadRequest,
+  Unauthorized,
+  Forbidden,
+  NotFound,
+  InternalServerError,
+  Conflict
+} = require('../services/serviceErrors');
 
-// Handler para obter todos os clientes
-async function getAllClientes(req, res) {
-  try {
-    const clientes = await clienteService.getAllClientes();
-    res.json(clientes);
-  } catch (error) {
-    console.error('Erro ao obter os clientes:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-  }
-}
+const ClienteController = (service) => {
+  // Handler para obter todos os clientes
+  const getAllClientes = async (req, res) => {
+    const { offset, limit } = req.query;
+    try {
+      const clientes = await service.getAllClientes(offset, limit);
+      if (clientes) {
+        res.status(200).json(
+          {
+            status: {
+              code: 200,
+              message: "OK",
+            },
+            metadata: {
+              offset: parseInt(offset), // Offset de registros
+              limit: parseInt(limit), // Limite total de registros
+              count: clientes.length, // Total de registros retornados na requisição atual
 
-// Handler para obter um cliente pelo ID
-async function getClienteById(req, res) {
-  const { id } = req.params;
-  try {
-    const cliente = await clienteService.getClienteById(id);
-    if (!cliente) {
-      return res.status(404).json({ error: 'Cliente não encontrado' });
+            },
+            data: clientes
+          }
+
+        );
+        return
+      }
+
+      res.status(404).json({
+        status: {
+          code: 404,
+          error: error.message
+        }
+      });
+      return
+
+    } catch (error) {
+      // Tratamento de erro genérico
+      console.log(error)
+      res.status(500).json({
+        status: {
+          code: 500,
+          error: error.message
+        }
+      });
+
     }
-    res.json(cliente);
-  } catch (error) {
-    console.error('Erro ao obter o cliente:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
   }
-}
 
-// Handler para criar um novo cliente
-async function createCliente(req, res) {
-  const { ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO } = req.body;
-  try {
-    const cliente = await clienteService.createCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO);
-    res.status(201).json(cliente);
-  } catch (error) {
-    console.error('Erro ao criar o cliente:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-  }
-}
-
-// Handler para atualizar um cliente
-async function updateCliente(req, res) {
-  const { ID } = req.params;
-  const { NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO } = req.body;
-  try {
-    const cliente = await clienteService.updateCliente(ID, NOME_CLIENTE, TELEFONE, EMAIL, CNPJ, DATA_REGISTRO);
-    if (!cliente) {
-      return res.status(404).json({ error: 'Cliente não encontrado' });
+  // Handler para obter um cliente pelo ID
+  const getClienteById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const cliente = await service.getClienteById(id);
+      const resultado = []
+      resultado.push(cliente)
+      res.status(200).json({
+        status: {
+          code: 200,
+          message: 'OK'
+        },
+        data: resultado
+      });
+    } catch (error) {
+      if (error instanceof NotFound) {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: error.message
+          }
+        });
+      } else {
+        console.log(error);
+        res.status(500).json({
+          status: {
+            code: 500,
+            error: error.message
+          }
+        });
+      }
     }
-    res.json(cliente);
-  } catch (error) {
-    console.error('Erro ao atualizar o cliente:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
   }
-}
 
-// Handler para excluir um cliente
-async function deleteCliente(req, res) {
-  const { id } = req.params;
-  try {
-    const deletedCliente = await clienteService.deleteCliente(id);
-    if (!deletedCliente) {
-      return res.status(404).json({ error: 'Cliente não encontrado' });
+  // Handler para criar um novo cliente
+  const createCliente = async (req, res) => {
+    try {
+      const clienteData = req.body;
+      const cliente = await service.getClienteById(clienteData.id);
+      const resultado = []
+      resultado.push(cliente)
+      if (cliente) {
+        res.status(200).json(
+          {
+            status: {
+              code: 200,
+              message: "OK",
+            },
+            data: resultado
+
+          }
+        );
+      }
+    } catch (error) {
+      // Tratamento de erro para requisição inválida
+      if (error instanceof Conflict) {
+        res.status(409).json({
+          status: {
+            code: 409,
+            error: error.message
+          }
+        });
+      }
+      // Outros erros não tratados
+      else {
+        res.status(500).json({
+          status: {
+            code: 500,
+            error: error.message
+          }
+        });
+      }
     }
-    res.json({ message: 'Cliente excluído com sucesso' });
-  } catch (error) {
-    console.error('Erro ao excluir o cliente:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+
+  // Handler para atualizar um cliente
+  const updateCliente = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const dadosCliente = req.body;
+      const cliente = await service.updateCliente(id, dadosCliente);
+      const resultado = []
+      resultado.push(cliente)
+      res.status(200).json(
+        {
+          status: {
+            code: 200,
+            message: "OK",
+          },
+          data: resultado
+        });
+    } catch (error) {
+      // Tratamento de erro para cliente não encontrado
+      if (error instanceof NotFound) {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: error.message
+          },
+        });
+      }
+      // Tratamento de erro genérico
+      else {
+        res.status(500).json({
+          status: {
+            code: 500,
+            error: error.message
+          },
+        });
+      }
+
+    }
+  }
+
+  // Handler para excluir um cliente
+
+  const deleteCliente = async (req, res) => {
+    try {
+      const { id } = req.params;
+      await service.deleteCliente(id);
+      res.status(200).json({
+        status: {
+          code: 200,
+          message: "Cliente excluído com sucesso.",
+        }
+      });
+    } catch (error) {
+      if (error instanceof NotFound) {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: error.message
+          },
+        });
+      }
+      else {
+        res.status(500).json({
+          status: {
+            code: 500,
+            error: error.message
+          },
+        });
+      }
+    }
+  }
+  return {
+    getAllClientes,
+    getClienteById,
+    createCliente,
+    updateCliente,
+    deleteCliente
   }
 }
-
-module.exports = {
-  getAllClientes,
-  getClienteById,
-  createCliente,
-  updateCliente,
-  deleteCliente,
-};
+module.exports = ClienteController;
