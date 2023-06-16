@@ -1,7 +1,7 @@
 const {
   BadRequest,           //400
-  Unauthorized,         //401
-  Forbidden,            //403
+  // Unauthorized,         //401
+  // Forbidden,            //403
   Conflict,             //409
   NotFound,             //404
   InternalServerError,  //500
@@ -9,24 +9,31 @@ const {
 
 const createVeiculoService = (Veiculo) => {
   // Função para obter todos os veículos
+
   const getAllVeiculos = async (offset = 0, limit = 10) => {
     try {
-      const veiculos = await Veiculo.findAll(
-        {
-          offset: parseInt(offset),
-          limit: parseInt(limit),
+      if (offset >= 0 && limit >= 0) {
+        const veiculos = await Veiculo.findAll(
+          {
+            offset: parseInt(offset),
+            limit: parseInt(limit),
+          }
+        );
+        // Verifica se há veiculos encontrados
+        if (veiculos) {
+          return veiculos;
+        } else {
+          throw new NotFound('Nenhum veiculo encontrado.');
         }
-      );
-      // Verifica se há veiculos encontrados
-      if (veiculos) {
-        return veiculos;
+
       } else {
-        // Lança um erro genérico que será tratado
-        throw new error('404');
+        throw new BadRequest('Parâmetros inválidos.');
       }
     } catch (error) {
-      if (error.message === '404') {
-        throw new NotFound('Nenhum Veiculo foi encontrado.');
+      if (error instanceof NotFound) {
+        throw error;
+      } else if (error instanceof BadRequest) {
+        throw error;
       } else {
         throw new InternalServerError('Não foi possível listar os veiculos.');
       }
@@ -36,62 +43,64 @@ const createVeiculoService = (Veiculo) => {
   // Função para obter um veículo pela placa
   const getVeiculoByPlaca = async (placa) => {
     try {
-      const veiculo = await Veiculo.findByPk(placa);
-      // Verifica se o veiculo foi encontrado
-      if (veiculo) {
-        return veiculo;
+      if (placa !== null || placa !== undefined) {
+        const veiculo = await Veiculo.findByPk(placa);
+        // Verifica se o veiculo foi encontrado
+        if (veiculo) {
+          return veiculo;
+        } else {
+          throw new NotFound('Veiculo não encontrado.');
+        }
       } else {
-        throw new Error('404');
+        throw new BadRequest('Parâmetros inválidos.');
       }
     } catch (error) {
-      if (error.message === '404') {
-        throw new NotFound('Veiculo não encontrado.');
-      } else {
+      if (error instanceof NotFound) {
+        throw error;
+      } else if (error instanceof BadRequest) {
+        throw error;
+      }
+      else {
         throw new InternalServerError('Não foi possível buscar o veiculo.');
       }
     }
   }
   // Função para criar um novo veiculo
-
-
   const createVeiculo = async (veiculoData) => {
     try {
-      const placaExiste = await Motorista.findByPk(veiculoData.placa);
-      // Verifica se o CPF do motorista ja foi cadastrado
+      const placaExiste = await Veiculo.findByPk(veiculoData.placa);
       if (placaExiste) {
-        throw new Error('409');
+        throw new Conflict();
       } else {
         const veiculo = await Veiculo.create(veiculoData);
-        // Verifica se o veiculo foi criado com sucesso
         if (veiculo) {
           return veiculo;
         } else {
-          throw new Error('500');
+          throw new Error();
         }
       }
     } catch (error) {
-
-      if (error.message === '409') {
-        throw new Conflict('Veiculo já é cadastrado no sistema.');
+      if (error instanceof Conflict) {
+        throw new Conflict('Veiculo já é cadastrado no sistema.')
       } else {
-        throw new InternalServerError('Não foi possível criar o veiculo.');
+        throw new InternalServerError('Não foi possível criar o veiculo.')
+
       }
     }
   }
   // Função para atualizar um veículo
   const updateVeiculo = async (placa, veiculoData) => {
     try {
-      const veiculo = await veiculo.findByPk(placa);
-      // Verifica se o veiculo foi encontrado
-      if (veiculo) {
-        await Veiculo.update(veiculoData);
-        return veiculo;
+      const placaExiste = await Veiculo.findByPk(placa);
+      if (placaExiste) {
+        const veiculo = await Veiculo.update(veiculoData, { where: { placa } })
+        return veiculoData;
       } else {
-        throw new Error('404');
+        throw new NotFound('Veiculo não encontrado.');
       }
     } catch (error) {
-      if (error.message === '404') {
-        throw new NotFound('Veiculo não encontrado.');
+      if (error instanceof NotFound) {
+        throw error;
       } else {
         throw new InternalServerError('Não foi possível atualizar o veiculo.');
       }
@@ -99,24 +108,28 @@ const createVeiculoService = (Veiculo) => {
   }
 
   // Função para excluir um veículo
-  const deleteVeiculo = async (cpf) => {
+  const deleteVeiculo = async (placa) => {
     try {
-      const veiculo = await Veiculo.findByPk(cpf);
-      // Verifica se o veiculo foi encontrado
-      if (veiculo) {
-        await Veiculo.destroy();
-        return veiculo;
+      const placaExiste = await Veiculo.findByPk(placa);
+      if (placaExiste) {
+        const veiculoApagado = await Veiculo.destroy({ where: { placa } });
+        if (veiculoApagado) {
+          return veiculoApagado;
+        } else {
+          throw new Error();
+        }
       } else {
-        throw new Error('404');
+        throw new NotFound('Veiculo não encontrado.');
       }
     } catch (error) {
-      if (error.message === '404') {
-        throw new NotFound('veiculo não encontrado.');
+      if (error instanceof NotFound) {
+        throw error;
       } else {
-        throw new InternalServerError('Não foi possível excluir o veiculo.');
+        throw new InternalServerError('Não foi possível atualizar o veiculo.');
       }
     }
   }
+
   return {
     getAllVeiculos,
     getVeiculoByPlaca,
