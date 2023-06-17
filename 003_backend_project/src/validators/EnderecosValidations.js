@@ -40,7 +40,7 @@ const createEnderecoValidation = [
   body('id')
     .notEmpty().withMessage('O id é obrigatório.')
     .isInt().withMessage('O id deve conter apenas números.')
-    .isLength({ min: 11, max: 11 }).withMessage('O id deve ter 11 dígitos.'),
+    .isLength({ min: 1, max: 6 }).withMessage('O id deve ter 11 dígitos.'),
 
   body('id_cliente')
     .notEmpty().withMessage('O id_cliente é obrigatório.')
@@ -85,7 +85,7 @@ const updateEnderecoValidation = [
   param('id')
     .notEmpty().withMessage('O id é obrigatório.')
     .isInt().withMessage('O id deve conter apenas números.')
-    .isLength({ min: 11, max: 11 }).withMessage('O id deve ter 11 dígitos.'),
+    .isLength({ min: 1, max: 6 }).withMessage('O id deve ter 11 dígitos.'),
 
   body('id_cliente')
     .optional()

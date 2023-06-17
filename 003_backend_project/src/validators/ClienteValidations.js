@@ -46,7 +46,7 @@ const createClienteValidation = [
     .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre até 50 caracteres.'),
   body('telefone')
     .isNumeric().withMessage('O número de telefone deve conter apenas números.')
-    .isLength({ min: 11, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
+    .isLength({ min: 10, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
   body('email')
     .isEmail().withMessage('O endereço de e-mail fornecido é inválido.'),
   body('cnpj')
@@ -76,7 +76,7 @@ const updateClienteValidation = [
     .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre até 50 caracteres.'),
   body('telefone')
     .isNumeric().withMessage('O número de telefone deve conter apenas números.')
-    .isLength({ min: 11, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
+    .isLength({ min: 10, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
   body('email')
     .isEmail().withMessage('O endereço de e-mail fornecido é inválido.'),
   body('cnpj')
