@@ -14,7 +14,7 @@ const createMotoristaController = (service) => {
     const { offset, limit } = req.query;
     try {
       const motoristas = await service.getAllMotoristas(offset, limit);
-      if (motoristas) {
+      if (motoristas.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -31,20 +31,17 @@ const createMotoristaController = (service) => {
           }
 
         );
-        return
+      } else {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: 'Nenhum motorista foi encontrado.'
+          }
+        });
       }
-
-      res.status(404).json({
-        status: {
-          code: 404,
-          error: error.message
-        }
-      });
-      return
 
     } catch (error) {
       // Tratamento de erro genérico
-      console.log(error)
       res.status(500).json({
         status: {
           code: 500,
@@ -69,6 +66,7 @@ const createMotoristaController = (service) => {
         },
         data: resultado
       });
+
     } catch (error) {
       if (error instanceof NotFound) {
         res.status(404).json({
@@ -78,7 +76,6 @@ const createMotoristaController = (service) => {
           }
         });
       } else {
-        console.log(error);
         res.status(500).json({
           status: {
             code: 500,
@@ -94,9 +91,9 @@ const createMotoristaController = (service) => {
     try {
       const motoristaData = req.body;
       const motorista = await service.createMotorista(motoristaData);
-      const resultado = []
-      resultado.push(motorista)
       if (motorista) {
+        const resultado = []
+        resultado.push(motorista)
         res.status(200).json(
           {
             status: {
@@ -104,7 +101,6 @@ const createMotoristaController = (service) => {
               message: "OK",
             },
             data: resultado
-
           }
         );
       }
