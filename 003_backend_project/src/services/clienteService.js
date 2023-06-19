@@ -69,7 +69,7 @@ const createClienteService = (Cliente) => {
     try {
       const idExiste = await Cliente.findByPk(clienteData.id);
       if (idExiste) {
-        throw new Conflict();
+        throw new Conflict('Cliente já é cadastrado no sistema.')
       } else {
         const cliente = await Cliente.create(clienteData);
         if (cliente) {
@@ -80,7 +80,7 @@ const createClienteService = (Cliente) => {
       }
     } catch (error) {
       if (error instanceof Conflict) {
-        throw new Conflict('Cliente já é cadastrado no sistema.')
+        throw error;
       } else {
         throw new InternalServerError('Não foi possível criar o cliente.')
 
