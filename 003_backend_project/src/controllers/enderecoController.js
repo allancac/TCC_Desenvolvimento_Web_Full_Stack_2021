@@ -15,7 +15,7 @@ const EnderecoController = (service) => {
     const { offset, limit } = req.query;
     try {
       const enderecos = await service.getAllEnderecos(offset, limit);
-      if (enderecos) {
+      if (enderecos.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -32,20 +32,17 @@ const EnderecoController = (service) => {
           }
 
         );
-        return
+      } else {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: 'Nenhum endereço foi encontrado.'
+          }
+        });
       }
-
-      res.status(404).json({
-        status: {
-          code: 404,
-          error: error.message
-        }
-      });
-      return
 
     } catch (error) {
       // Tratamento de erro genérico
-      console.log(error)
       res.status(500).json({
         status: {
           code: 500,
@@ -60,7 +57,7 @@ const EnderecoController = (service) => {
   const getEnderecoById = async (req, res) => {
     try {
       const { id } = req.params;
-      const endereco = await service.getEndrecoById(id);
+      const endereco = await service.getEnderecoById(id);
       const resultado = []
       resultado.push(endereco)
       res.status(200).json({
@@ -70,6 +67,7 @@ const EnderecoController = (service) => {
         },
         data: resultado
       });
+
     } catch (error) {
       if (error instanceof NotFound) {
         res.status(404).json({
@@ -79,7 +77,6 @@ const EnderecoController = (service) => {
           }
         });
       } else {
-        console.log(error);
         res.status(500).json({
           status: {
             code: 500,
@@ -95,9 +92,9 @@ const EnderecoController = (service) => {
     try {
       const enderecoData = req.body;
       const endereco = await service.createEndereco(enderecoData);
-      const resultado = []
-      resultado.push(endereco)
       if (endereco) {
+        const resultado = []
+        resultado.push(endereco)
         res.status(200).json(
           {
             status: {
@@ -134,9 +131,9 @@ const EnderecoController = (service) => {
   // Handler para atualizar um endereço
   const updateEndereco = async (req, res) => {
     try {
-      const { cpf } = req.params;
-      const enderecoData = req.body;
-      const endereco = await service.updateEndereco(cpf, enderecoData);
+      const { id } = req.params;
+      const dadosEndereco = req.body;
+      const endereco = await service.updateEndereco(id, dadosEndereco);
       const resultado = []
       resultado.push(endereco)
       res.status(200).json(
@@ -178,7 +175,7 @@ const EnderecoController = (service) => {
       res.status(200).json({
         status: {
           code: 200,
-          message: "Enreceço excluído com sucesso.",
+          message: "Endereço excluído com sucesso.",
         }
       });
     } catch (error) {
