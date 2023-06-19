@@ -1,9 +1,9 @@
 const {
-  BadRequest,
-  Unauthorized,
-  Forbidden,
+  // BadRequest,
+  // Unauthorized,
+  // Forbidden,
   NotFound,
-  InternalServerError,
+  // InternalServerError,
   Conflict
 } = require('../services/serviceErrors');
 
@@ -13,7 +13,7 @@ const ClienteController = (service) => {
     const { offset, limit } = req.query;
     try {
       const clientes = await service.getAllClientes(offset, limit);
-      if (clientes) {
+      if (clientes.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -30,20 +30,17 @@ const ClienteController = (service) => {
           }
 
         );
-        return
+      } else {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: 'Nenhum cliente foi encontrado.'
+          }
+        });
       }
-
-      res.status(404).json({
-        status: {
-          code: 404,
-          error: error.message
-        }
-      });
-      return
 
     } catch (error) {
       // Tratamento de erro genérico
-      console.log(error)
       res.status(500).json({
         status: {
           code: 500,
@@ -68,6 +65,7 @@ const ClienteController = (service) => {
         },
         data: resultado
       });
+
     } catch (error) {
       if (error instanceof NotFound) {
         res.status(404).json({
@@ -77,7 +75,6 @@ const ClienteController = (service) => {
           }
         });
       } else {
-        console.log(error);
         res.status(500).json({
           status: {
             code: 500,
@@ -92,10 +89,10 @@ const ClienteController = (service) => {
   const createCliente = async (req, res) => {
     try {
       const clienteData = req.body;
-      const cliente = await service.getClienteById(clienteData.id);
-      const resultado = []
-      resultado.push(cliente)
+      const cliente = await service.createCliente(clienteData);
       if (cliente) {
+        const resultado = []
+        resultado.push(cliente)
         res.status(200).json(
           {
             status: {
