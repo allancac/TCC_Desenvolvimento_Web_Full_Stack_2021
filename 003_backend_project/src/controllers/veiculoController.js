@@ -13,8 +13,7 @@ const createVeiculosController = (service) => {
     const { offset, limit } = req.query;
     try {
       const veiculos = await service.getAllVeiculos(offset, limit);
-      
-      if (veiculos) {
+      if (veiculos.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -25,36 +24,27 @@ const createVeiculosController = (service) => {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
               count: veiculos.length, // Total de registros retornados na requisição atual
-
             },
             data: veiculos
+          });
+      } else {
+        res.status(404).json({
+          status: {
+            code: 404,
+            error: 'Nenhum veiculo foi encontrado.'
           }
-
-        );
-        return
+        });
       }
-
-      res.status(404).json({
-        status: {
-          code: 404,
-          error: error.message
-        }
-      });
-      return
-
     } catch (error) {
       // Tratamento de erro genérico
-      console.log(error)
       res.status(500).json({
         status: {
           code: 500,
           error: error.message
         }
       });
-
     }
   }
-
   // Handler para obter um veículo pela placa
   const getVeiculoByPlaca = async (req, res) => {
     try {
@@ -69,6 +59,7 @@ const createVeiculosController = (service) => {
         },
         data: resultado
       });
+
     } catch (error) {
       if (error instanceof NotFound) {
         res.status(404).json({
@@ -78,7 +69,6 @@ const createVeiculosController = (service) => {
           }
         });
       } else {
-        console.log(error);
         res.status(500).json({
           status: {
             code: 500,
@@ -93,9 +83,9 @@ const createVeiculosController = (service) => {
     try {
       const veiculoData = req.body;
       const veiculo = await service.createVeiculo(veiculoData);
-      const resultado = []
-      resultado.push(veiculo)
       if (veiculo) {
+        const resultado = []
+        resultado.push(veiculo)
         res.status(200).json(
           {
             status: {
@@ -129,7 +119,6 @@ const createVeiculosController = (service) => {
     }
   }
   // Handler para atualizar um veículo
-
   const updateVeiculo = async (req, res) => {
     try {
       const { placa } = req.params;
