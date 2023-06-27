@@ -12,15 +12,15 @@ const createClienteService = (Cliente) => {
   const getAllClientes = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const clientes = await Cliente.findAll(
+        const { count, rows } = await Cliente.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
           }
         );
         // Verifica se há clientes encontrados
-        if (clientes) {
-          return clientes;
+        if (rows) {
+          return { count, rows };
         } else {
           throw new NotFound('Nenhum cliente encontrado.');
         }
@@ -43,7 +43,7 @@ const createClienteService = (Cliente) => {
   const getClienteById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
-        const cliente = await Cliente.findByPk(id);
+        const cliente = await Cliente.findByPk(id, { include: 'Endereco' });
         // Verifica se o cliente foi encontrado
         if (cliente) {
           return cliente;

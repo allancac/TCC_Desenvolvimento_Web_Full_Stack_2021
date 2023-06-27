@@ -12,8 +12,8 @@ const ClienteController = (service) => {
   const getAllClientes = async (req, res) => {
     const { offset, limit } = req.query;
     try {
-      const clientes = await service.getAllClientes(offset, limit);
-      if (clientes.length > 0) {
+      const { count, rows } = await service.getAllClientes(offset, limit);
+      if (rows.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -23,10 +23,10 @@ const ClienteController = (service) => {
             metadata: {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
-              count: clientes.length, // Total de registros retornados na requisição atual
-
+              count: rows.length, // Total de registros retornados na requisição atual
+              countAll: count
             },
-            data: clientes
+            data: rows
           }
 
         );
