@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('VEICULOS', {
+  return sequelize.define('Veiculo', {
     placa: {
       type: DataTypes.STRING(10),
       allowNull: false,
       primaryKey: true,
+      unique: true,
       comment: 'Uma string de até 10 caracteres que identifica exclusivamente cada veículo.'
     },
     id_cliente: {
@@ -38,13 +39,9 @@ module.exports = (sequelize) => {
       allowNull: false,
       comment: 'Um número decimal que indica o comprimento da caçamba do veículo em metros.'
     },
-    data_registro: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      comment: 'Data em que o veículo foi registrado no sistema.'
-    }
+
   }, {
-    tableName: 'VEICULOS',
+    timestamps: true,
     engine: 'InnoDB',
     charset: 'utf8mb4',
     collate: 'utf8mb4_0900_ai_ci'

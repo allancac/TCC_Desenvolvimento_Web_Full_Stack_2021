@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('ENDERECOS', {
+  return sequelize.define('Endereco', 
+  {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -38,14 +39,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
       comment: 'Uma string de até 20 caracteres que indica o tipo de endereço (ex: "Entrega", "Comercial").'
-    },
-    data_registro: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      comment: 'Uma data que representa a data em que o endereço foi registrado no sistema.'
-    },
-  }, {
-    tableName: 'ENDERECOS',
+    }
+
+  }, 
+  {
+    timestamps: true,
     engine: 'InnoDB',
     charset: 'utf8mb4',
     collate: 'utf8mb4_0900_ai_ci'

@@ -1,9 +1,10 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('MOTORISTAS', {
+  return sequelize.define('Motorista', {
     cpf: {
       type: DataTypes.STRING(11),
+      unique: true,
       allowNull: false,
       primaryKey: true,
       comment: 'CPF - Cadastro de Pessoa Fìsica do motorista.'
@@ -27,16 +28,12 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
       comment: 'Uma string de até 50 caracteres que contém o endereço de e-mail do motorista.'
-    },
-    data_registro: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      comment: 'Data de registro do motorista'
     }
-  }, {
-    tableName: 'MOTORISTAS',
-    engine: 'InnoDB',
-    charset: 'utf8mb4',
-    collate: 'utf8mb4_0900_ai_ci'
-  });
+  },
+    {
+      timestamps: true,
+      engine: 'InnoDB',
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_0900_ai_ci',
+    });
 }
