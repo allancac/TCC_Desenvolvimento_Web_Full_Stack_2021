@@ -41,15 +41,16 @@ CREATE TABLE IF NOT EXISTS EMASA.VEICULOS (
 
 -- CREATE THE MOTORISTAS TABLE
 CREATE TABLE IF NOT EXISTS EMASA.MOTORISTAS (
-  ID INT NOT NULL,
-  PLACA VARCHAR(10) NULL DEFAULT NULL,
-  NOME VARCHAR(50) NOT NULL,
-  TELEFONE VARCHAR(15) NOT NULL,
-  EMAIL VARCHAR(50) NOT NULL,
-  CONSTRAINT PK_MOTORISTAS PRIMARY KEY (ID),
+  CPF VARCHAR(11) NOT NULL COMMENT 'Um número inteiro que identifica exclusivamente cada motorista.',
+  PLACA VARCHAR(10) NULL DEFAULT NULL COMMENT 'Uma string de até 10 caracteres que se refere à placa do veículo atribuído ao motorista. Este campo é opcional, pois um motorista pode não estar vinculado a um veículo.',
+  NOME VARCHAR(50) NOT NULL COMMENT 'Uma string de até 50 caracteres que contém o nome do motorista.',
+  TELEFONE VARCHAR(15) NOT NULL COMMENT 'Uma string de até 15 caracteres que contém o número de telefone do motorista.',
+  EMAIL VARCHAR(50) NOT NULL COMMENT 'Uma string de até 50 caracteres que contém o endereço de e-mail do motorista.',
+  PRIMARY KEY (CPF),
   INDEX FK_MOTORISTAS_VEICULOS (PLACA ASC) VISIBLE,
+  UNIQUE INDEX CPF_UNIQUE (CPF ASC) VISIBLE,
   CONSTRAINT FK_MOTORISTAS_VEICULOS FOREIGN KEY (PLACA) REFERENCES EMASA.VEICULOS (PLACA) ON DELETE CASCADE
-);
+  );
 
 -- CREATE THE PRODUTOS TABLE
 CREATE TABLE IF NOT EXISTS EMASA.PRODUTOS (
