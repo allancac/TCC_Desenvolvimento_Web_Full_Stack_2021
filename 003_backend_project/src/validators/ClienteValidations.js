@@ -38,10 +38,7 @@ const getClienteByIdValidation = [
 ];
 
 const createClienteValidation = [
-  body('id')
-    .notEmpty().withMessage('O id é obrigatório.')
-    .isNumeric().withMessage('O id deve conter apenas números.'),
-  body('nome_cliente')
+  body('nome')
     .notEmpty().withMessage('O nome do cliente é obrigatório.')
     .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre até 50 caracteres.'),
   body('telefone')

@@ -67,9 +67,9 @@ const createClienteService = (Cliente) => {
   // Função para criar um novo cliente
   const createCliente = async (clienteData) => {
     try {
-      const idExiste = await Cliente.findByPk(clienteData.id);
-      if (idExiste) {
-        throw new Conflict('Cliente já é cadastrado no sistema.')
+      const cnpjExiste = await Cliente.findAll({ where: { cnpj: clienteData.cnpj } });
+      if (cnpjExiste.length === 1) {
+        throw new Conflict(`Cliente já é cadastrado no sistema.`)
       } else {
         const cliente = await Cliente.create(clienteData);
         if (cliente) {
@@ -82,6 +82,7 @@ const createClienteService = (Cliente) => {
       if (error instanceof Conflict) {
         throw error;
       } else {
+        console.log(error)
         throw new InternalServerError('Não foi possível criar o cliente.')
 
       }
