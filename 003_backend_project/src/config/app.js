@@ -38,7 +38,7 @@ const configureApp = async (database) => {
   const veiculoController = require('../controllers/veiculoController')(veiculoService)
   const veiculoRoutes = require('../routes/veiculoRoutes')(veiculoController);
 
-  
+
   // PRODUTO
   const produtoService = require('../services/produtoService')(ProdutoModel);
   const produtoController = require('../controllers/produtoController')(produtoService)
@@ -48,27 +48,28 @@ const configureApp = async (database) => {
   const estoqueService = require('../services/estoqueService')(EstoqueModel);
   const estoqueController = require('../controllers/estoqueController')(estoqueService)
   const estoqueRoutes = require('../routes/estoqueRoutes')(estoqueController);
-  
+
   // USUÁRIO
   const usuarioService = require('../services/usuarioService')(UsuarioModel);
   const usuarioController = require('../controllers/usuarioController')(usuarioService)
   const usuarioRoutes = require('../routes/usuarioRoutes')(usuarioController);
-  
-    //  VENDA
-    const vendaService = require('../services/vendaService')(VendaModel);
-    const vendaController = require('../controllers/vendaController')(vendaService)
-    const vendaRoutes = require('../routes/vendaRoutes')(vendaController);
-  
+
+  //  VENDA
+  const vendaService = require('../services/vendaService')(VendaModel);
+  const vendaController = require('../controllers/vendaController')(vendaService)
+  const vendaRoutes = require('../routes/vendaRoutes')(vendaController);
+
 
 
 
   // Configuração do body parser de Express para receber dados no formato JSON
   app.use(express.json());
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     next();
-});
+  });
   // Configuração das rotas
   app.use(
     [
