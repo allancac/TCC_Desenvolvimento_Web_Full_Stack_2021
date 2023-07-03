@@ -126,7 +126,7 @@ const createClienteService = (Cliente) => {
       if (error instanceof NotFound) {
         throw error;
       } else {
-        throw new InternalServerError('Não foi possível atualizar o cliente.');
+        throw new InternalServerError('Não foi possível excluir o cliente.');
       }
     }
   }

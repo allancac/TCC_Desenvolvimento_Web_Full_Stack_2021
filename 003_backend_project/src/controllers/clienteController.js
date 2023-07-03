@@ -34,7 +34,7 @@ const ClienteController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: 'Nenhum cliente foi encontrado.'
+            errors: ['Nenhum cliente foi encontrado.']
           }
         });
       }
@@ -44,7 +44,7 @@ const ClienteController = (service) => {
       res.status(500).json({
         status: {
           code: 500,
-          error: error.message
+          errors: [error.message]
         }
       });
 
@@ -71,14 +71,14 @@ const ClienteController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           }
         });
       } else {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -110,7 +110,7 @@ const ClienteController = (service) => {
         res.status(409).json({
           status: {
             code: 409,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -119,7 +119,7 @@ const ClienteController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -148,7 +148,7 @@ const ClienteController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -157,7 +157,7 @@ const ClienteController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -182,7 +182,7 @@ const ClienteController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -190,7 +190,7 @@ const ClienteController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }

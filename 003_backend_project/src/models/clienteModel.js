@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       comment: 'Uma string de até 50 caracteres que contém o nome do cliente.'
     },
     telefone: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(11),
       allowNull: false,
       comment: 'Uma string de até 10 caracteres que contém o número de telefone do cliente.'
     },

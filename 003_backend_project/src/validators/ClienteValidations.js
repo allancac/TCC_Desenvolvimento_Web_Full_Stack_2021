@@ -68,9 +68,9 @@ const updateClienteValidation = [
   param('id')
     .notEmpty().withMessage('O id é obrigatório.')
     .isNumeric().withMessage('O id deve conter apenas números.'),
-  body('nome_cliente')
+  body('nome')
     .notEmpty().withMessage('O nome do cliente é obrigatório.')
-    .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre até 50 caracteres.'),
+    .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter de 3 até 50 caracteres.'),
   body('telefone')
     .isNumeric().withMessage('O número de telefone deve conter apenas números.')
     .isLength({ min: 10, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
