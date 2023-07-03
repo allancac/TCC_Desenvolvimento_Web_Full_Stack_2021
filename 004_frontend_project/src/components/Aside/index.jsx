@@ -1,16 +1,21 @@
-import Button from 'react-bootstrap/Button';
+import { Button, Nav, Stack } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useSelector } from 'react-redux';
 
 export const AsideMenu = () => {
+  const menuLateral = useSelector((state) => state.menuLateral);
+
   return (
     <aside>
-      <div className='d-grid gap-1'>
-        <Button variant='secondary' size='lg'>
-          Realizar Venda
-        </Button>
-        <Button variant='secondary' size='lg'>
-          Consultar Vendas
-        </Button>
-      </div>
+      <Stack gap={1}>
+        {menuLateral.map((item, ind) => (
+          <Button key={ind} variant='secondary' size='md'>
+            <LinkContainer to={item.linkTo}>
+              <Nav.Link>{item.submenuTitle}</Nav.Link>
+            </LinkContainer>
+          </Button>
+        ))}
+      </Stack>
     </aside>
   );
 };
