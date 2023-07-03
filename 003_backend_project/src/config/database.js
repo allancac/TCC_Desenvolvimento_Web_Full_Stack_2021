@@ -8,7 +8,7 @@ const configureDatabase = async () => {
   const sequelize = new Sequelize(schema, dbUser, password, {
     host: 'localhost',
     dialect: 'mysql',
-    timezone: '+00:00',
+    timezone: '-03:00',
     define: {
       timestamps: false
     },
