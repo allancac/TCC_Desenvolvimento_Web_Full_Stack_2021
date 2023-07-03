@@ -1,8 +1,6 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+
 export const Header = () => {
   return (
     <Navbar bg='secondary' variant='dark' expand='md' sticky='top'>
@@ -10,11 +8,13 @@ export const Header = () => {
         <LinkContainer to='/'>
           <Navbar.Brand>MINERADORA S.A.</Navbar.Brand>
         </LinkContainer>
+
         <Navbar.Toggle aria-controls='navbarScroll' />
+
         <Navbar.Collapse id='navbarScroll'>
           <Nav
             className='me-auto my-2 my-lg-0'
-            style={{ maxHeight: '300px' }}
+            style={{ maxHeight: '350px' }}
             navbarScroll
           >
             <LinkContainer to='/vendas'>
@@ -32,8 +32,14 @@ export const Header = () => {
             <LinkContainer to='/produtos'>
               <Nav.Link>Produtos</Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/analises'>
-              <Nav.Link disabled>Gráficos</Nav.Link>
+            <LinkContainer to='/estoques'>
+              <Nav.Link>Estoques</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/usuarios'>
+              <Nav.Link>Usuários</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/relatorios'>
+              <Nav.Link disabled>Relatórios</Nav.Link>
             </LinkContainer>
           </Nav>
 

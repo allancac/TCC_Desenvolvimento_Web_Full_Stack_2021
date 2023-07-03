@@ -1,4 +1,6 @@
-import { Card } from 'react-bootstrap';
+import { Card, Button, Nav } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+
 export const CartaoProduto = ({ produto: { tipo, nome, descricao, preco } }) => {
   return (
     <Card style={{ width: '11em' }} type='button'>
@@ -28,16 +30,19 @@ export const CartaoEstoque = ({ estoque: { produto, volume, localizacao, tipo } 
 
 export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj, endereco } }) => {
   return (
-    <Card style={{ width: '11em' }} type='button'>
-      {/* <Card.Img src={`https://dummyimage.com/250x250/aaa/fff.jpg&text=${tipo + ' ' + produto.properties.nome.example}`} /> */}
+    <Card style={{ width: '18rem' }} type='button'>
       <Card.Body>
         <Card.Title>{nome}</Card.Title>
         <Card.Text>
-          ID do Cliente: {id}
-          Telefone: {telefone}.
-          CNPJ: {cnpj}.
-          Endereço: {endereco}
+          ID Cliente: {id} <br />
+          Telefone: {telefone}.<br />
+          CNPJ: {cnpj}.<br />
         </Card.Text>
+        <Button variant="primary">
+          <LinkContainer to={`/clientes/detalhes/${id}`}>
+            <Nav.Link>Ver Detalhes</Nav.Link>
+          </LinkContainer>
+        </Button>
       </Card.Body>
     </Card>
   )
