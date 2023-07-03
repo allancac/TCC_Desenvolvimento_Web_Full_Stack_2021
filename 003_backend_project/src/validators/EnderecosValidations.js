@@ -37,11 +37,6 @@ const getEnderecoByIdValidation = [
 ];
 
 const createEnderecoValidation = [
-  body('id')
-    .notEmpty().withMessage('O id é obrigatório.')
-    .isInt().withMessage('O id deve conter apenas números.')
-    .isLength({ min: 1, max: 6 }).withMessage('O id deve ter 11 dígitos.'),
-
   body('id_cliente')
     .notEmpty().withMessage('O id_cliente é obrigatório.')
     .isInt().withMessage('O id_cliente deve conter apenas números.'),
