@@ -34,8 +34,15 @@ export const ExcluirCliente = ({ cliente, setPagina }) => {
       });
       setShowAlert(true);
     } catch (error) {
-      console.log('Erro ao excluir:', error);
-      alert('Não foi possível excluir o cliente');
+      const listaErros = error.response.data.status.errors;
+      setMsgAlert(() => {
+        return {
+          variant: 'danger',
+          heading: 'Erro ao excluir cliente',
+          textArray: listaErros.map((item) => item.msg),
+        };
+      });
+      setShowAlert(true);
     }
   };
   return (
