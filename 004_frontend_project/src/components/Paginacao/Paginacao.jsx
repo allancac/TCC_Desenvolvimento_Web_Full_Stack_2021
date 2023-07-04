@@ -27,7 +27,7 @@ export const Paginacao = ({ total, limit, offset, alteraPagina }) => {
       )}
       <Pagination.Next
         onClick={() =>
-          handleClick(Math.min(paginas, Math.ceil(offset / limit) + 1))
+          handleClick(Math.min(Math.ceil(total/limit)-1, Math.ceil(offset / limit) + 1)+1)
         }
       />
       <Pagination.Last onClick={() => handleClick(paginas)} />
