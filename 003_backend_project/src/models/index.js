@@ -23,6 +23,11 @@ class Models {
       as: 'Cliente'
     });
 
+    this.Cliente.hasMany(this.Veiculo, {
+      foreignKey: 'id_cliente',
+      as: 'Veiculo'
+    });
+
     this.Veiculo.belongsTo(this.Cliente, {
       foreignKey: 'id_cliente',
       onDelete: 'SET NULL',
