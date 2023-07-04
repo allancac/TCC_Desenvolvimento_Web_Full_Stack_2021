@@ -5,33 +5,32 @@ export const menuClientes = [
 ];
 
 export const menuVeiculos = [
-  { linkTo: '/', submenuTitle: 'Cadastrar Veículo' },
-  { linkTo: '/', submenuTitle: 'Buscar Veículo' },
+  { linkTo: '/veiculos/cadastrar', submenuTitle: 'Cadastrar Veículo' },
+  { linkTo: '/veiculos/buscar', submenuTitle: 'Buscar Veículo' },
 
 ];
 
 export const menuMotoristas = [
-  { linkTo: '/', submenuTitle: 'Cadastrar Motorista' },
-  { linkTo: '/', submenuTitle: 'Buscar Motorista' },
+  { linkTo: '/motoristas/cadastrar', submenuTitle: 'Cadastrar Motorista' },
+  { linkTo: '/motoristas/buscar', submenuTitle: 'Buscar Motorista' },
 ];
 
 export const menuProdutos = [
-  { linkTo: '/', submenuTitle: 'Cadastrar Produto' },
-  { linkTo: '/', submenuTitle: 'Buscar Produto' },
+  { linkTo: '/produtos/cadastrar', submenuTitle: 'Cadastrar Produto' },
+  { linkTo: '/produtos/buscar', submenuTitle: 'Buscar Produto' },
 ];
 
 export const menuEstoques = [
-  { linkTo: '/', submenuTitle: 'Cadastrar Estoque' },
-  { linkTo: '/', submenuTitle: 'Buscar Estoque' },
+  { linkTo: '/estoques/cadastrar', submenuTitle: 'Cadastrar Estoque' },
+  { linkTo: '/estoques/buscar', submenuTitle: 'Buscar Estoque' },
 ];
 
 export const menuUsuarios = [
-  { linkTo: '/', submenuTitle: 'Cadastrar Usuário' },
-  { linkTo: '/', submenuTitle: 'Buscar Usuário' },
+  { linkTo: '/usuarios/cadastrar', submenuTitle: 'Cadastrar Usuário' },
+  { linkTo: '/usuarios/buscar', submenuTitle: 'Buscar Usuário' },
 ];
 
 export const menuVendas = [
-  { linkTo: '/', submenuTitle: 'Realizar Venda' },
-  { linkTo: '/', submenuTitle: 'Buscar Venda' },
-  { linkTo: '/', submenuTitle: 'Cancelar Venda' },
+  { linkTo: '/vendas/cadastrar', submenuTitle: 'Realizar Venda' },
+  { linkTo: '/vendas/buscar', submenuTitle: 'Buscar Venda' },
 ];
