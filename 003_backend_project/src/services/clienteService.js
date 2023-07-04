@@ -43,7 +43,7 @@ const createClienteService = (Cliente) => {
   const getClienteById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
-        const cliente = await Cliente.findByPk(id, { include: 'Endereco' });
+        const cliente = await Cliente.findByPk(id, { include: ['Endereco', 'Veiculo'] });
         // Verifica se o cliente foi encontrado
         if (cliente) {
           return cliente;
