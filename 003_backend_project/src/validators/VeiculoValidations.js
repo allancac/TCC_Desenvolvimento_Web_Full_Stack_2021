@@ -66,17 +66,14 @@ const createVeiculoValidation = [
       return false;
     }).withMessage('A placa do veículo é inválida.'),
 
-  body('id_cliente')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
-    .isInt().withMessage('O id_cliente deve conter apenas números.'),
   body('altura_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('A altura da caçamba é obrigatória.')
     .isNumeric().withMessage('A altura da caçamba deve conter um valor numérico.'),
   body('largura_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('A largura da caçamba é obrigatória.')
     .isNumeric().withMessage('A largura da caçamba deve conter um valor numérico.'),
   body('comprimento_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('O comprimento da caçamba é obrigatório.')
     .isNumeric().withMessage('O comprimento da caçamba deve conter um valor numérico.'),
 
   (req, res, next) => {
@@ -112,16 +109,15 @@ const updateVeiculoValidation = [
     }).withMessage('A placa do veículo é inválida.'),
 
   body('id_cliente')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
-    .isInt().withMessage('O id_cliente deve conter apenas números.'),
+    .isInt().withMessage('O ID do cliente deve conter apenas números.'),
   body('altura_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('A altura da caçamba é obrigatória.')
     .isNumeric().withMessage('A altura da caçamba deve conter um valor numérico.'),
   body('largura_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('A largura da caçamba é obrigatória.')
     .isNumeric().withMessage('A largura da caçamba deve conter um valor numérico.'),
   body('comprimento_cacamba')
-    .notEmpty().withMessage('O id_cliente é obrigatório.')
+    .notEmpty().withMessage('O comprimento da caçamba é obrigatório.')
     .isNumeric().withMessage('O comprimento da caçamba deve conter um valor numérico.'),
 
 

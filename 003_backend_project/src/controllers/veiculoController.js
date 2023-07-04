@@ -1,9 +1,9 @@
 const {
-  BadRequest,
-  Unauthorized,
-  Forbidden,
+  // BadRequest,
+  // Unauthorized,
+  // Forbidden,
   NotFound,
-  InternalServerError,
+  // InternalServerError,
   Conflict
 } = require('../services/serviceErrors');
 
@@ -12,8 +12,8 @@ const createVeiculosController = (service) => {
   const getAllVeiculos = async (req, res) => {
     const { offset, limit } = req.query;
     try {
-      const veiculos = await service.getAllVeiculos(offset, limit);
-      if (veiculos.length > 0) {
+      const { count, rows } = await service.getAllVeiculos(offset, limit);
+      if (rows.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -23,15 +23,17 @@ const createVeiculosController = (service) => {
             metadata: {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
-              count: veiculos.length, // Total de registros retornados na requisição atual
+              count: rows.length, // Total de registros retornados na requisição atual
+              countAll: count
             },
-            data: veiculos
-          });
+            data: rows
+          }
+        );
       } else {
         res.status(404).json({
           status: {
             code: 404,
-            error: 'Nenhum veiculo foi encontrado.'
+            erros: ['Nenhum veículo foi encontrado.']
           }
         });
       }
@@ -40,7 +42,7 @@ const createVeiculosController = (service) => {
       res.status(500).json({
         status: {
           code: 500,
-          error: error.message
+          errors: [error.message]
         }
       });
     }
@@ -65,14 +67,14 @@ const createVeiculosController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           }
         });
       } else {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -103,7 +105,7 @@ const createVeiculosController = (service) => {
         res.status(409).json({
           status: {
             code: 409,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -112,7 +114,7 @@ const createVeiculosController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -140,7 +142,7 @@ const createVeiculosController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -149,7 +151,7 @@ const createVeiculosController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -173,7 +175,7 @@ const createVeiculosController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -181,7 +183,7 @@ const createVeiculosController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }

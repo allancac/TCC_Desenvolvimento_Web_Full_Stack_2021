@@ -13,15 +13,16 @@ const createVeiculoService = (Veiculo) => {
   const getAllVeiculos = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const veiculos = await Veiculo.findAll(
+        const { count, rows } = await Veiculo.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
+
           }
         );
         // Verifica se há veiculos encontrados
-        if (veiculos) {
-          return veiculos;
+        if (rows) {
+          return { count, rows };
         } else {
           throw new NotFound('Nenhum veiculo encontrado.');
         }
@@ -44,12 +45,15 @@ const createVeiculoService = (Veiculo) => {
   const getVeiculoByPlaca = async (placa) => {
     try {
       if (placa !== null || placa !== undefined) {
-        const veiculo = await Veiculo.findByPk(placa);
+        const veiculo = await Veiculo.findByPk(
+          placa,
+          { include: [Cliente] }
+        );
         // Verifica se o veiculo foi encontrado
         if (veiculo) {
           return veiculo;
         } else {
-          throw new NotFound('Veiculo não encontrado.');
+          throw new NotFound('Veículo não encontrado.');
         }
       } else {
         throw new BadRequest('Parâmetros inválidos.');
@@ -61,7 +65,7 @@ const createVeiculoService = (Veiculo) => {
         throw error;
       }
       else {
-        throw new InternalServerError('Não foi possível buscar o veiculo.');
+        throw new InternalServerError('Não foi possível buscar o veículo.');
       }
     }
   }
