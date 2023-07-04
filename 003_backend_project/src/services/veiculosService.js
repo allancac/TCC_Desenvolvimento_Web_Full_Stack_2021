@@ -47,7 +47,7 @@ const createVeiculoService = (Veiculo) => {
       if (placa !== null || placa !== undefined) {
         const veiculo = await Veiculo.findByPk(
           placa,
-          { include: [Cliente] }
+          { include: ['Cliente', 'Motorista'] }
         );
         // Verifica se o veiculo foi encontrado
         if (veiculo) {

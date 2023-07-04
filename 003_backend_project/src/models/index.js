@@ -11,35 +11,38 @@ class Models {
     this.Venda = require('./vendaModel')(sequelize);
 
     // 2- Relações entre os modelos
-
+    //   Cliente (1,1) - (1,n)Endereco
     this.Cliente.hasMany(this.Endereco, {
       foreignKey: 'id_cliente',
       as: 'Endereco'
     });
-
     this.Endereco.belongsTo(this.Cliente, {
       foreignKey: 'id_cliente',
       onDelete: 'CASCADE',
       as: 'Cliente'
     });
 
+    //   Cliente (0,1) - (1,n)Veículo
     this.Cliente.hasMany(this.Veiculo, {
       foreignKey: 'id_cliente',
       as: 'Veiculo'
     });
-
     this.Veiculo.belongsTo(this.Cliente, {
       foreignKey: 'id_cliente',
       onDelete: 'SET NULL',
       as: 'Cliente'
     });
 
+    //   Veículo (1,1) - (1,n)Motorista
+    this.Veiculo.hasMany(this.Motorista, {
+      foreignKey: 'cpf',
+      as: 'Motorista'
+    });
     this.Motorista.belongsTo(this.Veiculo, {
       foreignKey: 'placa',
       onDelete: 'CASCADE',
       as: 'Veiculo'
     });
-
 
     this.Venda.belongsTo(this.Produto, {
       foreignKey: 'id_produto',
