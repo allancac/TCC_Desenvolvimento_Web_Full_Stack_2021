@@ -70,3 +70,25 @@ export const CartaoVeiculo = ({ veiculo: { placa, id_cliente, marca, modelo, alt
     </Card>
   )
 }
+
+export const CartaoMotorista = ({ motorista: { cpf, nome, telefone, placa } }) => {
+  return (
+    <Card style={{ width: '16rem' }} type='button'>
+      <Card.Body>
+        <Card.Title><strong>{nome}</strong></Card.Title>
+        <hr />
+        <Card.Text>
+          Veículo: {placa}<br />
+          CPF: {cpf} <br />
+          Nome: {nome}.<br />
+          Telefone: {telefone}.<br />
+        </Card.Text>
+        <Button variant="primary">
+          <LinkContainer to={`/motoristas/detalhes/${cpf}`}>
+            <Nav.Link>Ver Detalhes</Nav.Link>
+          </LinkContainer>
+        </Button>
+      </Card.Body>
+    </Card>
+  )
+}
