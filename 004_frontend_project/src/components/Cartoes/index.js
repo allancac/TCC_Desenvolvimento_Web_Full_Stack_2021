@@ -28,11 +28,12 @@ export const CartaoEstoque = ({ estoque: { produto, volume, localizacao, tipo } 
   )
 }
 
-export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj, endereco } }) => {
+export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj } }) => {
   return (
-    <Card style={{ width: '18rem' }} type='button'>
+    <Card style={{ width: '16rem' }} type='button'>
       <Card.Body>
-        <Card.Title>{nome}</Card.Title>
+        <Card.Title><strong>{nome}</strong></Card.Title>
+        <hr />
         <Card.Text>
           ID Cliente: {id} <br />
           Telefone: {telefone}.<br />
@@ -40,6 +41,28 @@ export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj, endereco } 
         </Card.Text>
         <Button variant="primary">
           <LinkContainer to={`/clientes/detalhes/${id}`}>
+            <Nav.Link>Ver Detalhes</Nav.Link>
+          </LinkContainer>
+        </Button>
+      </Card.Body>
+    </Card>
+  )
+}
+
+export const CartaoVeiculo = ({ veiculo: { placa, id_cliente, marca, modelo, altura_cacamba, largura_cacamba, comprimento_cacamba } }) => {
+  return (
+    <Card style={{ width: '15rem' }} type='button'>
+      <Card.Body>
+        <Card.Title><strong>{placa}</strong></Card.Title>
+        <p>{id_cliente && (`ID do Cliente: ${id_cliente}`)}</p>
+        <hr />
+        <Card.Text>
+          Volume:<strong> {(altura_cacamba * largura_cacamba * comprimento_cacamba).toFixed(2)}</strong><br />
+          Marca: {marca} <br />
+          Modelo: {modelo} <br />
+        </Card.Text>
+        <Button variant="primary">
+          <LinkContainer to={`/veiculos/detalhes/${placa}`}>
             <Nav.Link>Ver Detalhes</Nav.Link>
           </LinkContainer>
         </Button>
