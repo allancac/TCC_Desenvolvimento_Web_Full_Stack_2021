@@ -108,8 +108,7 @@ const updateVeiculoValidation = [
       return false;
     }).withMessage('A placa do veículo é inválida.'),
 
-  body('id_cliente')
-    .isInt().withMessage('O ID do cliente deve conter apenas números.'),
+
   body('altura_cacamba')
     .notEmpty().withMessage('A altura da caçamba é obrigatória.')
     .isNumeric().withMessage('A altura da caçamba deve conter um valor numérico.'),
