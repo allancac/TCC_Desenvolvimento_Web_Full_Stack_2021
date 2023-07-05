@@ -12,17 +12,17 @@ const createMotoristaService = (Motorista) => {
   const getAllMotoristas = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const motoristas = await Motorista.findAll(
+        const { count, rows } = await Motorista.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
           }
         );
         // Verifica se há motoristas encontrados
-        if (motoristas) {
-          return motoristas;
+        if (rows) {
+          return { count, rows };
         } else {
-          throw new NotFound('Nenhum usuário encontrado.');
+          throw new NotFound('Nenhum motorista encontrado.');
         }
         // Lança um erro genérico que será tratado
       } else {
@@ -43,7 +43,7 @@ const createMotoristaService = (Motorista) => {
   const getMotoristaByCPF = async (cpf) => {
     try {
       if (cpf !== null || cpf !== undefined) {
-        const motorista = await Motorista.findByPk(cpf);
+        const motorista = await Motorista.findByPk(cpf, { include: ['veiculos'] });
         // Verifica se o motorista foi encontrado
         if (motorista) {
           return motorista;

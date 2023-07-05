@@ -1,9 +1,9 @@
 const {
-  BadRequest,
-  Unauthorized,
-  Forbidden,
+  // BadRequest,
+  // Unauthorized,
+  // Forbidden,
   NotFound,
-  InternalServerError,
+  // InternalServerError,
   Conflict
 } = require('../services/serviceErrors');
 
@@ -13,8 +13,8 @@ const createMotoristaController = (service) => {
   const getAllMotoristas = async (req, res) => {
     const { offset, limit } = req.query;
     try {
-      const motoristas = await service.getAllMotoristas(offset, limit);
-      if (motoristas.length > 0) {
+      const { count, rows } = await service.getAllMotoristas(offset, limit);
+      if (rows.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -24,10 +24,10 @@ const createMotoristaController = (service) => {
             metadata: {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
-              count: motoristas.length, // Total de registros retornados na requisição atual
-
+              count: rows.length, // Total de registros retornados na requisição atual
+              countAll: count
             },
-            data: motoristas
+            data: rows
           }
 
         );
@@ -35,7 +35,7 @@ const createMotoristaController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: 'Nenhum motorista foi encontrado.'
+            errors: ['Nenhum motorista foi encontrado.']
           }
         });
       }
@@ -45,7 +45,7 @@ const createMotoristaController = (service) => {
       res.status(500).json({
         status: {
           code: 500,
-          error: error.message
+          errors: [error.message]
         }
       });
 
@@ -72,14 +72,14 @@ const createMotoristaController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           }
         });
       } else {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -110,7 +110,7 @@ const createMotoristaController = (service) => {
         res.status(409).json({
           status: {
             code: 409,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -119,7 +119,7 @@ const createMotoristaController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -148,7 +148,7 @@ const createMotoristaController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -157,7 +157,7 @@ const createMotoristaController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -181,7 +181,7 @@ const createMotoristaController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -189,7 +189,7 @@ const createMotoristaController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
