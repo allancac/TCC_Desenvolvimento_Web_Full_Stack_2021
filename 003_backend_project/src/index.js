@@ -15,7 +15,12 @@ const startServer = async () => {
     try {
       await connection.authenticate();
       console.log('Conexão estabelecida com sucesso.');
-      await connection.sync();
+      await connection.sync(
+        {
+          // alter: true,
+          // force: true
+        }
+      );
       console.log('Os Modelos foram sincronizados com o banco de dados.');
     } catch (error) {
       console.error('Erro ao conectar e sincronizar:', error);

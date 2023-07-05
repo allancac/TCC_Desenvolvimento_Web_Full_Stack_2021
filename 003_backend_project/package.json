@@ -6,11 +6,14 @@
   "scripts": {
     "start": "node src/index.js",
     "server": "nodemon src/index.js",
-    "test": "npx jest --detectOpenHandles"
+    "test": "npx jest --detectOpenHandles",
+    "watchTest": "npx jest --detectOpenHandles --watchAll",
+    "coverage": "npx jest --coverage"
   },
   "author": "Allan Chaves <allancac@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "config": "^3.3.9",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
