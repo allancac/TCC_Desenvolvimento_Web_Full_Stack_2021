@@ -43,7 +43,7 @@ const createMotoristaService = (Motorista) => {
   const getMotoristaByCPF = async (cpf) => {
     try {
       if (cpf !== null || cpf !== undefined) {
-        const motorista = await Motorista.findByPk(cpf, { include: ['veiculos'] });
+        const motorista = await Motorista.findByPk(cpf);
         // Verifica se o motorista foi encontrado
         if (motorista) {
           return motorista;
