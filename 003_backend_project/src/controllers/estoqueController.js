@@ -12,8 +12,8 @@ const createEstoquesController = (service) => {
   const getAllEstoques = async (req, res) => {
     const { offset, limit } = req.query;
     try {
-      const estoques = await service.getAllEstoques(offset, limit);
-      if (estoques.length > 0) {
+      const { count, rows } = await service.getAllEstoques(offset, limit);
+      if (rows.length > 0) {
         res.status(200).json(
           {
             status: {
@@ -23,15 +23,18 @@ const createEstoquesController = (service) => {
             metadata: {
               offset: parseInt(offset), // Offset de registros
               limit: parseInt(limit), // Limite total de registros
-              count: estoques.length, // Total de registros retornados na requisição atual
+              count: rows.length, // Total de registros retornados na requisição atual
+              countAll: count
             },
-            data: estoques
-          });
+            data: rows
+          }
+
+        );
       } else {
         res.status(404).json({
           status: {
             code: 404,
-            error: 'Nenhum estoque foi encontrado.'
+            errors: ['Nenhum estoque foi encontrado.']
           }
         });
       }
@@ -40,7 +43,7 @@ const createEstoquesController = (service) => {
       res.status(500).json({
         status: {
           code: 500,
-          error: error.message
+          errors: [error.message]
         }
       });
     }
@@ -65,14 +68,14 @@ const createEstoquesController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           }
         });
       } else {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -103,7 +106,7 @@ const createEstoquesController = (service) => {
         res.status(409).json({
           status: {
             code: 409,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -112,7 +115,7 @@ const createEstoquesController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           }
         });
       }
@@ -140,7 +143,7 @@ const createEstoquesController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -149,7 +152,7 @@ const createEstoquesController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -173,7 +176,7 @@ const createEstoquesController = (service) => {
         res.status(404).json({
           status: {
             code: 404,
-            error: error.message
+            errors: [error.message]
           },
         });
       }
@@ -181,7 +184,7 @@ const createEstoquesController = (service) => {
         res.status(500).json({
           status: {
             code: 500,
-            error: error.message
+            errors: [error.message]
           },
         });
       }

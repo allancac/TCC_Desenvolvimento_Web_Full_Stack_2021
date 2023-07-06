@@ -12,15 +12,15 @@ const createEstoqueService = (Estoque) => {
   const getAllEstoques = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const estoques = await Estoque.findAll(
+        const { count, rows } = await Estoque.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
           }
         );
-        // Verifica se há estoques encontrados
-        if (estoques) {
-          return estoques;
+        // Verifica se há produtos encontrados
+        if (rows) {
+          return { count, rows };
         } else {
           throw new NotFound('Nenhum estoque encontrada.');
         }
