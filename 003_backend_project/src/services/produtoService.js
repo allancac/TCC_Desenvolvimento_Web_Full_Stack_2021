@@ -12,15 +12,15 @@ const createProdutoService = (Produto) => {
   const getAllProdutos = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const produtos = await Produto.findAll(
+        const { count, rows } = await Produto.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
           }
         );
         // Verifica se há produtos encontrados
-        if (produtos) {
-          return produtos;
+        if (rows) {
+          return { count, rows };
         } else {
           throw new NotFound('Nenhum produto encontrado.');
         }
