@@ -1,13 +1,22 @@
 import { Card, Button, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-export const CartaoProduto = ({ produto: { tipo, nome, descricao, preco } }) => {
+export const CartaoProduto = ({ produto: { id, nome, tipo, descricao, preco } }) => {
   return (
-    <Card style={{ width: '11em' }} type='button'>
-      <Card.Img src={`https://dummyimage.com/250x250/aaa/fff.jpg&text=${nome}`} />
+    <Card style={{ width: '16em' }} type='button'>
       <Card.Body>
-        <Card.Title>Tipo: {tipo}</Card.Title>
-        <Card.Text>{descricao}<br /><strong>Preço - R${preco}/m<sup>3</sup></strong> </Card.Text>
+        <Card.Title><strong>{nome}</strong></Card.Title>
+        <hr />
+        <Card.Text>
+          ID do Produto: <strong> {id} </strong> <br />
+          {descricao}<br />
+          <strong>Preço - R${preco}/m<sup>3</sup></strong><br />
+        </Card.Text>
+        <Button variant="primary">
+          <LinkContainer to={`/produtos/detalhes/${id}`}>
+            <Nav.Link>Ver Detalhes</Nav.Link>
+          </LinkContainer>
+        </Button>
       </Card.Body>
     </Card>
   )
@@ -15,8 +24,7 @@ export const CartaoProduto = ({ produto: { tipo, nome, descricao, preco } }) => 
 
 export const CartaoEstoque = ({ estoque: { produto, volume, localizacao, tipo } }) => {
   return (
-    <Card style={{ width: '11em' }} type='button'>
-      <Card.Img src={`https://dummyimage.com/250x250/aaa/fff.jpg&text=${tipo + ' ' + produto.properties.nome.example}`} />
+    <Card style={{ width: '16em' }} type='button'>
       <Card.Body>
         <Card.Title>Tipo: {tipo}</Card.Title>
         <Card.Text>Produto: {produto.properties.nome.example}.
@@ -51,7 +59,7 @@ export const CartaoCliente = ({ cliente: { id, nome, telefone, cnpj } }) => {
 
 export const CartaoVeiculo = ({ veiculo: { placa, id_cliente, marca, modelo, altura_cacamba, largura_cacamba, comprimento_cacamba } }) => {
   return (
-    <Card style={{ width: '15rem' }} type='button'>
+    <Card style={{ width: '16rem' }} type='button'>
       <Card.Body>
         <Card.Title><strong>{placa}</strong></Card.Title>
         <p>{id_cliente && (`ID do Cliente: ${id_cliente}`)}</p>

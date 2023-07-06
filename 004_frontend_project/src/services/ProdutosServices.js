@@ -1,24 +1,59 @@
 import axios from 'axios';
-const serverName = 'virtserver.swaggerhub.com/'
-const path = 'allancac/vendas_emasa/1.0.0'
+import config from './config'
 
-class ProdutosServices {
+export default class ProdutosServices {
   constructor() {
-    this.serverName = serverName;
-    this.axiosInstance = axios.create({
-      baseURL: `https://${this.serverName}${path}`
-    });
+    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}` });
   }
 
-  async buscarListaProdutos() {
+  async buscarListaProdutos(offset = 0, limit = 20) {
     try {
-      const response = await this.axiosInstance.get('/produtos/?bodyLimit=10&pagelimit=1');
+      const response = await this.axiosInstance.get(`/produtos/?offset=${offset}&limit=${limit}`);
       return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-}
 
-export default ProdutosServices;
+  async buscarProduto(id) {
+    try {
+      const response = await this.axiosInstance.get(`/produtos/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async enviarDadosProduto(dadosProduto) {
+    try {
+      const response = await this.axiosInstance.post(`/produtos`, dadosProduto);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
+  async atualizarDadosProduto(id, dadosProduto) {
+
+    try {
+      const response = await this.axiosInstance.put(`/produtos/${id}`, dadosProduto);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async deletarProduto(id) {
+    try {
+      const response = await this.axiosInstance.delete(`/produtos/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
