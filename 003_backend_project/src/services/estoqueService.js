@@ -48,7 +48,7 @@ const createEstoqueService = (Estoque) => {
         if (estoque) {
           return estoque;
         } else {
-          throw new NotFound('Estoque não encontrada.');
+          throw new NotFound('Estoque não encontrado.');
         }
       } else {
         throw new BadRequest('Parâmetros inválidos.');
@@ -67,13 +67,22 @@ const createEstoqueService = (Estoque) => {
   // Cria um novo Estoque
   const createEstoque = async (estoqueData) => {
     try {
-      const idExiste = await Estoque.findByPk(estoqueData.id);
-      if (idExiste) {
+      // const estoqueExiste = await Estoque.findByPk(estoqueData.id);
+      const estoqueExiste = await Estoque.findAll({
+        where: {
+          id_produto: estoqueData.id_produto,
+          localizacao: estoqueData.localizacao,
+          tipo_estoque: estoqueData.tipo_estoque,
+          volume: estoqueData.volume,
+          capacidade_maxima: estoqueData.capacidade_maxima,
+        }
+      });
+      if (estoqueExiste.length === 1) {
         throw new Conflict();
       } else {
-        const Estoque = await Estoque.create(estoqueData);
-        if (Estoque) {
-          return Estoque;
+        const novoEstoque = await Estoque.create(estoqueData);
+        if (novoEstoque) {
+          return novoEstoque;
         } else {
           throw new Error();
         }
@@ -92,7 +101,7 @@ const createEstoqueService = (Estoque) => {
     try {
       const idExiste = await Estoque.findByPk(id);
       if (idExiste) {
-        const Estoque = await Estoque.update(estoqueData, { where: { id } })
+        const estoque = await Estoque.update(estoqueData, { where: { id } })
         return estoqueData;
       } else {
         throw new NotFound('Estoque não encontrado.');

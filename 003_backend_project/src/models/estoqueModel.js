@@ -13,7 +13,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       comment: 'Um número decimal que indica a capacidade máxima de armazenamento do estoque em metros cúbicos.'
     },
-
+    tipo_estoque: {
+      type: DataTypes.STRING(45),
+      comment: 'Define o tipo de estoque(pilha ou silo)'
+    },
     localizacao: {
       type: DataTypes.STRING(45),
       allowNull: true,

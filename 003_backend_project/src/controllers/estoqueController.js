@@ -53,14 +53,13 @@ const createEstoquesController = (service) => {
     try {
       const { id } = req.params;
       const estoque = await service.getEstoqueById(id);
-      const resultado = []
-      resultado.push(estoque)
+
       res.status(200).json({
         status: {
           code: 200,
           message: 'OK'
         },
-        data: resultado
+        data: [estoque]
       });
 
     } catch (error) {
@@ -85,17 +84,17 @@ const createEstoquesController = (service) => {
   const createEstoque = async (req, res) => {
     try {
       const estoqueData = req.body;
-      const estoque = await service.createEstoque(estoqueData);
-      if (estoque) {
-        const resultado = []
-        resultado.push(estoque)
+      const estoqueCriado = await service.createEstoque(estoqueData);
+      console.log(estoqueCriado)
+      if (estoqueCriado) {
+
         res.status(200).json(
           {
             status: {
               code: 200,
               message: "OK",
             },
-            data: resultado
+            data: [estoqueCriado]
 
           }
         );
