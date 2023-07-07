@@ -22,15 +22,23 @@ export const CartaoProduto = ({ produto: { id, nome, tipo, descricao, preco } })
   )
 }
 
-export const CartaoEstoque = ({ estoque: { produto, volume, localizacao, tipo } }) => {
+export const CartaoEstoque = ({ estoque: { id, capacidade_maxima, localizacao, volume, id_produto } }) => {
   return (
-    <Card style={{ width: '16em' }} type='button'>
+    <Card style={{ width: '18em' }} type='button'>
       <Card.Body>
-        <Card.Title>Tipo: {tipo}</Card.Title>
-        <Card.Text>Produto: {produto.properties.nome.example}.
-          Capacidade Total: {volume} m<sup>3</sup>.
-          Localização: {localizacao}
+        <Card.Title>Estoque: <strong> {id} </strong> <br /> {((volume / capacidade_maxima) * 100).toFixed(1)}% </Card.Title>
+        <hr />
+        <Card.Text>
+          Produto:{id_produto}<br />
+          Localização: {localizacao}<br />
+          Volume Atual : {volume} m<sup>3</sup>.<br />
+          Capacidade Máxima : {capacidade_maxima} m<sup>3</sup>.<br />
         </Card.Text>
+        <Button variant="primary">
+          <LinkContainer to={`/estoques/detalhes/${id}`}>
+            <Nav.Link>Ver Detalhes</Nav.Link>
+          </LinkContainer>
+        </Button>
       </Card.Body>
     </Card>
   )

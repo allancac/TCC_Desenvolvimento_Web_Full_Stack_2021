@@ -1,24 +1,59 @@
 import axios from 'axios';
-const serverName = 'virtserver.swaggerhub.com/'
-const path = 'allancac/vendas_emasa/1.0.0'
+import config from './config'
 
-class EstoqueServices {
+export default class EstoquesServices {
   constructor() {
-    this.serverName = serverName;
-    this.axiosInstance = axios.create({
-      baseURL: `https://${this.serverName}${path}`
-    });
+    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}` });
   }
 
-  async buscarListaEstoques() {
+  async buscarListaEstoques(offset = 0, limit = 20) {
     try {
-      const response = await this.axiosInstance.get('/estoque/?bodyLimit=10&pagelimit=10');
+      const response = await this.axiosInstance.get(`/estoques/?offset=${offset}&limit=${limit}`);
       return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-}
 
-export default EstoqueServices;
+  async buscarEstoque(id) {
+    try {
+      const response = await this.axiosInstance.get(`/estoques/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async enviarDadosEstoque(dadosEstoque) {
+    try {
+      const response = await this.axiosInstance.post(`/estoques`, dadosEstoque);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
+  async atualizarDadosEstoque(id, dadosEstoque) {
+
+    try {
+      const response = await this.axiosInstance.put(`/estoques/${id}`, dadosEstoque);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async deletarEstoque(id) {
+    try {
+      const response = await this.axiosInstance.delete(`/estoques/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
