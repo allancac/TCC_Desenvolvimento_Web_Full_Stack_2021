@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const Models = require('../models/index');  //Classe criadora de modelos
 
+//  TODO:
 const configureApp = async (database) => {
   // Definição de todos os modelos do sistema
   const Modelos = new Models(database)
@@ -16,7 +17,7 @@ const configureApp = async (database) => {
   const EstoqueModel = Modelos.getEstoqueModel();
   const UsuarioModel = Modelos.getUsuarioModel();
 
-
+  //  TODO: Implementar uma biblioteca de contêiner de injeção de dependências, como o "InversifyJS" ou "Awilix"
   // Injeção das dependências nas camadas da API
   //  CLIENTE
   const clienteService = require('../services/clienteService')(ClienteModel);

@@ -1,4 +1,6 @@
 class Models {
+  //  TODO: Inserir as relações entre os modelos dentro de cada Model
+  //  TODO: Alterar cada função de definição dos Models para Class
   constructor(sequelize) {
     // 1 - Definições do modelos
     this.Cliente = require('./clienteModel')(sequelize);
