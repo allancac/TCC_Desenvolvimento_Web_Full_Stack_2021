@@ -8,6 +8,16 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       allowNull: false
     },
+    ativo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true
+    },
     senha: {
       type: DataTypes.STRING(100),
       allowNull: false
@@ -23,22 +33,13 @@ module.exports = (sequelize) => {
     perfil: {
       type: DataTypes.ENUM('vendedor', 'gerente', 'administrador'),
       allowNull: false
-    },
-
-  }),
-  {
-    timestamps: true,
-    engine: 'InnoDB',
-    charset: 'utf8mb4',
-    collate: 'utf8mb4_0900_ai_ci',
-    instanceMethods: {
-      async generateHash(senha) {
-        return await bcrypt.hash(senha, bcrypt.genSaltSync(8));
-      },
-      validPassword(senha) {
-        return bcrypt.compare(senha, this.password);
-      }
     }
-  }
-
+  },
+    {
+      timestamps: true,
+      engine: 'InnoDB',
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_0900_ai_ci',
+    }
+  )
 };

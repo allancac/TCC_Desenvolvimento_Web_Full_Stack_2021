@@ -12,56 +12,47 @@ const createUsuarioService = (Usuario) => {
   const getAllUsuarios = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const usuarios = await Usuario.findAll(
+        const { count, rows } = await Usuario.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
           }
         );
-        // Verifica se há usuarios encontrados
-        if (usuarios) {
-          return usuarios;
-        } else {
-          throw new NotFound('Nenhum usuario encontrado.');
+        if (rows) {
+          return { count, rows };
         }
-        // Lança um erro genérico que será tratado
-      } else {
-        throw new BadRequest('Parâmetros inválidos.');
+        throw new NotFound('Nenhum usuario encontrado.');
       }
+      throw new BadRequest('Parâmetros inválidos.');
+
     } catch (error) {
       if (error instanceof NotFound) {
         throw error;
       } else if (error instanceof BadRequest) {
         throw error;
-      } else {
-        throw new InternalServerError('Não foi possível listar os usuarios.');
       }
+      throw new InternalServerError('Não foi possível listar os usuarios.');
     }
   }
-
   // Obtém um Usuario pelo ID
   const getUsuarioById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
-        const Usuario = await Usuario.findByPk(id);
+        const usuario = await Usuario.findByPk(id);
         // Verifica se o Usuario foi encontrado
-        if (Usuario) {
-          return Usuario;
-        } else {
-          throw new NotFound('Usuário não encontrada.');
+        if (usuario) {
+          return usuario;
         }
-      } else {
-        throw new BadRequest('Parâmetros inválidos.');
+        throw new NotFound('Usuário não encontrada.');
       }
+      throw new BadRequest('Parâmetros inválidos.');
     } catch (error) {
       if (error instanceof NotFound) {
         throw error;
       } else if (error instanceof BadRequest) {
         throw error;
       }
-      else {
-        throw new InternalServerError('Não foi possível buscar o usuário.');
-      }
+      throw new InternalServerError('Não foi possível buscar o usuário.');
     }
   }
   // Cria um novo Usuário
@@ -70,21 +61,15 @@ const createUsuarioService = (Usuario) => {
       const idExiste = await Usuario.findByPk(usuarioData.id);
       if (idExiste) {
         throw new Conflict();
-      } else {
-        const Usuario = await Usuario.create(usuarioData);
-        if (Usuario) {
-          return Usuario;
-        } else {
-          throw new Error();
-        }
       }
+      const usuario = await Usuario.create(usuarioData);
+      if (usuario) { return usuario }
+      throw new Error();
     } catch (error) {
       if (error instanceof Conflict) {
         throw new Conflict('Usuário já cadastrado no sistema.')
-      } else {
-        throw new InternalServerError('Não foi possível criar o usuário.')
-
       }
+      throw new InternalServerError('Não foi possível criar o usuário.')
     }
   }
 
@@ -92,17 +77,15 @@ const createUsuarioService = (Usuario) => {
     try {
       const idExiste = await Usuario.findByPk(id);
       if (idExiste) {
-        const Usuario = await Usuario.update(usuarioData, { where: { id } })
+        const usuario = await Usuario.update(usuarioData, { where: { id } })
         return usuarioData;
-      } else {
-        throw new NotFound('Usuário não encontrado.');
       }
+      throw new NotFound('Usuário não encontrado.');
     } catch (error) {
       if (error instanceof NotFound) {
         throw error;
-      } else {
-        throw new InternalServerError('Não foi possível atualizar o usuário.');
       }
+      throw new InternalServerError('Não foi possível atualizar o usuário.');
     }
   }
 
@@ -116,18 +99,15 @@ const createUsuarioService = (Usuario) => {
         const usuarioApagado = await Usuario.destroy({ where: { id } });
         if (usuarioApagado) {
           return usuarioApagado;
-        } else {
-          throw new Error();
         }
-      } else {
-        throw new NotFound('Usuário não encontrado.');
+        throw new Error();
       }
+      throw new NotFound('Usuário não encontrado.');
     } catch (error) {
       if (error instanceof NotFound) {
         throw error;
-      } else {
-        throw new InternalServerError('Não foi possível atualizar o usuário.');
       }
+      throw new InternalServerError('Não foi possível atualizar o usuário.');
     }
   }
 
