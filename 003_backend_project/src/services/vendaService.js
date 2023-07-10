@@ -12,30 +12,18 @@ const createVendaService = (Venda) => {
   const getAllVendas = async (offset = 0, limit = 10) => {
     try {
       if (offset >= 0 && limit >= 0) {
-        const vendas = await Venda.findAll(
+        const { count, rows } = await Venda.findAndCountAll(
           {
             offset: parseInt(offset),
             limit: parseInt(limit),
-          }
-        );
-        // Verifica se há vendas encontrados
-        if (vendas) {
-          return vendas;
-        } else {
-          throw new NotFound('Nenhuma venda encontrada.');
-        }
-        // Lança um erro genérico que será tratado
-      } else {
-        throw new BadRequest('Parâmetros inválidos.');
+          });
+        if (rows) return { count, rows };
+        throw new NotFound('Nenhuma venda encontrada.');
       }
+      throw new BadRequest('Parâmetros inválidos.');
     } catch (error) {
-      if (error instanceof NotFound) {
-        throw error;
-      } else if (error instanceof BadRequest) {
-        throw error;
-      } else {
-        throw new InternalServerError('Não foi possível listar as vendas.');
-      }
+      if (error instanceof NotFound || error instanceof BadRequest) throw error;
+      throw new InternalServerError('Não foi possível listar as vendas.');
     }
   }
 
@@ -43,48 +31,28 @@ const createVendaService = (Venda) => {
   const getVendaById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
-        const Venda = await Venda.findByPk(id);
-        // Verifica se a Venda foi encontrado
-        if (Venda) {
-          return Venda;
-        } else {
-          throw new NotFound('Venda não encontrada.');
-        }
-      } else {
-        throw new BadRequest('Parâmetros inválidos.');
+        const venda = await Venda.findByPk(id);
+        if (venda) return venda;
+        throw new NotFound('Venda não encontrada.');
       }
+      throw new BadRequest('Parâmetros inválidos.');
     } catch (error) {
-      if (error instanceof NotFound) {
-        throw error;
-      } else if (error instanceof BadRequest) {
-        throw error;
-      }
-      else {
-        throw new InternalServerError('Não foi possível buscar a Venda.');
-      }
+      if (error instanceof NotFound || error instanceof BadRequest) throw error;
+      throw new InternalServerError('Não foi possível buscar a Venda.');
     }
   }
   // Cria um novo Venda
   const createVenda = async (vendaData) => {
     try {
       const idExiste = await Venda.findByPk(vendaData.id);
-      if (idExiste) {
-        throw new Conflict();
-      } else {
-        const venda = await Venda.create(vendaData);
-        if (venda) {
-          return venda;
-        } else {
-          throw new Error();
-        }
-      }
+      if (idExiste) throw new Conflict();
+      const venda = await Venda.create(vendaData);
+      if (venda) return venda;
+      throw new Error();
     } catch (error) {
-      if (error instanceof Conflict) {
-        throw new Conflict('Venda já cadastrado no sistema.')
-      } else {
-        throw new InternalServerError('Não foi possível criar a Venda.')
-
-      }
+      if (error instanceof Conflict)
+        throw new Conflict('Venda já cadastrado no sistema.');
+      throw new InternalServerError('Não foi possível criar a Venda.')
     }
   }
 
@@ -92,7 +60,7 @@ const createVendaService = (Venda) => {
     try {
       const idExiste = await Venda.findByPk(id);
       if (idExiste) {
-        const Venda = await Venda.update(vendaData, { where: { id } })
+        const venda = await Venda.update(vendaData, { where: { id } })
         return vendaData;
       } else {
         throw new NotFound('Venda não encontrada.');

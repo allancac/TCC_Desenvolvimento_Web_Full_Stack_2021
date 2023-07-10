@@ -6,7 +6,12 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      comment: 'Um número inteiro que identifica exclusivamente cada venda. Este campo é autoincrementado. Exemplo 2023001'
+      comment: 'Um número inteiro que identifica exclusivamente cada venda. Este campo é autoincrementado.'
+    },
+    id_usuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      comment: 'Um número inteiro que se refere ao ID do usuário que realizou a venda, na tabela "EMASA.USUARIOS".'
     },
     id_produto: {
       type: DataTypes.INTEGER,
@@ -56,6 +61,11 @@ module.exports = (sequelize) => {
       charset: 'utf8mb4',
       collate: 'utf8mb4_0900_ai_ci',
       indexes: [
+        {
+          name: 'FK_VENDA_USUARIO',
+          using: 'BTREE',
+          fields: ['id_usuario']
+        },
         {
           name: 'FK_VENDA_PRODUTO',
           using: 'BTREE',
