@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const Models = require('../models/index');  //Classe criadora de modelos
 
-//  TODO:
+
+//  TODO:Reafatorar em uma classe
 const configureApp = async (database) => {
   // Definição de todos os modelos do sistema
   const Modelos = new Models(database)
@@ -19,6 +20,7 @@ const configureApp = async (database) => {
 
   //  TODO: Implementar uma biblioteca de contêiner de injeção de dependências, como o "InversifyJS" ou "Awilix"
   // Injeção das dependências nas camadas da API
+
   //  CLIENTE
   const clienteService = require('../services/clienteService')(ClienteModel);
   const clienteController = require('../controllers/clienteController')(clienteService)
@@ -61,17 +63,20 @@ const configureApp = async (database) => {
   const vendaRoutes = require('../routes/vendaRoutes')(vendaController);
 
 
-
-
-  // Configuração do body parser de Express para receber dados no formato JSON
+  // Middleware de Configuração do body parser de Express para receber dados no formato JSON
   app.use(express.json());
+  // Middleware de de configuração do CORS - Cross Origin Resource Sharing
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     next();
   });
-  // Configuração das rotas
+  app.use(express.urlencoded({ extended: true }));
+
+  
+
+  // Configuração das rotas privadas
   app.use(
     [
       motoristaRoutes,

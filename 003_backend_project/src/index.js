@@ -1,3 +1,4 @@
+//  FIXME: Alerar todas importações de módulos de require para o import(ES6)
 require('dotenv').config(); // Carregar variáveis de ambiente
 const { configureApp } = require('./config/app')
 const configureDatabase = require('./config/database')
