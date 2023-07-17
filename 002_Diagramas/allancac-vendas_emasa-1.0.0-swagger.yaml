@@ -1,0 +1,1809 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0.0"
+  title: API Vendas EMASA SA
+  description: API para o Sistema de Vendas da mineradora EMASA SA
+  contact:
+    name: Allan Chaves
+    email: allancac@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/allancac/vendas_emasa/1.0.0
+
+tags:
+  - name: Cliente
+    description: Operações para manipular a entidade Cliente
+  - name: Veículo
+    description: Operações para manipular a entidade Veículo
+  - name: Motorista
+    description: Operações para manipular a entidade Motorista
+  - name: Produto
+    description: Operações para manipular a entidade Produto
+  - name: Venda
+    description: Operações para manipular a entidade Venda
+  - name: Estoque
+    description: Operações para manipular a entidade Estoque
+
+# Endpoints da API
+paths:
+
+  /clientes:
+    get:
+      tags:
+        - Cliente
+      summary: Exibir listagem dos clientes
+      operationId: listarClientes
+      description: |
+        Informa uma listagem dos clientes de acordo com filtros.
+        Caso não sejam passados parâmetros, são listados todos clientes.
+      parameters:
+        - in: query
+          name: bodyLimit
+          description: Numero de registros a retornar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+        - in: query
+          name: pagelimit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 10
+      responses:
+        '200':
+          description: cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clientes'
+        '204':
+          description: Não há clientes
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Cliente
+      summary: Adicionar um cliente
+      operationId: adicionarCliente
+      description: Ao passar as informações coletadas do cliente é criado um registro do cliente
+      responses:
+        '201':
+          description: cliente criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        required: true
+        description: Informações do cliente para adicionar no Banco de Dados
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoCliente'
+
+  /clientes/{idCliente}:
+    # Requisição GET 
+    get:
+      tags:
+        - Cliente
+      summary: "Retorna informações sobre um cliente específico"
+      operationId: buscarCliente
+      description: |
+        "Ao informar o ID do cliente é possível realizar uma buscar pelo cliente
+        no Banco de Dados"
+      parameters:
+        - name: idCliente
+          in: path
+          description: Parâmetro de caminho destinado para a busca pelo Id do cliente no Banco de Dados
+          required: true
+          schema:
+            type: integer
+            format: int32   
+      responses:
+        '200':
+          description: cliente encontrado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Cliente
+      summary: Alterar um cliente
+      operationId: alteraCliente
+      description: Ao passar as novas informações os dados do cliente são alterados
+      parameters:
+        - name: idCliente
+          in: path
+          description: Parâmetro de caminho destinado para a busca pelo Id do cliente no Banco de Dados
+          required: true
+          schema:
+            type: integer
+            format: int32   
+      requestBody:
+        description: Campos a serem atualizados no cliente
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoCliente'
+
+      responses:
+        '200':
+          description: Cliente alterado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Cliente
+      summary: Remover um cliente
+      operationId: removeCliente
+      description: ao passar o ID do cliente o registro é removido
+      parameters:
+        - name: idCliente
+          in: path
+          description: ID do cliente a ser excluído
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Sucesso
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /veiculos:
+    get:
+      tags:
+        - Veículo
+      summary: Retorna a lista de veículos.
+      operationId: listarVeiculos
+      description: Retorna a lista completa de veículos cadastrados na base de dados.
+      parameters:
+        - in: query
+          name: bodyLimit
+          description: Numero de registros a retornar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+        - in: query
+          name: pagelimit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Veiculos'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Veículo
+      summary: Cadastra um novo veículo na base de dados.
+      operationId: adicionarVeiculo
+      description: Cadastra um novo veículo na base de dados a partir dos dados informados no corpo da requisição.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoVeiculo'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          description: Conflito
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  
+  /veiculos/{placa}:
+    get:
+      tags:
+        - Veículo
+      summary: Busca um veículo na base de dados a partir da placa.
+      operationId: buscarVeiculo
+      description: Busca um veículo na base de dados a partir da placa informada na URL.
+      parameters:
+        - in: path
+          name: placa
+          required: true
+          description: Placa do veículo a ser buscado.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not Found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Veículo
+      summary: Atualiza um veículo na base de dados a partir da placa.
+      operationId: alteraVeiculo
+      description: Atualiza um veículo na base de dados a partir da placa informada na URL.
+      parameters:
+        - in: path
+          name: placa
+          required: true
+          description: Placa do veículo a ser atualizado.
+          schema:
+            type: string
+      requestBody:
+        description: Campos a serem atualizados do Veículo
+        required: true
+        content:
+          application/jSson:
+            schema: 
+              $ref: '#/components/schemas/NovoVeiculo'
+        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not Found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Veículo
+      summary: Deleta um veículo da base de dados a partir da placa.
+      operationId: removeVeiculo
+      description: Deleta um veículo da base de dados a partir da placa informada na URL.
+      parameters:
+        - in: path
+          name: placa
+          required: true
+          description: Placa do veículo a ser deletado.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /motoristas:
+    get:
+      summary: Retorna a lista de todos os motoristas cadastrados.
+      description: Retorna a lista de todos os motoristas cadastrados na base de dados.
+      tags:
+        - Motorista
+      parameters:
+        - in: query
+          name: offset
+          description: Numero de registros a desconsiderar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 20
+        - in: query
+          name: limit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    description: Código do Status HTTP para a resposta.
+                    example: 200
+                  status:
+                    type: string
+                    description: Texto descritivo do Status da resposta.
+                    example: OK
+                  data:
+                    properties:
+                      offset:
+                        type: integer
+                        description: Offset de registros
+                        example: 1
+                      limit:
+                        type: integer
+                        description: Limite do total de registros
+                        example: 20
+                      count:
+                        type: integer
+                        description: Total de registros retornados na requisição atual.
+                        example: 3
+                      results:
+                        $ref: '#/components/schemas/Motoristas'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Motorista
+      summary: Cadastrar motorista.
+      operationId: adicionarMotorista
+      description: Cadastra um novo motorista na base de dados.
+      requestBody:
+        description: Objeto JSON contendo os dados do motorista a ser cadastrado.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoMotorista'
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Motorista'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /motoristas/{cpf}:
+    get:
+      summary: Retorna informações de um motorista por ID.
+      description: Retorna informações de um motorista por ID.
+      tags:
+        - Motorista
+      parameters:
+        - name: cpf
+          in: path
+          description: CPF do motorista
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    description: Código do Status HTTP para a resposta.
+                    example: 200
+                  status:
+                    type: string
+                    description: Texto descritivo do Status da resposta.
+                    example: OK
+                  data:
+                    properties:
+                      
+                      count:
+                        type: integer
+                        description: Total de registros retornados na requisição atual.
+                        example: 1
+                      results:
+                        $ref: '#/components/schemas/Motorista'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Atualizar motorista
+      description: Atualiza as informações de um motorista existente.
+      tags:
+        - Motorista
+      parameters:
+        - name: cpf
+          in: path
+          description: CPF do motorista a ser atualizado
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Campos a serem atualizados do Motorista
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoMotorista'
+
+      responses:
+        '200':
+          description: Motorista atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Motorista'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Deletar motorista
+      description: Deleta um motorista existente.
+      tags:
+        - Motorista
+      parameters:
+        - name: cpf
+          in: path
+          description: CPF do motorista a ser atualizado
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Motorista deletado com sucesso.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /produtos:
+    get:
+      summary: Lista de produtos
+      description: Retorna uma lista de todos os produtos cadastrados
+      tags:
+        - Produto
+      parameters:
+        - in: query
+          name: bodyLimit
+          description: Numero de registros a retornar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+        - in: query
+          name: pagelimit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produtos'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: Criação de produto
+      description: Cria um novo produto com as informações fornecidas
+      tags:
+        - Produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoProduto'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /produtos/{id}:
+    get:
+      summary: Detalhes do produto
+      description: Retorna detalhes de um produto com base no ID fornecido
+      tags:
+        - Produto
+      parameters:
+        - name: id
+          in: path
+          description: ID do produto a ser retornado
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Atualização de produto
+      description: Atualiza as informações de um produto com base no ID fornecido
+      tags:
+        - Produto
+      parameters:
+        - name: id
+          in: path
+          description: ID do produto a ser atualizado
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoProduto'
+      responses:
+        '200':
+          description: Produto atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Exclusão de produto
+      description: Exclui um produto com base no ID fornecido
+      tags:
+        - Produto
+      parameters:
+        - name: id
+          in: path
+          description: ID do produto a ser excluído
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Produto deletado com sucesso.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /vendas:
+    get:
+      summary: Lista todas as vendas
+      operationId: listarVendas
+      tags: 
+        - Venda
+      parameters:
+        - in: query
+          name: bodyLimit
+          description: Numero de registros a retornar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+        - in: query
+          name: pagelimit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 10
+        - in: query
+          name: id_produto
+          schema:
+            type: integer
+          description: ID do produto para filtrar as vendas
+        - in: query
+          name: data_inicio
+          schema:
+            type: string
+            format: date
+          description: Data de início do período para filtrar as vendas
+        - in: query
+          name: data_fim
+          schema:
+            type: string
+            format: date
+          description: Data de fim do período para filtrar as vendas
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: Cria uma nova venda
+      operationId: criarVenda
+      tags: 
+        - Venda
+      requestBody:
+        description: Objeto Venda a ser criado
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Venda'
+      responses:
+        '201':
+          description: Venda criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venda'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /vendas/{id}:
+    get:
+      summary: Retorna os detalhes de uma venda específica
+      description: Retorna os detalhes de uma venda específica com base no ID informado
+      tags:
+        - Venda
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID da venda a ser buscada
+      responses:
+        '200':
+          description: Venda encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venda'
+        '404':
+          description: Venda não encontrada
+        '500':
+          description: Erro interno do servidor
+    put:
+      summary: Atualiza uma venda existente
+      operationId: atualizarVenda
+      tags: 
+        - Venda
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID da venda a ser atualizada
+      requestBody:
+        description: Objeto Venda a ser atualizado
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaVenda'
+      responses:
+        '200':
+          description: Venda atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venda'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Remove uma venda existente
+      operationId: removerVenda
+      tags: 
+        - Venda
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID da venda a ser removida
+      responses:
+        '204':
+          description: Venda removida com sucesso
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /estoques:
+    get:
+      summary: Retorna a lista de produtos no estoque
+      description: Retorna uma lista com os produtos presentes no estoque, incluindo informações sobre a quantidade e volume armazenados.
+      tags:
+        - Estoque
+      parameters:
+        - in: query
+          name: bodyLimit
+          description: Numero de registros a retornar 
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+        - in: query
+          name: pagelimit
+          description: Número máximo de páginas para retornar no resultado da busca
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 10
+      responses:
+        200:
+          description: Lista de produtos no estoque
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstoqueItens'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Estoque
+      summary: Cria um novo estoque
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoItemEstoque'
+      responses:
+        '201':
+          description: Estoque criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovoItemEstoque'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+  /estoques/{id}:
+    get:
+      summary: Retorna informações sobre um estoque específico
+      description: Retorna informações sobre um estoque específico com base no ID informado
+      tags:
+        - Estoque
+      parameters:
+        - name: id
+          in: path
+          description: ID do estoque que se deseja buscar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Estoque encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estoque'
+        '404':
+          description: Estoque não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+    put:
+      summary: Atualizar informações de um estoque existente.
+      description: Atualiza as informações de um estoque já existente na base de dados.
+      tags:
+        - Estoque
+      parameters:
+        - name: id
+          in: path
+          description: ID do estoque a ser atualizado.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoItemEstoque'
+      responses:
+        '200':
+          description: Estoque atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estoque'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Remove um estoque
+      description: Remove um estoque existente no sistema
+      operationId: removerEstoque
+      tags:
+        - Estoque
+      parameters:
+        - name: id
+          in: path
+          description: ID do estoque a ser removido
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Estoque removido com sucesso
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+# Componentes dos Esquemas para os recursos e das respostas HTTP 
+components:
+  # Esquemas
+  schemas:
+    # Esquema para array com clientes
+    Clientes:
+      type: object
+      properties:
+        data:
+            type: object
+            properties:
+              id:
+                type: string
+                format: int32
+                description: Identificação do cliente
+              nome:
+                type: string
+                description: Nome do cliente
+              telefone:
+                type: string
+                description: Telefone do cliente
+              email:
+                type: string
+                description: Endereço de email do cliente
+              cnpj:
+                type: string
+                description: CNPJ do cliente
+              data_registro:
+                type: string
+                format: date
+                description: Data de registro do cliente
+                example: '2022-02-18'
+              endereco:
+                type: string
+                description: Endereço do cliente
+            example:
+            - id: 20220001
+              nome: Loja de Construção do Recreio Ltda.
+              telefone: '(11)9999-9999'
+              email: 'Recreio@dominio.com.br'
+              cnpj: '11222333/0001-00'
+              data_registro: '2016-08-29T09:12:33.001Z'
+              endereco: Avenida das Américas, 13023
+            - id: 20220002
+              nome: Loja de Construção de Copacabana Ltda.
+              telefone: '(11)99-9999'
+              email: 'copacabana@dominio.com.br'
+              cnpj: '11222444/0001-00'
+              data_registro: '2011-10-01T09:12:25.001Z'
+              endereco: Rua Barata Ribeiro, 1500
+            - id: 20220003
+              nome: Loja de Construção Botafogo Ltda.
+              telefone: '(11)9999-9912'
+              email: 'loja.botafogo@dominio.com.br'
+              cnpj: '11332333/0001-00'
+              data_registro: '2021-03-09T09:10:39.001Z'
+              endereco: Rua Voluntários da Pátria, 1000
+            - id: 20220004
+              nome: Loja de Construção do Catete Ltda.
+              telefone: '(11)9999-3699'
+              email: 'catete.vendas@dominio.com.br'
+              cnpj: '11224736/0001-00'
+              data_registro: '2018-03-20T09:12:33.001Z'
+              endereco: Rua do Catete, 123
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: http://server:3000/clientes?page=1
+            next:
+              type: string
+              nullable: true
+              example: http://server:3000/clientes?page=2
+            prev:
+              type: string
+              nullable: true
+              example: http://server:3000/clientes?page=1
+            first:
+              type: string
+              example: http://server:3000/clientes?page=1
+            last:
+              type: string
+              example: http://server:3000/clientes?page=3
+        meta:
+          type: object
+          properties:
+            total_items:
+              type: integer
+              example: 10
+            items_per_page:
+              type: integer
+              example: 5
+            current_page:
+              type: integer
+              example: 1
+            total_pages:
+              type: integer
+              example: 2
+            has_next_page:
+              type: boolean
+              example: true
+            has_prev_page:
+              type: boolean
+              example: false
+        cache:
+          type: object
+          properties:
+            max_age:
+              type: integer
+              example: 3600
+            etag:
+              type: string
+              example: "abc123"
+    # Esquema de objeto Novo Cliente
+    NovoCliente:
+      type: object
+      required:
+        - nome
+        - telefone
+        - cnpj
+      properties:
+        nome:
+          type: string
+          description: Nome do cliente
+          example: Loja de Construção do Recreio Ltda.
+        telefone:
+          type: string
+          description: Telefone do cliente
+          example: '(11)9999-9999'
+        email:
+          type: string
+          description: Endereço de email do cliente
+          example: 'Recreio@dominio.com.br'
+        cnpj:
+          type: string
+          description: CNPJ do cliente
+          example: '11222333/0001-00'
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+    # Esquema de um objeto Cliente
+    Cliente:
+      allOf:
+        - $ref: '#/components/schemas/NovoCliente'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: int32
+              description: Identificação do cliente
+              example: 20220001
+            data_registro:
+              type: string
+              format: date
+              description: Data de registro do cliente
+              example: '2016-08-29T09:12:33.001Z'
+            endereco:
+              $ref: '#/components/schemas/NovoEndereco'
+    
+    # Esquema de um objeto para um Novo Endereço do Cliente
+    NovoEndereco:
+      type: object
+      required:
+        - logradouro
+        - cidade
+        - estado
+        - cep
+        - tipo
+      properties:
+        logradouro:
+          type: string
+          description: Nome do logradouro
+          example: Avenida das Américas, 13023
+        cidade:
+          type: string
+          description: Nome da cidade
+          example: Rio de Janeiro
+        estado:
+          type: string
+          description: Sigla do estado
+          example: RJ
+        cep:
+          type: string
+          description: CEP do endereço
+          example: 21000800
+        tipo:
+          type: string
+          description: Tipo do endereço
+          example: E
+    # Esquema de um objeto Endereço do Cliente
+    Endereco:
+      allOf:
+        - $ref: '#/components/schemas/NovoEndereco'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+              description: ID do endereço
+              example: 120
+            data_registro:
+              type: string
+              format: date
+              description: Data de registro do endereço
+              example: '2022-02-18'
+    
+    # Esqema para array com veículos
+    Veiculos:
+      type: object
+      properties:
+        placa:
+          type: string
+          description: Placa do veículo
+        id_cliente:
+          type: integer
+          format: int32
+          description: ID do cliente proprietário do veículo
+        marca:
+          type: string
+          description: Marca do veículo
+        modelo:
+          type: string
+          description: Modelo do veículo
+        altura_cacamba:
+          type: number
+          format: float
+          description: Altura da caçamba do veículo
+        largura_cacamba:
+          type: number
+          format: float
+          description: Largura da caçamba do veículo
+        comprimento_cacamba:
+          type: number
+          format: float
+          description: Comprimento da caçamba do veículo
+      example:
+        - placa: MMV4455
+          id_cliente: 20220001
+          marca: FORD
+          modelo: Cargo 2428
+          altura_cacamba: 0.8
+          largura_cacamba: 3.2
+          comprimento_cacamba: 4.5
+        - placa: MMV8877
+          id_cliente: 20220001
+          marca: Mercedes Benz
+          modelo: Axor 2544
+          altura_cacamba: 1
+          largura_cacamba: 3.5
+          comprimento_cacamba: 5
+        - placa: KML1122
+          id_cliente: 20220003
+          marca: Mercedes Benz
+          modelo: Axor 2544
+          altura_cacamba: 1.2
+          largura_cacamba: 3.5
+          comprimento_cacamba: 4.8
+    # Esquema de um objeto Novo Veículo do Cliente
+    NovoVeiculo:
+      type: object
+      required:
+        - placa
+        - id_cliente
+        - altura_cacamba
+        - largura_cacamba
+        - comprimento_cacamba
+      properties:
+        placa:
+          type: string
+          description: Placa do veículo
+          example: MMV4455
+        id_cliente:
+          type: integer
+          format: int32
+          description: ID do cliente proprietário do veículo
+          example: 2022001
+        marca:
+          type: string
+          description: Marca do veículo
+          example: FORD
+        modelo:
+          type: string
+          description: Modelo do veículo
+          example: Cargo 2428
+        altura_cacamba:
+          type: number
+          format: float
+          description: Altura da caçamba do veículo
+          example: 0.8
+        largura_cacamba:
+          type: number
+          format: float
+          description: Largura da caçamba do veículo
+          example: 3.2
+        comprimento_cacamba:
+          type: number
+          format: float
+          description: Comprimento da caçamba do veículo
+          example: 4.5
+        motoristas: 
+          $ref: '#/components/schemas/Motorista'
+    # Esquema de um objeto Veículo do Cliente
+    Veiculo:
+      allOf:
+        - $ref: '#/components/schemas/NovoVeiculo'
+        - type: object
+          properties:
+            data_registro:
+              type: string
+              format: date
+              description: Data de registro do veículo
+              example: '2022-02-18'
+              
+    Motoristas:
+      type: object
+      properties:
+        cpf:
+          type: string
+          description: CPF do motorista.
+        placa:
+            type: string
+            description: Placa do Veículo dirigido pelo motorista.
+            example: "DEF5678"
+        nome:
+          type: string
+          description: Nome do motorista.
+         
+        telefone:
+          type: string
+          description: Número de telefone do motorista.
+          
+        email:
+          type: string
+          description: Endereço de e-mail do motorista.
+            
+      example:
+        - cpf: 11122233344
+          placa: DEF5678
+          nome: Lucas Ferreira
+          telefone: (31) 7777-7777
+          email: lucas.ferreira@email.com
+        - cpf: 11122233345
+          placa: VWX9102
+          nome: Thiago Souza
+          telefone: (92) 5555-5555
+          email: thiago.souza@email.com
+        - cpf: 11122233346
+          placa: YZA2346
+          nome: Pedro Henrique
+          telefone: (98) 7777-7777
+          email: pedro.henrique@email.com
+     
+    # Esquema de um objeto para um Novo Motorista
+    NovoMotorista:
+      type: object
+      required:
+        - placa
+        - nome
+        - telefone
+        - email
+      properties:
+        placa:
+          type: string
+          description: Placa do Veículo dirigido pelo motorista.
+          example: "DEF5678"
+        nome:
+          type: string
+          description: Nome do motorista.
+          example: José Carlos Monteiro
+        telefone:
+          type: string
+          description: Número de telefone do motorista.
+          example: 21999000111
+        email:
+          type: string
+          description: Endereço de e-mail do motorista.
+          example: jose.monteiro@email.com
+    # Esquema de um objeto Motorista do Veículo
+    Motorista:
+      allOf:
+        - $ref: '#/components/schemas/NovoMotorista'
+        - type: object
+          properties:
+            cpf:
+              type: string
+              description: CPF do motorista.
+              example: 11122233344
+
+    # Esequema para um array com Produtos
+    Produtos:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID do produto
+        nome:
+          type: string
+          description: Nome do produto
+        tipo:
+          type: string
+          description: Tipo do produto
+        descricao:
+          type: string
+          description: Descrição do produto
+        preco:
+          type: number
+          format: float
+          description: Preço do produto
+      example:
+        - id: 1
+          nome: Pedra 1
+          tipo: Brita
+          descricao: Pedra com diâmetro médio de 25mm
+          preco: 60.0
+        - id: 2
+          nome: Pedra 2
+          tipo: Brita
+          descricao: Pedra com diâmetro médio de 35mm
+          preco: 65.0
+    # Esquema de um objeto para um Novo Produto.
+    NovoProduto:
+      type: object
+      required:
+        - nome
+        - tipo
+        - preco
+      properties:
+        nome:
+          type: string
+          description: Nome do produto
+          example: Pedra 1
+        tipo:
+          type: string
+          description: Tipo do produto
+          example: Brita
+        descricao:
+          type: string
+          description: Descrição do produto
+          example: Pedra com diâmetro médio de 25mm
+        preco:
+          type: number
+          format: float
+          description: Preço do produto
+          example: 60.00
+    # Esquema de um objeto Produto
+    Produto:
+      allOf:
+        - $ref: '#/components/schemas/NovoProduto'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: ID do produto
+              example: 1
+
+    # Esequema para um array com as Vendas
+    Vendas:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID da venda
+        data_venda:
+          type: string
+          format: date
+          description: Data da venda
+        id_produto:
+          type: integer
+          description: ID do produto vendido
+        id_estoque:
+          type: integer
+          description: ID do estoque de onde o produto foi vendido
+        id_cliente:
+          type: integer
+          description: ID do cliente que fez a compra
+        id_endereco:
+          type: integer
+          description: ID do endereço de entrega
+        id_motorista:
+          type: integer
+          description: ID do motorista que entregou a compra
+        id_veiculo:
+          type: string
+          description: Placa do veículo utilizado na entrega
+        quantidade:
+          type: number
+          description: Quantidade do produto vendido
+        preco_total:
+          type: number
+          description: Preço total da venda
+      example:
+        - id: 56001
+          data_venda: '2016-08-29T09:12:33.001Z'
+          id_produto: 3
+          id_estoque: 2
+          id_cliente: 20220001
+          id_endereco: 120 
+          id_motorista: 214
+          id_veiculo: kkr7799
+          quantidade: 12.55
+          preco_total:  753
+        - id: 56002
+          data_venda: '2016-07-22T09:00:45.001Z'
+          id_produto: 2
+          id_estoque: 1
+          id_cliente: 20220003
+          id_endereco: 133 
+          id_motorista: 214
+          id_veiculo: MVV0011
+          quantidade: 10
+          preco_total:  600
+        - id: 57003
+          data_venda: '2018-02-12T15:12:30.001Z'
+          id_produto: 3
+          id_estoque: 2
+          id_cliente: 20220001
+          id_endereco: 120 
+          id_motorista: 214
+          id_veiculo: kkr7799
+          quantidade: 12.55
+          preco_total:  753
+    # Esquema de um objeto para um Nova Venda.
+    NovaVenda:
+      type: object
+      required:
+        - id
+        - data_venda
+        - id_produto
+        - id_estoque
+        - id_cliente
+        - id_endereco
+        - id_motorista
+        - id_veiculo
+        - quantidade
+        - preco_total
+      properties:
+        id:
+          type: integer
+          description: ID da venda
+          example: 56001
+        data_venda:
+          type: string
+          format: date
+          description: Data da venda
+          example: '2016-08-29T09:12:33.001Z'
+        id_produto:
+          type: integer
+          description: ID do produto vendido
+          example: 3
+        id_estoque:
+          type: integer
+          description: ID do estoque de onde o produto foi vendido
+          example: 2
+        id_cliente:
+          type: integer
+          description: ID do cliente que fez a compra
+          example: 20220001
+        id_endereco:
+          type: integer
+          description: ID do endereço de entrega
+          example: 120
+        id_motorista:
+          type: integer
+          description: ID do motorista que entregou a compra
+          example: 214
+        id_veiculo:
+          type: string
+          description: Placa do veículo utilizado na entrega
+          example: kkr7799
+        quantidade:
+          type: number
+          description: Quantidade do produto vendido
+          example: 12.55
+        preco_total:
+          type: number
+          description: Preço total da venda
+          example: 753
+    # Esquema de um objeto Venda
+    Venda:
+      allOf:
+        - $ref: '#/components/schemas/NovaVenda'
+        - type: object
+          properties:
+            nome_cliente:
+              type: string
+              description: Nome do cliente que fez a compra
+              example: "Loja de Construção do Recreio Ltda."
+            endereco:
+              type: string
+              description: Endereço de entrega
+              example: "Avenida das Américas, 13023"
+            motorista:
+              type: string
+              description: Nome do motorista que entregou a compra
+              example: "José Carlos Monteiro"
+
+    # Esquema para um array com as Vendas
+    EstoqueItens:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único do item no estoque
+        capacidade_maxima:
+          type: number
+          description: Capacidade máxima do item no estoque
+          format: float
+        data_atualizacao_estoque:
+          type: string
+          description: Data da última atualização do estoque
+          format: date
+        localizacao:
+          type: string
+          description: Localização do item no estoque
+        volume:
+          type: number
+          description: Volume atual do item no estoque
+          format: float
+        tipo:
+          type: string
+          description: Tipo do item no estoque
+        produto:
+          type: object
+          description: ID do produto armazenado no estoque
+      example:
+        - id: 1
+          capacidade_maxima: 1800
+          data_atualizacao_estoque: '2016-08-29T09:12:33.001Z'
+          localizacao: Pátio superior
+          volume: 1500
+          tipo: Pilha
+          produto:
+            type: object
+            properties:
+              nome:
+                type: string
+                description: Nome do produto
+                example: Pedra 1
+              tipo:
+                type: string
+                description: Tipo do produto
+                example: Brita
+              descricao:
+                type: string
+                description: Descrição do produto
+                example: Pedra com diâmetro médio de 25mm
+              preco:
+                type: number
+                format: float
+                description: Preço do produto
+                example: 65.00
+        - id: 2
+          capacidade_maxima: 1000
+          data_atualizacao_estoque: '2016-08-28T09:12:40.001Z'
+          localizacao: Pátio principal
+          volume: 1500
+          tipo: Pilha
+          produto:
+            type: object
+            properties:
+              nome:
+                type: string
+                description: Nome do produto
+                example: Pedra 2
+              tipo:
+                type: string
+                description: Tipo do produto
+                example: Brita
+              descricao:
+                type: string
+                description: Descrição do produto
+                example: Pedra com diâmetro médio de 35mm
+              preco:
+                type: number
+                format: float
+                description: Preço do produto
+                example: 60.00
+    # Esquema de um objeto para um Novo Estoque
+    NovoItemEstoque: 
+      type: object
+      required:
+        - capacidade_maxima
+        - localizacao
+        - volume
+        - tipo
+        - produto
+      properties:
+        capacidade_maxima:
+          type: number
+          description: Capacidade máxima do item no estoque
+          example: 1800
+          format: float
+        data_atualizacao_estoque:
+          type: string
+          description: Data da última atualização do estoque
+          example: '2016-08-29T09:12:33.001Z'
+          format: date
+        localizacao:
+          type: string
+          description: Localização do item no estoque
+          example: Pátio superior
+        volume:
+          type: number
+          description: Volume atual do item no estoque
+          example: 1500
+          format: float
+        tipo:
+          type: string
+          description: Tipo do item no estoque
+          example: Brita
+        produto:
+          type: integer
+          description: ID do produto armazenado no estoque
+          example: 1
+    # Esquema de um objeto Estoque
+    Estoque: 
+      allOf:
+        - $ref: '#/components/schemas/NovoItemEstoque'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Identificador único do estoque
+              example: 1
+
+
+  # Respostas HTTP
+  responses:
+    BadRequest:
+      description: Requisição inválida
+    Unauthorized:
+      description: Usuário não autorizado
+    Forbidden:
+      description: Acesso proibido
+    NotFound:
+      description: Recurso não encontrado
+    InternalServerError:
+      description: Erro interno do servidor
+    Conflict:
+      description: O recurso já existe
