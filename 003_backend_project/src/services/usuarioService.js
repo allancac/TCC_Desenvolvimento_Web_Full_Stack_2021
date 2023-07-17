@@ -6,6 +6,7 @@ const {
   NotFound,             //404
   InternalServerError,  //500
 } = require('./serviceErrors');
+const hashPassword = require('./authService')
 
 const createUsuarioService = (Usuario) => {
   // Função para obter todos os usuarios
@@ -58,11 +59,13 @@ const createUsuarioService = (Usuario) => {
   // Cria um novo Usuário
   const createUsuario = async (usuarioData) => {
     try {
-      const idExiste = await Usuario.findByPk(usuarioData.id);
-      if (idExiste) {
+      const usuarioExiste = await Usuario.findByPk(usuarioData.id);
+      if (usuarioExiste) {
         throw new Conflict();
       }
-      const usuario = await Usuario.create(usuarioData);
+      const { senha } = usuarioData
+      const senhaHashed = await hashPassword(senha)
+      const usuario = await Usuario.create({ ...usuarioData, senha: senhaHashed });
       if (usuario) { return usuario }
       throw new Error();
     } catch (error) {
@@ -75,9 +78,11 @@ const createUsuarioService = (Usuario) => {
 
   const updateUsuario = async (id, usuarioData) => {
     try {
-      const idExiste = await Usuario.findByPk(id);
-      if (idExiste) {
-        const usuario = await Usuario.update(usuarioData, { where: { id } })
+      const usuarioExiste = await Usuario.findByPk(id);
+      if (usuarioExiste) {
+        const { senha } = usuarioData
+        const senhaHashed = await hashPassword(senha)
+        const usuario = await Usuario.update({ ...usuarioData, senha: senhaHashed }, { where: { id } })
         return usuarioData;
       }
       throw new NotFound('Usuário não encontrado.');
@@ -94,8 +99,8 @@ const createUsuarioService = (Usuario) => {
   // Deleta um Usuario pelo ID
   const deleteUsuario = async (id) => {
     try {
-      const idExiste = await Usuario.findByPk(id);
-      if (idExiste) {
+      const usuarioExiste = await Usuario.findByPk(id);
+      if (usuarioExiste) {
         const usuarioApagado = await Usuario.destroy({ where: { id } });
         if (usuarioApagado) {
           return usuarioApagado;
