@@ -7,6 +7,7 @@ const {
   deleteClienteValidation
 } = require('../validators/ClienteValidations')
 
+//  FIXME: Usar rotas aninhadas para exibir veículos e endereços dos clientes
 module.exports = (controller) => {
   // Rota para obter todos os clientes
   router.get('/clientes', getAllClientesValidation, controller.getAllClientes);
