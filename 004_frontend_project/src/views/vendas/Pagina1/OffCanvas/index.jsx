@@ -14,7 +14,7 @@ export const OffCanvasClientes = ({ show, setShow }) => {
     const clientesServices = new ClientesServices();
     try {
       const resultado = await clientesServices.buscarListaClientes();
-      setClientes(resultado);
+      setClientes(resultado.data);
     } catch (error) {
       console.log('Erro ao requisitar:', error);
     }

@@ -10,7 +10,7 @@ export const Pagina2 = () => {
     const produtosServices = new ProdutosServices();
     try {
       const resultado = await produtosServices.buscarListaProdutos();
-      setProdutos(resultado);
+      setProdutos(resultado.data);
     } catch (error) {
       console.log('Erro ao requisitar:', error);
     }
