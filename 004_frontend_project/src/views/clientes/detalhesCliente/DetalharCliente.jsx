@@ -70,7 +70,7 @@ export const DetalharCliente = ({ cliente, setPagina }) => {
               </tr>
             </thead>
             <tbody>
-              {cliente.Endereco.map((endereco, ind) => {
+              {cliente.enderecos.map((endereco, ind) => {
                 return (
                   <tr key={ind}>
                     <td>{endereco.logradouro}</td>
@@ -83,8 +83,45 @@ export const DetalharCliente = ({ cliente, setPagina }) => {
               })}
             </tbody>
           </Table>
+          <hr />
         </Row>
-    
+        <h2>Veículos:</h2>
+        <Row>
+          <Table responsive='sm' striped bordered size='sm'>
+            <thead>
+              <tr>
+                <th>Placa</th>
+                <th>Largura Caçamba</th>
+                <th>Altura Caçamba</th>
+                <th>Comprimento Caçamba</th>
+                <th>
+                  Volume &#40;m<sup>3</sup>&#41;
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {cliente.veiculos.map((veiculo, ind) => {
+                return (
+                  <tr key={ind}>
+                    <td>{veiculo.placa}</td>
+                    <td>{veiculo.largura_cacamba}</td>
+                    <td>{veiculo.altura_cacamba}</td>
+                    <td>{veiculo.comprimento_cacamba}</td>
+                    <td>
+                      {(
+                        veiculo.largura_cacamba *
+                        veiculo.largura_cacamba *
+                        veiculo.comprimento_cacamba
+                      ).toFixed(2)}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          <hr />
+        </Row>
+
         <Row>
           <Col className='text-center'>
             <Button
