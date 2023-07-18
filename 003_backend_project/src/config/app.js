@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const Models = require('../models/index');  //Classe criadora de modelos
-
+const morgan = require('morgan');
 
 //  TODO:Reafatorar em uma classe
 const configureApp = async (database) => {
@@ -74,7 +74,9 @@ const configureApp = async (database) => {
   });
   app.use(express.urlencoded({ extended: true }));
 
-  
+  if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+  }
 
   // Configuração das rotas privadas
   app.use(
