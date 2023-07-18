@@ -1,2 +1,5 @@
 004_frontend_project/node_modules
 003_backend_project/coverage/
+003_backend_project/.vscode/settings.json
+003_backend_project/.vscode/tasks.json
+003_backend_project/client_secret_768424978127-gpducn6kkqsacqj6pndd5g58mqfjdd5d.apps.googleusercontent.com(1).json

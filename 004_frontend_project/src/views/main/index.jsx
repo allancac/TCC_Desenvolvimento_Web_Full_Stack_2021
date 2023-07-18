@@ -1,7 +1,7 @@
 export const Main = () => {
   return (
     <>
-      <h1>Página Principal</h1>
+      <h1>Sistema de Vendas</h1>
     </>
   );
 };
