@@ -4,8 +4,8 @@
   "description": "Projeto Back End TCC PUC Minas",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "server": "nodemon src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "server": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "npx jest --detectOpenHandles",
     "watchTest": "npx jest --detectOpenHandles --watchAll",
     "coverage": "npx jest --coverage"
@@ -20,12 +20,14 @@
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
     "mysql2": "^3.3.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "sequelize": "^6.31.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3"
