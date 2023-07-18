@@ -1,0 +1,124 @@
+const request = require('supertest');
+const app = require('./utils');
+
+
+describe('Testes das rotas do Endpoint /Motoristas', () => {
+  //  Teste para a rota GET /motoristas
+  //  Em caso de sucesso
+  describe('Ao fornecer valores válidos de Offset e de Limit, deve fornecer uma lista de usuários', () => {
+    test('Deve retornar um body com um objeto e um status HTTP 200', async () => {
+      const offset = 0;
+      const limit = 10;
+      const res = await request(app).get(`/api/motoristas?offset=${offset}&limit=${limit}`);
+      //  Verifica o status HTTP e a propriedade content-type do Header
+      expect(res.statusCode).toBe(200);
+      expect(res.headers['content-type']).toEqual(expect.stringContaining('application/json; charset=utf-8'))
+      expect(typeof res.body === 'object').toBe(true);
+
+      // expect(res.body.status.code === 200).toBe(true);
+      // expect(res.body.status.message === "OK").toBe(true);
+      // expect(typeof res.body.status === 'object').toBe(true);
+      // expect(typeof res.body.metadata === 'object').toBe(true);
+      // expect(Array.isArray(res.body.data)).toBe(true);
+    });
+
+  })
+  //  Em caso de erro
+  describe('Ao fornecer um valor de Offset e de Limit errados, deve retornar um erro 400', () => {
+    test('Deve retornar 400 Bad Request para uma solicitação inválida', async () => {
+      const offset = 0;
+      const limit = 0;
+      const res = await request(app).get(`/api/motoristas?offset=${offset}&limit=${limit}`);
+      expect(res.status).toBe(400);
+      expect(typeof res.body === 'object').toBe(true);
+      expect(res.body.status.code).toEqual(400);
+      expect(Array.isArray(res.body.status.errors)).toBe(true);
+    }
+    );
+
+  })
+
+  // Teste para a rota GET /motoristas/:CPF
+  //  Em caso de sucesso
+  describe('Ao fornecer um CPF válido, deve retornar um objeto que representa um motorista.', () => {
+    test('Deve retornar um motorista específico e o status 200', async () => {
+      // const res = await request(app).get('/api/motoristas/11122233344');
+      expect(res.statusCode).toBe(200);
+      // expect(res.body).toHaveProperty('data[0].nome', 'Lucas Ferreira');
+      // expect(res.body).toHaveProperty('data[0].cpf', '11122233344');
+    });
+  })
+  //  Em caso de erro
+  describe('Ao fornecer um CPF inválido ou inexistente, deve retornar um erro 400 ou 404', () => {
+    it('Deve retornar 404 Not Found para um motorista inexistente', async () => {
+      const response = await request(app).get('/api/motoristas/00000000011');
+      expect(response.status).toBe(404);
+    }
+    );
+    it('Deve retornar 400 Bad Request para uma solicitação inválida', async () => {
+      const response = await request(app).get('/api/motoristas/000aaa000bb');
+      expect(response.status).toBe(400);
+    }
+    );
+  });
+
+  // Teste para a rota POST /motoristas
+  //  Em caso de sucesso
+  describe('Ao serem fornecidos os campos corretamente, um novo Motorista é cadastrado', () => {
+    test('Deve criar um novo motorista e retornar um objeto e um status 200', async () => {
+      const novoMotorista = {
+        cpf: "00011122233",
+        placa: "DEF5678",
+        nome: "Novo Usuario",
+        telefone: "21999888777",
+        email: "novo@gmail.com"
+
+      };
+      const res = await request(app).post('/api/motoristas').send(novoMotorista);
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('data[0].cpf', '00011122233');
+      expect(res.body).toHaveProperty('data[0].placa', 'DEF5678');
+      expect(res.body).toHaveProperty('data[0].nome', 'Novo Usuario');
+      expect(res.body).toHaveProperty('data[0].telefone', '21999888777');
+      expect(res.body).toHaveProperty('data[0].email', 'novo@gmail.com');
+      expect(res.body).toHaveProperty('data[0].dataRegistro');
+    });
+  });
+
+  describe('Ao fornecer os campos incorretos, deve retornar um erro 400', () => {
+    test('Deve retornar um erro 400', async () => {
+      const novoMotorista = {
+        cpf: "aaa11122233",         // CPF com formato inválido.
+        placa: "DEF567B",           // Placa com formato inválido
+        nome: "Novo Usuario",
+        telefone: "21999888777",
+        email: "novo.gmail.com"     // E-mail com formato inválido
+      };
+      const res = await request(app).post('/api/motoristas').send(novoMotorista);
+      expect(res.statusCode).toBe(400);
+      expect(res.body)
+
+    })
+
+  });
+
+  // Teste para a rota PUT /motoristas/:CPF
+  it('Deve atualizar um motorista existente', async () => {
+    const motoristaAtualizado = {
+      placa: 'DEF5678',
+      nome: 'Usuário Novo Alterado',
+      telefone: '21999888777',
+      email: 'novo@gmail.com'
+      // outros dados atualizados do motorista
+    };
+    const res = await request(app).put('/api/motoristas/00011122233').send(motoristaAtualizado);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('data[0].nome', 'Usuário Novo Alterado');
+  });
+
+  // Teste para a rota DELETE /motoristas/:CPF
+  it('Deve excluir um motorista existente', async () => {
+    const res = await request(app).delete('/api/motoristas/00011122233');
+    expect(res.statusCode).toBe(200);
+  });
+});
