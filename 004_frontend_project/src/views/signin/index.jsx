@@ -6,25 +6,8 @@ export const Signin = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const getGoogleOAuthURL = () => {
-    const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
-
-    const options = {
-      redirect_uri: "http://localhost:5500/google/oauth",
-      client_id:
-        "768424978127-gpducn6kkqsacqj6pndd5g58mqfjdd5d.apps.googleusercontent.com",
-      access_type: "offline",
-      response_type: "code",
-      prompt: "consent",
-      scope: [
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
-      ].join(" "),
-    };
-
-    const qs = new URLSearchParams(options);
-
-    return `${rootUrl}?${qs.toString()}`;
+  const handleLogin = () => {
+    window.location.href = "http://localhost:5500/auth/google";
   };
 
   return (
@@ -39,7 +22,7 @@ export const Signin = () => {
           <h1>Sistema de Vendas</h1>
           <hr />
 
-          <Form className="mt-5" >
+          <Form className="mt-5">
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="2" htmlFor="email">
                 Email:
@@ -82,22 +65,21 @@ export const Signin = () => {
             </Row>
             <hr />
           </Form>
-          <Row >
-            <Col md={{ span: 8, offset: 2 }} className='text-center'>
+          <Row>
+            <Col md={{ span: 8, offset: 2 }} className="text-center">
               <Button
                 lg={6}
                 variant="primary"
                 type="submit"
-                href={`${getGoogleOAuthURL()}`}
+                onClick={handleLogin}
               >
-                Entrar com o Google
+                Login com Google
               </Button>
               <LinkContainer to={"/signup/"}>
                 <Nav.Link>Cadastrar novo usuário</Nav.Link>
               </LinkContainer>
             </Col>
           </Row>
-
         </Col>
       </Row>
     </Container>
