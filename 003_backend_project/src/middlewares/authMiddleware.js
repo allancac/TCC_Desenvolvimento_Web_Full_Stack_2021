@@ -3,7 +3,12 @@ const ensureAuthenticated = (req, res, next) => {
     return next(); // Se o usuário estiver autenticado, permita o acesso à próxima rota
   }
 
-  res.status(401).json({ message: 'Acesso não autorizado' }); // Se o usuário não estiver autenticado, retorne um status de não autorizado
+  return res.status(401).json({
+    status: {
+      code: 401,
+      errors: ['Acesso não autorizado']
+    }
+  });
 };
 
 module.exports = ensureAuthenticated;
