@@ -10,19 +10,19 @@ const {
 //  FIXME: Usar rotas aninhadas para exibir veículos e endereços dos clientes
 module.exports = (controller) => {
   // Rota para obter todos os clientes
-  router.get('/clientes', getAllClientesValidation, controller.getAllClientes);
+  router.get('/', getAllClientesValidation, controller.getAllClientes);
 
   // Rota para obter um cliente pelo ID
-  router.get('/clientes/:id', getClienteByIdValidation, controller.getClienteById);
+  router.get('/:id', getClienteByIdValidation, controller.getClienteById);
 
   // Rota para criar um novo cliente
-  router.post('/clientes', createClienteValidation, controller.createCliente);
+  router.post('/', createClienteValidation, controller.createCliente);
 
   // Rota para atualizar um cliente
-  router.put('/clientes/:id', updateClienteValidation, controller.updateCliente);
+  router.put('/:id', updateClienteValidation, controller.updateCliente);
 
   // Rota para excluir um cliente
-  router.delete('/clientes/:id', deleteClienteValidation, controller.deleteCliente);
+  router.delete('/:id', deleteClienteValidation, controller.deleteCliente);
 
   return router;
 }

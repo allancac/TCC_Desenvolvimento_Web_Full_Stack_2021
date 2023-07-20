@@ -14,35 +14,35 @@ const createvendaRoutes = (controller) => {
    * @desc    Rota para buscar todos veículos
    */
   //  TODO: Implementar o validador para a rota GET /vendas
-  router.get('/vendas', controller.getAllVendas);
+  router.get('/', controller.getAllVendas);
 
   /**
    * @route   GET api/vendas/:id
    * @desc    Rota para buscar um veículo pela id
   */
   //  TODO: Implementar o validador para a rota GET /vendas/:id
-  router.get('/vendas/:id', controller.getVendaById);
+  router.get('/:id', controller.getVendaById);
 
   /**
    * @route   POST api/vendas
    * @desc    Rota para criar um veículo
   */
   //  TODO: Implementar o validador para a rota POST /vendas/
-  router.post('/vendas', controller.createVenda);
+  router.post('/', controller.createVenda);
 
   /**
    * @route   PUT api/vendas/:id
    * @desc    Rota para atualizar um veículo
   */
   //  TODO: Implementar o validador para a rota PUT /vendas/:id
-  router.put('/vendas/:id', controller.updateVenda);
+  router.put('/:id', controller.updateVenda);
 
   /**
    * @route   DELETE api/vendas/:id
    * @desc    Rota para excluir um veículo
   */
   //  TODO: Implementar o validador para a rota DELETE /vendas/:id
-  router.delete('/vendas/:id', controller.deleteVenda);
+  router.delete('/:id', controller.deleteVenda);
 
   return router;
 }

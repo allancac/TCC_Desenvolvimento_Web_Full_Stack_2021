@@ -9,19 +9,19 @@ const {
 
 module.exports = (controller) => {
   // Rota para obter todos os clientes
-  router.get('/enderecos', getAllEnderecosValidation, controller.getAllEnderecos);
+  router.get('/', getAllEnderecosValidation, controller.getAllEnderecos);
 
   // Rota para obter um cliente pelo ID
-  router.get('/enderecos/:id', getEnderecoByIdValidation, controller.getEnderecoById);
+  router.get('/:id', getEnderecoByIdValidation, controller.getEnderecoById);
 
   // Rota para criar um novo cliente
-  router.post('/enderecos', createEnderecoValidation, controller.createEndereco);
+  router.post('/', createEnderecoValidation, controller.createEndereco);
 
   // Rota para atualizar um cliente
-  router.put('/enderecos/:id', updateEnderecoValidation, controller.updateEndereco);
+  router.put('/:id', updateEnderecoValidation, controller.updateEndereco);
 
   // Rota para excluir um cliente
-  router.delete('/enderecos/:id', deleteEnderecoValidation, controller.deleteEndereco);
+  router.delete('/:id', deleteEnderecoValidation, controller.deleteEndereco);
 
   return router;
 }
