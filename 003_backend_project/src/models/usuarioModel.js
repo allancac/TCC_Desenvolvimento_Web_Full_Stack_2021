@@ -1,12 +1,27 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = (sequelize) => {
   return sequelize.define('Usuario', {
     id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      autoIncrement: true,
       allowNull: false
+    },
+    nomeUsuario: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    nome: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    sobrenome: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    foto: {
+      type: DataTypes.STRING(200),
     },
     ativo: {
       type: DataTypes.BOOLEAN,
@@ -20,19 +35,10 @@ module.exports = (sequelize) => {
     },
     senha: {
       type: DataTypes.STRING(100),
-      allowNull: false
-    },
-    nome: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    sobrenome: {
-      type: DataTypes.STRING(50),
-      allowNull: false
     },
     perfil: {
       type: DataTypes.ENUM('vendedor', 'gerente', 'administrador'),
-      allowNull: false
+
     }
   },
     {

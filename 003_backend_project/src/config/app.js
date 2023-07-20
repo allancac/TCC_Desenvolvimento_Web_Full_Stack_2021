@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const Models = require('../models/index');  //Classe criadora de modelos
 const morgan = require('morgan');
+const passport = require('passport')
+const session = require('express-session')
+const ensureAuthenticated = require('../middlewares/authMiddleware');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //  TODO:Reafatorar em uma classe
-const configureApp = async (database) => {
+module.exports = configureApp = async (database) => {
+
   // Definição de todos os modelos do sistema
   const Modelos = new Models(database)
-
   // Classes dos Modelos que representam as entidades do sistema.
   const ClienteModel = Modelos.getClienteModel();
   const EnderecoModel = Modelos.getEnderecoModel();
@@ -18,8 +22,12 @@ const configureApp = async (database) => {
   const EstoqueModel = Modelos.getEstoqueModel();
   const UsuarioModel = Modelos.getUsuarioModel();
 
+
   //  TODO: Implementar uma biblioteca de contêiner de injeção de dependências, como o "InversifyJS" ou "Awilix"
-  // Injeção das dependências nas camadas da API
+
+  /******************************************************************************/
+  /**************** Injeção das dependências nas camadas da API *****************/
+  /******************************************************************************/
 
   //  CLIENTE
   const clienteService = require('../services/clienteService')(ClienteModel);
@@ -62,9 +70,24 @@ const configureApp = async (database) => {
   const vendaController = require('../controllers/vendaController')(vendaService)
   const vendaRoutes = require('../routes/vendaRoutes')(vendaController);
 
+  //  AUTH
+  const authRoutes = require('../routes/authRoutes')();
+
+  /******************************************************************************/
+  /*********************************** MIDDLEWARES ******************************/
+  /******************************************************************************/
+
+  // Morgan middleware - Logs das requisições para o ambiente "dev"
+  if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+  }
 
   // Middleware de Configuração do body parser de Express para receber dados no formato JSON
   app.use(express.json());
+
+  // Middleware de codificação da url
+  app.use(express.urlencoded({ extended: true }));
+
   // Middleware de de configuração do CORS - Cross Origin Resource Sharing
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -72,27 +95,39 @@ const configureApp = async (database) => {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     next();
   });
-  app.use(express.urlencoded({ extended: true }));
 
-  if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
-  }
+  // Passport config
+  require('./passport')(passport, UsuarioModel)
+  // Passport middleware
+  app.use(passport.initialize())
+  // Middleware para gerenciar as sessões.
+  const sessionStore = new SequelizeStore({
+    db: database, // Substitua "connection" pela sua instância do Sequelize
+  });
+  app.use(
+    session({
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: false,
+      store: sessionStore,
+    })
+  );
+  /******************************************************************************/
+  /************************************ ROTAS ***********************************/
+  /******************************************************************************/
+  // Configuração das rotas públcas
+  app.use(authRoutes)
 
   // Configuração das rotas privadas
-  app.use(
-    [
-      motoristaRoutes,
-      clienteRoutes,
-      enderecoRoutes,
-      veiculoRoutes,
-      vendaRoutes,
-      produtoRoutes,
-      estoqueRoutes,
-      usuarioRoutes
-    ]
-  )
-  // Retorna uma instância do Express com os Routers 
+  app.use(ensureAuthenticated);
+  app.use('/motoristas', motoristaRoutes);
+  app.use('/clientes', clienteRoutes);
+  app.use('/enderecos', enderecoRoutes);
+  app.use('/veiculos', veiculoRoutes);
+  app.use('/vendas', vendaRoutes);
+  app.use('/produtos', produtoRoutes);
+  app.use('/estoques', estoqueRoutes);
+  app.use('/usuarios', usuarioRoutes);
+
   return app;
 }
-
-module.exports = { configureApp }
