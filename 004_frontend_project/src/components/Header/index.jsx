@@ -58,8 +58,8 @@ export const Header = () => {
             data-bs-theme="dark"
           >
             <Dropdown.Item>
-              <LinkContainer to="/login">
-                <Nav.Link >Entrar</Nav.Link>
+              <LinkContainer to="/dashboard">
+                <Nav.Link>Configurações</Nav.Link>
               </LinkContainer>
             </Dropdown.Item>
             <Dropdown.Divider />
