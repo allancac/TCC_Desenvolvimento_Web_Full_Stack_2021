@@ -57,7 +57,7 @@ export const Signin = () => {
               </Col>
             </Form.Group>
             <Row className="mb-3">
-              <Col sm={{ span: 6, offset: 4 }}>
+              <Col sm={{ span: 8, offset: 2 }} className="text-center">
                 <Button lg={6} variant="success" type="submit">
                   Entrar no Sistema
                 </Button>
