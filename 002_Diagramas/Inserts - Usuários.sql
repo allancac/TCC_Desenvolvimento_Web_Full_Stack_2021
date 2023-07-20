@@ -1,5 +1,5 @@
-INSERT INTO EMASA.Usuarios(ativo, email, senha, nome, sobrenome, perfil, createdAt, updatedAt) 
-VALUES(false,  'allancac@gmail.com', 'secret', 'Allan', 'Chaves', 'vendedor',current_timestamp,current_timestamp);
+INSERT INTO EMASA.Usuarios(id, nomeUsuario, nome, sobrenome, foto, ativo, email, senha, perfil, createdAt, updatedAt) 
+VALUES(uuid(), 'Allan Chaves', 'Allan', 'Chaves', '', false, 'allancac@gmail.com', 'secret', 'vendedor',current_timestamp,current_timestamp);
 
 #SELECT * from 
 #EMASA.Usuarios
