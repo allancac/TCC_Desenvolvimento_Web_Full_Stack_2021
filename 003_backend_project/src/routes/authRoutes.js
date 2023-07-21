@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport')
+const jwt = require('jsonwebtoken');
 
 const createAuthRoutes = () => {
   // @desc    Auth with Google
@@ -11,7 +12,11 @@ const createAuthRoutes = () => {
   router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: 'http://localhost/3000/login' }),
     (req, res) => {
-      res.redirect('http://localhost:3000/vendas')
+      const token = jwt.sign({ userId: req.user.id }, 'sua-chave-secreta', { expiresIn: '1h' });
+
+      // Adicionar o token no cabeçalho de resposta
+      res.setHeader('Authorization', `Bearer ${token}`);
+      res.redirect('http://localhost:3000/')
     }
   )
 
