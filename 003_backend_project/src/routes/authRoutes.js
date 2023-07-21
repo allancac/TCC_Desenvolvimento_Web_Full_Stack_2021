@@ -5,20 +5,25 @@ const jwt = require('jsonwebtoken');
 const createAuthRoutes = () => {
   // @desc    Auth with Google
   // @route   GET /auth/google
-  router.get('/auth/google', passport.authenticate('google', { scope: ['profile','email'] }))
+  router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
   // @desc    Google auth callback
   // @route   GET /auth/google/callback
   router.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost/3000/login' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }),
     (req, res) => {
-      const token = jwt.sign({ userId: req.user.id }, 'sua-chave-secreta', { expiresIn: '1h' });
-
-      // Adicionar o token no cabeçalho de resposta
-      res.setHeader('Authorization', `Bearer ${token}`);
       res.redirect('http://localhost:3000/')
     }
   )
+
+  // Rota para verificar se o usuário está autenticado
+  router.get('/api/userinfo', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json(req.user);
+    } else {
+      res.status(401).json({ error: 'Usuário não autenticado.' });
+    }
+  });
 
   // @desc    Logout user
   // @route   /auth/logout

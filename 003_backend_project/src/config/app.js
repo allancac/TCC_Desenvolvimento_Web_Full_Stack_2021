@@ -4,7 +4,6 @@ const Models = require('../models/index');  //Classe criadora de modelos
 const morgan = require('morgan');
 const passport = require('passport')
 const session = require('express-session')
-const ensureAuthenticated = require('../middlewares/authMiddleware');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //  TODO:Reafatorar em uma classe
@@ -77,10 +76,10 @@ module.exports = configureApp = async (database) => {
   /*********************************** MIDDLEWARES ******************************/
   /******************************************************************************/
 
-  // Morgan middleware - Logs das requisições para o ambiente "dev"
-  if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
-  }
+  // Configuração do módulo de sessão com SequelizeStore
+  const sessionStore = new SequelizeStore({
+    db: database,
+  });
 
   // Middleware de Configuração do body parser de Express para receber dados no formato JSON
   app.use(express.json());
@@ -96,14 +95,12 @@ module.exports = configureApp = async (database) => {
     next();
   });
 
-  // Passport config
-  require('./passport')(passport, UsuarioModel)
-  // Passport middleware
-  app.use(passport.initialize())
+  // Morgan middleware - Logs das requisições para o ambiente "dev"
+  if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+  }
+
   // Middleware para gerenciar as sessões.
-  const sessionStore = new SequelizeStore({
-    db: database, // Substitua "connection" pela sua instância do Sequelize
-  });
   app.use(
     session({
       secret: 'keyboard cat',
@@ -112,6 +109,15 @@ module.exports = configureApp = async (database) => {
       store: sessionStore,
     })
   );
+
+  // Passport config
+  require('./passport')(passport, UsuarioModel)
+
+  // Middleware que inicializa o Passport e permite que ele gerencie a sessão do usuário
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+
   /******************************************************************************/
   /************************************ ROTAS ***********************************/
   /******************************************************************************/
@@ -119,7 +125,7 @@ module.exports = configureApp = async (database) => {
   app.use(authRoutes)
 
   // Configuração das rotas privadas
-  app.use(ensureAuthenticated);
+  // app.use(ensureAuthenticated);
   app.use('/motoristas', motoristaRoutes);
   app.use('/clientes', clienteRoutes);
   app.use('/enderecos', enderecoRoutes);
