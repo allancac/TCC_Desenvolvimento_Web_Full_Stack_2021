@@ -57,11 +57,7 @@ export const Header = () => {
             title="Usuário"
             data-bs-theme="dark"
           >
-            <Dropdown.Item>
-              <LinkContainer to="/dashboard">
-                <Nav.Link>Configurações</Nav.Link>
-              </LinkContainer>
-            </Dropdown.Item>
+            <Dropdown.Item>Meu perfil</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item>Sair</Dropdown.Item>
           </DropdownButton>

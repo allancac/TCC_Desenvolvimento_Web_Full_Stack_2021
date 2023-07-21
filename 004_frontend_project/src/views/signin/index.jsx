@@ -7,7 +7,7 @@ export const Signin = () => {
   const [senha, setSenha] = useState("");
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5500/auth/google";
+    window.open("http://localhost:5500/auth/google", "_self");
   };
 
   return (
