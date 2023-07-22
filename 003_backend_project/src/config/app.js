@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const passport = require('passport')
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const  {isAuthenticated}  = require('../middleware/ensureAuthenticated')
+const { isAuthenticated } = require('../middleware/ensureAuthenticated')
 
 //  TODO:Reafatorar em uma classe
 module.exports = configureApp = async (database) => {
@@ -90,9 +90,11 @@ module.exports = configureApp = async (database) => {
 
   // Middleware de de configuração do CORS - Cross Origin Resource Sharing
   app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Credentials", "true");
+
     next();
   });
 
@@ -123,7 +125,7 @@ module.exports = configureApp = async (database) => {
   /************************************ ROTAS ***********************************/
   /******************************************************************************/
   // Configuração das rotas públcas
-  app.use('/auth',authRoutes)
+  app.use('/auth', authRoutes)
 
   // Configuração das rotas privadas
   app.use(isAuthenticated);
