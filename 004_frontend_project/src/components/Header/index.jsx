@@ -8,10 +8,22 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setSession } from "../../redux/actions/sessionActions";
+import SessionServices from "../../services/SessionServices";
 
 export const Header = () => {
   const user = useSelector((state) => state.session.user);
+  const dispatch = useDispatch();
+  const logout = async () => {
+    try {
+      const userService = new SessionServices();
+      const logout = await userService.logoutSession();
+      dispatch(setSession(null));
+    } catch (error) {
+      console.error("Erro ao fazer o Logout do usuário:", error);
+    }
+  };
   return (
     <Navbar bg="secondary" variant="dark" expand="md" sticky="top">
       <Container>
@@ -61,7 +73,7 @@ export const Header = () => {
           >
             <Dropdown.Item>Meu perfil</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>Sair</Dropdown.Item>
+            <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
           </DropdownButton>
         </Navbar.Collapse>
       </Container>

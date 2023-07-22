@@ -19,6 +19,17 @@ class SessionServices {
     }
   }
 
+  async logoutSession() {
+    try {
+      const user = await this.axiosInstance.get(`/auth/logout`);
+      console.log(user)
+      return user
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
 }
 
 export default SessionServices;
