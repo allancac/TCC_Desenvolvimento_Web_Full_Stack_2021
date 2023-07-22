@@ -25,7 +25,7 @@ const createAuthRoutes = () => {
   router.get('/logout', (req, res, next) => {
     req.logout((error) => {
       if (error) { return next(error) }
-      res.redirect('http://localhost:3000/')
+      res.send(200)
     })
   })
 
