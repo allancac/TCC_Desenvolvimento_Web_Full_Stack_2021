@@ -3,7 +3,7 @@ import config from './config'
 
 export default class EstoquesServices {
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}` });
+    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}`, withCredentials: true });
   }
 
   async buscarListaEstoques(offset = 0, limit = 20) {

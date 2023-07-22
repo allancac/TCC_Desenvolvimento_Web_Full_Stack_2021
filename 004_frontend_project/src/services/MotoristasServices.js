@@ -3,7 +3,7 @@ import config from './config'
 
 class MotoristasServices {
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}` });
+    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}`, withCredentials: true });
   }
 
   async buscarListaMotoristas(offset = 0, limit = 20) {

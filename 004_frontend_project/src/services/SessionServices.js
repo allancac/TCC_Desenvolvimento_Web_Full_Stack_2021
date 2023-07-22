@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from './config'
 
-class VendasServices {
+class SessionServices {
   constructor() {
     this.axiosInstance = axios.create({
       baseURL: `${config.baseURL}`,
@@ -9,15 +9,16 @@ class VendasServices {
     });
   }
 
-  async enviarDadosDeVenda(venda) {
+  async getSession() {
     try {
-      const response = await this.axiosInstance.post('/vendas', venda);
-      return response.data;
+      const { data: { user } } = await this.axiosInstance.get(`/auth/login/success`);
+      return user
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
+
 }
 
-export default VendasServices;
+export default SessionServices;

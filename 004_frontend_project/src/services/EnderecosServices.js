@@ -3,7 +3,7 @@ import config from './config'
 
 class EnderecosServices {
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}` });
+    this.axiosInstance = axios.create({ baseURL: `${config.baseURL}`, withCredentials: true });
   }
 
   async buscarListaEnderecos(offset = 0, limit = 20) {
