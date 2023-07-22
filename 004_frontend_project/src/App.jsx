@@ -5,11 +5,31 @@ import { Header } from "./components/Header";
 import { AsideMenu } from "./components/Aside";
 import { Signin } from "./views/signin";
 import { ApplicationRoutes } from "./routes/ApplicationRoutes";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSession } from "./redux/actions/sessionActions";
+import SessionServices from "./services/SessionServices";
 
 export const App = () => {
-  const userMock = { nomeUsuario: "Allan Chaves" };
-  const [user, setUser] = useState(userMock);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const userService = new SessionServices();
+        const userDetails = await userService.getSession();
+
+        dispatch(setSession(userDetails));
+      } catch (error) {
+        console.error("Erro ao buscar detalhes do usuário:", error);
+      }
+    };
+
+    if (!user) {
+      fetchUserDetails();
+    }
+  }, [dispatch, user]);
 
   return (
     <div className="App">
@@ -22,7 +42,7 @@ export const App = () => {
                 <AsideMenu />
               </Col>
               <Col lg={10} md={9} sm={12}>
-                <ApplicationRoutes user={user}/>
+                <ApplicationRoutes user={user} />
               </Col>
             </Row>
           </Container>
