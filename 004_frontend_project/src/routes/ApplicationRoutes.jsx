@@ -8,14 +8,16 @@ import ProdutosRoutes from "./produtos/ProdutosRoutes";
 import EstoquesRoutes from "./estoques/EstoquesRoutes";
 import VendasRoutes from "./vendas/VendasRoutes";
 import UsuariosRoutes from "./usuarios/UsuariosRoutes";
-import {Signin} from "../views/signin/index";
+import { Signin } from "../views/signin/index";
+import { useSelector } from "react-redux";
 
+export const ApplicationRoutes = () => {
+  const user = useSelector((state) => state.session.user);
 
-export const ApplicationRoutes = ({user}) => {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/login" element={user?<Navigate to="/"/>:<Signin/>} />
+      <Route path="/login" element={user ? <Navigate to="/" /> : <Signin />} />
       <Route path="*" element={<NotFound />} />
 
       <Route path="/clientes/*" element={<ClientesRoutes />} />
