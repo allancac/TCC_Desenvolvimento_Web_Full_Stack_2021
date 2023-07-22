@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const passport = require('passport')
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const  {isAuthenticated}  = require('../middleware/ensureAuthenticated')
 
 //  TODO:Reafatorar em uma classe
 module.exports = configureApp = async (database) => {
@@ -111,7 +112,7 @@ module.exports = configureApp = async (database) => {
   );
 
   // Passport config
-  require('./passport')(passport, UsuarioModel)
+  const passportSetup = require('./passport')(passport, UsuarioModel)
 
   // Middleware que inicializa o Passport e permite que ele gerencie a sessão do usuário
   app.use(passport.initialize());
@@ -122,10 +123,10 @@ module.exports = configureApp = async (database) => {
   /************************************ ROTAS ***********************************/
   /******************************************************************************/
   // Configuração das rotas públcas
-  app.use(authRoutes)
+  app.use('/auth',authRoutes)
 
   // Configuração das rotas privadas
-  // app.use(ensureAuthenticated);
+  app.use(isAuthenticated);
   app.use('/motoristas', motoristaRoutes);
   app.use('/clientes', clienteRoutes);
   app.use('/enderecos', enderecoRoutes);
