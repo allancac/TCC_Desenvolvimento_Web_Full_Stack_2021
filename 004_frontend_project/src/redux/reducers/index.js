@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import { vendaReducer } from './vendasReducers';
 import { menuLateralReducer } from './menuLateralReducers';
-import { userReducer } from './userReducer';
-import { authReducer } from './authReducer';
+import { sessionReducer } from './sessionReducer';
+
 
 export default combineReducers({
   venda: vendaReducer,
   menuLateral: menuLateralReducer,
-  user: userReducer,
-  token: authReducer,
+  session: sessionReducer,
   devTools: process.env.NODE_ENV !== 'production',
 });

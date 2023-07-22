@@ -2,15 +2,14 @@ const initialState = {
   user: null,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case 'SET_SESSION':
       return {
         ...state,
-        user: action.payload,
+        user: action.payload, 
       };
     default:
       return state;
   }
 };
-
