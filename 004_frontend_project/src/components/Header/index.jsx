@@ -8,8 +8,10 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
+  const user = useSelector((state) => state.session.user);
   return (
     <Navbar bg="secondary" variant="dark" expand="md" sticky="top">
       <Container>
@@ -54,7 +56,7 @@ export const Header = () => {
           <DropdownButton
             id="dropdown-button-dark"
             variant="secondary"
-            title="Usuário"
+            title={`${user.nomeUsuario}`}
             data-bs-theme="dark"
           >
             <Dropdown.Item>Meu perfil</Dropdown.Item>
