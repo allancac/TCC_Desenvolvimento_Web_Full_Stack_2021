@@ -36,11 +36,30 @@ const getClienteByIdValidation = [
     next();
   },
 ];
+const getClienteByNameValidation = [
+  query('name')
+    .notEmpty().withMessage('O nome do cliente é obrigatório.')
+    .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre 3 e 50 caracteres.'),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        status: {
+          code: 400,
+          errors: errors.array()
+        }
+
+      });
+    }
+    next();
+  },
+];
 
 const createClienteValidation = [
   body('nome')
     .notEmpty().withMessage('O nome do cliente é obrigatório.')
-    .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre até 50 caracteres.'),
+    .isLength({ min: 3, max: 50 }).withMessage('O nome do cliente deve ter entre e 50 caracteres.'),
   body('telefone')
     .isNumeric().withMessage('O número de telefone deve conter apenas números.')
     .isLength({ min: 10, max: 11 }).withMessage('O número de telefone deve ter 11 dígitos.'),
@@ -116,6 +135,7 @@ const deleteClienteValidation = [
 module.exports = {
   getAllClientesValidation,
   getClienteByIdValidation,
+  getClienteByNameValidation,
   createClienteValidation,
   updateClienteValidation,
   deleteClienteValidation

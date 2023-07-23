@@ -6,7 +6,7 @@ const {
   NotFound,             //404
   InternalServerError,  //500
 } = require('./serviceErrors');
-
+const { Op } = require("sequelize");
 const createClienteService = (Cliente) => {
   // Função para obter todos os clientes
   const getAllClientes = async (offset = 0, limit = 10) => {
@@ -38,6 +38,26 @@ const createClienteService = (Cliente) => {
       }
     }
   }
+
+  // Função para buscar clientes por nome
+  const getClienteByName = async (name) => {
+    try {
+      const clientes = await Cliente.findAll({
+        where: {
+          nome: {
+            [Op.substring]: `${name}`
+          }
+        }
+      });
+      if (clientes.length === 0) {
+        throw new NotFound('Nenhum cliente encontrado.');
+      }
+      return clientes;
+    } catch (error) {
+      console.log("Erro do Service: ", error)
+      throw new InternalServerError('Não foi possível buscar os clientes.');
+    }
+  };
 
   // Função para obter um cliente pelo ID
   const getClienteById = async (id) => {
@@ -133,6 +153,7 @@ const createClienteService = (Cliente) => {
 
   return {
     getAllClientes,
+    getClienteByName,
     getClienteById,
     createCliente,
     updateCliente,

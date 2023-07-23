@@ -53,19 +53,16 @@ const ClienteController = (service) => {
 
   // Handler para obter um cliente pelo ID
   const getClienteById = async (req, res) => {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const cliente = await service.getClienteById(id);
-      const resultado = []
-      resultado.push(cliente)
       res.status(200).json({
         status: {
           code: 200,
           message: 'OK'
         },
-        data: resultado
+        data: [cliente]
       });
-
     } catch (error) {
       if (error instanceof NotFound) {
         res.status(404).json({
@@ -74,16 +71,49 @@ const ClienteController = (service) => {
             errors: [error.message]
           }
         });
-      } else {
-        res.status(500).json({
+      }
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        }
+      });
+
+    }
+  }
+
+  // Handler para obter um cliente pelo Nome
+  const getClienteByName = async (req, res) => {
+    const { name } = req.query;
+    try {
+      const resultado = await service.getClienteByName(name);
+      res.status(200).json({
+        status: {
+          code: 200,
+          message: 'OK'
+        },
+        data: [resultado]
+      });
+    } catch (error) {
+      if (error instanceof NotFound) {
+        res.status(404).json({
           status: {
-            code: 500,
+            code: 404,
             errors: [error.message]
           }
         });
       }
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        }
+      });
+
     }
   }
+
+
 
   // Handler para criar um novo cliente
   const createCliente = async (req, res) => {
@@ -114,15 +144,13 @@ const ClienteController = (service) => {
           }
         });
       }
-      // Outros erros não tratados
-      else {
-        res.status(500).json({
-          status: {
-            code: 500,
-            errors: [error.message]
-          }
-        });
-      }
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        }
+      });
+
     }
   }
 
@@ -152,15 +180,13 @@ const ClienteController = (service) => {
           },
         });
       }
-      // Tratamento de erro genérico
-      else {
-        res.status(500).json({
-          status: {
-            code: 500,
-            errors: [error.message]
-          },
-        });
-      }
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        },
+      });
+
 
     }
   }
@@ -186,19 +212,19 @@ const ClienteController = (service) => {
           },
         });
       }
-      else {
-        res.status(500).json({
-          status: {
-            code: 500,
-            errors: [error.message]
-          },
-        });
-      }
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        },
+      });
+
     }
   }
   return {
     getAllClientes,
     getClienteById,
+    getClienteByName,
     createCliente,
     updateCliente,
     deleteCliente
