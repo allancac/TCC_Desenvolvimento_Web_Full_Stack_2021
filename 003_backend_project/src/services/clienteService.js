@@ -43,6 +43,7 @@ const createClienteService = (Cliente) => {
   const getClienteByName = async (name) => {
     try {
       const clientes = await Cliente.findAll({
+        include: ['enderecos', 'veiculos'],
         where: {
           nome: {
             [Op.substring]: `${name}`
