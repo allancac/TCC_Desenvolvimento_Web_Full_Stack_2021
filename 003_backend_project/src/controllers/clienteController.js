@@ -14,7 +14,7 @@ const ClienteController = (service) => {
     try {
       const { count, rows } = await service.getAllClientes(offset, limit);
       if (rows.length > 0) {
-        res.status(200).json(
+        return res.status(200).json(
           {
             status: {
               code: 200,
@@ -30,18 +30,18 @@ const ClienteController = (service) => {
           }
 
         );
-      } else {
-        res.status(404).json({
-          status: {
-            code: 404,
-            errors: ['Nenhum cliente foi encontrado.']
-          }
-        });
       }
+      return res.status(404).json({
+        status: {
+          code: 404,
+          errors: ['Nenhum cliente foi encontrado.']
+        }
+      });
+
 
     } catch (error) {
       // Tratamento de erro genérico
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
@@ -56,23 +56,26 @@ const ClienteController = (service) => {
     const { id } = req.params;
     try {
       const cliente = await service.getClienteById(id);
-      res.status(200).json({
-        status: {
-          code: 200,
-          message: 'OK'
-        },
-        data: [cliente]
-      });
+      if (cliente) {
+        return res.status(200).json({
+          status: {
+            code: 200,
+            message: 'OK'
+          },
+          data: [cliente]
+        });
+
+      }
     } catch (error) {
       if (error instanceof NotFound) {
-        res.status(404).json({
+        return res.status(404).json({
           status: {
             code: 404,
             errors: [error.message]
           }
         });
       }
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
@@ -87,7 +90,7 @@ const ClienteController = (service) => {
     const { name } = req.query;
     try {
       const resultado = await service.getClienteByName(name);
-      res.status(200).json({
+      return res.status(200).json({
         status: {
           code: 200,
           message: 'OK'
@@ -96,24 +99,21 @@ const ClienteController = (service) => {
       });
     } catch (error) {
       if (error instanceof NotFound) {
-        res.status(404).json({
+        return res.status(404).json({
           status: {
             code: 404,
             errors: [error.message]
           }
         });
       }
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
         }
       });
-
     }
   }
-
-
 
   // Handler para criar um novo cliente
   const createCliente = async (req, res) => {
@@ -121,15 +121,13 @@ const ClienteController = (service) => {
       const clienteData = req.body;
       const cliente = await service.createCliente(clienteData);
       if (cliente) {
-        const resultado = []
-        resultado.push(cliente)
-        res.status(200).json(
+        return res.status(200).json(
           {
             status: {
               code: 200,
               message: "OK",
             },
-            data: resultado
+            data: [cliente]
 
           }
         );
@@ -137,14 +135,14 @@ const ClienteController = (service) => {
     } catch (error) {
       // Tratamento de erro para requisição inválida
       if (error instanceof Conflict) {
-        res.status(409).json({
+        return res.status(409).json({
           status: {
             code: 409,
             errors: [error.message]
           }
         });
       }
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
@@ -160,27 +158,25 @@ const ClienteController = (service) => {
       const { id } = req.params;
       const dadosCliente = req.body;
       const cliente = await service.updateCliente(id, dadosCliente);
-      const resultado = []
-      resultado.push(cliente)
-      res.status(200).json(
+      return res.status(200).json(
         {
           status: {
             code: 200,
             message: "OK",
           },
-          data: resultado
+          data: [cliente]
         });
     } catch (error) {
       // Tratamento de erro para cliente não encontrado
       if (error instanceof NotFound) {
-        res.status(404).json({
+        return res.status(404).json({
           status: {
             code: 404,
             errors: [error.message]
           },
         });
       }
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
@@ -197,7 +193,7 @@ const ClienteController = (service) => {
     try {
       const { id } = req.params;
       await service.deleteCliente(id);
-      res.status(200).json({
+      return res.status(200).json({
         status: {
           code: 200,
           message: "Cliente excluído com sucesso.",
@@ -205,14 +201,14 @@ const ClienteController = (service) => {
       });
     } catch (error) {
       if (error instanceof NotFound) {
-        res.status(404).json({
+        return res.status(404).json({
           status: {
             code: 404,
             errors: [error.message]
           },
         });
       }
-      res.status(500).json({
+      return res.status(500).json({
         status: {
           code: 500,
           errors: [error.message]
