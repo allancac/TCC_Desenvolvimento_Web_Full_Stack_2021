@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       comment: 'Um número inteiro que identifica exclusivamente cada venda. Este campo é autoincrementado.'
     },
     id_usuario: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(30),
       allowNull: false,
       comment: 'Um número inteiro que se refere ao ID do usuário que realizou a venda, na tabela "EMASA.USUARIOS".'
     },
