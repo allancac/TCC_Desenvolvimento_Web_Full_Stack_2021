@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const Models = require('../models/index');  //Classe criadora de modelos
 const morgan = require('morgan');
 const passport = require('passport')
@@ -88,15 +89,13 @@ module.exports = configureApp = async (database) => {
   // Middleware de codificação da url
   app.use(express.urlencoded({ extended: true }));
 
-  // Middleware de de configuração do CORS - Cross Origin Resource Sharing
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Credentials", "true");
-
-    next();
-  });
+  // Middleware de configuração do CORS - Cross Origin Resource Sharing
+  app.use(cors({
+    origin: 'http://localhost:3000', 
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Cabeçalhos permitidos
+    credentials: true // Permite o envio de credenciais, como cookies
+  }));
 
   // Morgan middleware - Logs das requisições para o ambiente "dev"
   if (process.env.NODE_ENV === 'development') {
