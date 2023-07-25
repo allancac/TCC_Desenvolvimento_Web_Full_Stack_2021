@@ -1,33 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import EstoqueServices from '../../../services/EstoqueServices';
-import { CartaoEstoque as Cartao } from '../../../components/Cartoes';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Form } from "react-bootstrap";
+import EstoqueServices from "../../../services/EstoqueServices";
+import { CartaoEstoque as Cartao } from "../../../components/Cartoes";
+import { setEstoque } from "../../../redux/actions/vendasActions";
+import { useDispatch } from "react-redux";
 
 export const Pagina3 = () => {
-  const [estoque, setEstoque] = useState([]);
+  const dispatch = useDispatch();
+  const [estoques, setEstoques] = useState([]);
+  const [estoqueSelecionado, setEstoqueSelecionado] = useState(null);
 
-  async function buscarEstoque() {
+  async function buscarEstoques() {
     const estoqueServices = new EstoqueServices();
     try {
-      const resultado = await estoqueServices.buscarListaEstoques();
-      setEstoque(resultado);
+      const { data } = await estoqueServices.buscarListaEstoques();
+      setEstoques(data);
     } catch (error) {
-      console.log('Erro ao requisitar:', error);
+      console.log("Erro ao requisitar:", error);
     }
   }
 
+  // Função enviada para o componente Cartão e que atualiza o produto na Store do Redux
+  const selecionarEstoque = (estoque) => {
+    setEstoqueSelecionado(estoque);
+    dispatch(setEstoque(estoque));
+  };
+
   useEffect(() => {
-    buscarEstoque();
+    buscarEstoques();
   }, []);
 
   return (
-    <fieldset style={{ minHeight: '450px' }}>
+    <fieldset style={{ minHeight: "450px" }}>
       <h2>Estoque de Origem</h2>
       <Container>
         <Row>
-          {estoque.map((item) => (
-            <Col key={item.id} md={3} sm={6}>
-              <Cartao estoque={item} />
+          {estoques.map((item) => (
+            <Col key={item.id} md={4} sm={6}>
+              <Cartao
+                estoque={item}
+                selecionarEstoque={selecionarEstoque}
+                estoqueSelecionado={estoqueSelecionado}
+              />
             </Col>
           ))}
         </Row>

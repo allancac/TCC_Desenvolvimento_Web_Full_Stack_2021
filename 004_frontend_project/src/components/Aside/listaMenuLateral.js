@@ -31,6 +31,6 @@ export const menuUsuarios = [
 ];
 
 export const menuVendas = [
-  { linkTo: '/vendas/cadastrar', submenuTitle: 'Realizar Venda' },
+  { linkTo: '/vendas/cadastrar', submenuTitle: 'Cadastrar Venda' },
   { linkTo: '/vendas/buscar', submenuTitle: 'Buscar Venda' },
 ];

@@ -12,6 +12,7 @@ class VendasServices {
   async enviarDadosDeVenda(venda) {
     try {
       const response = await this.axiosInstance.post('/vendas', venda);
+      console.log("Resposta do servidor:", response.data);
       return response.data;
     } catch (error) {
       console.error(error);

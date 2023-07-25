@@ -14,8 +14,7 @@ class ClientesServices {
       const response = await this.axiosInstance.get(`/clientes/?offset=${offset}&limit=${limit}`);
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      return error;
     }
   }
 
@@ -24,8 +23,15 @@ class ClientesServices {
       const response = await this.axiosInstance.get(`/clientes/${id}`);
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      return error;
+    }
+  }
+  async buscarClienteNome(nome) {
+    try {
+      const { data } = await this.axiosInstance.get(`/clientes/search/?name=${nome}`);
+      return data;
+    } catch (error) {
+      return error;
     }
   }
 
@@ -34,8 +40,7 @@ class ClientesServices {
       const response = await this.axiosInstance.post(`/clientes`, dadosCliente);
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      return error;
     }
   }
 
@@ -46,8 +51,7 @@ class ClientesServices {
       const response = await this.axiosInstance.put(`/clientes/${id}`, dadosCliente);
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      return error;
     }
   }
 
@@ -58,12 +62,9 @@ class ClientesServices {
       console.log(response);
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      return error;
     }
   }
-
-
 
 }
 
