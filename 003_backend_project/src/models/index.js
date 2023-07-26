@@ -46,23 +46,59 @@ class Models {
       as: 'veiculos'
     });
 
+    // Venda (1,1) - (1,1)Produto
     this.Venda.belongsTo(this.Produto, {
       foreignKey: 'id_produto',
-      as: 'produtos'
+      as: 'produto'
     });
-    this.Venda.belongsTo(this.Estoque, {
-      foreignKey: 'id_estoque',
-      as: 'estoques'
+    this.Produto.hasOne(this.Venda, {
+      foreignKey: 'id_produto',
+      as: 'produto'
     });
 
-    this.Produto.hasMany(this.Venda, {
-      foreignKey: 'id_produto',
-      as: 'vendas'
-    });
-    this.Estoque.hasMany(this.Venda, {
+    //   Venda (1,1) - (1,1)Estoque
+    this.Venda.belongsTo(this.Estoque, {
       foreignKey: 'id_estoque',
-      as: 'vendas'
+      as: 'estoque'
     });
+    this.Estoque.hasOne(this.Venda, {
+      foreignKey: 'id_estoque',
+      as: 'estoque'
+    });
+
+    //   Venda (1,1) - (1,1)Cliente
+    this.Venda.belongsTo(this.Cliente, {
+      foreignKey: 'id_cliente',
+      as: 'cliente'
+    });
+    this.Cliente.hasOne(this.Venda, {
+      foreignKey: 'id_cliente',
+      as: 'cliente'
+    });
+
+    //   Venda (1,1) - (1,1)Endereço
+    this.Venda.belongsTo(this.Endereco, {
+      foreignKey: 'id_endereco',
+      as: 'endereco'
+    });
+    this.Endereco.hasOne(this.Venda, {
+      foreignKey: 'id_endereco',
+      as: 'endereco'
+    });
+
+      // Venda (1,1) - (1,1)Usuário
+    this.Venda.belongsTo(this.Usuario, {
+      foreignKey: 'id_usuario',
+      as: 'usuario'
+    });
+    this.Endereco.hasOne(this.Venda, {
+      foreignKey: 'id_usuario',
+      as: 'usuario'
+    });
+
+
+
+
 
   }
 

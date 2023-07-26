@@ -14,9 +14,12 @@ const createVendaService = (Venda) => {
       if (offset >= 0 && limit >= 0) {
         const { count, rows } = await Venda.findAndCountAll(
           {
+            include: ['produto', 'cliente'],
             offset: parseInt(offset),
             limit: parseInt(limit),
-          });
+          }
+
+        );
         if (rows) return { count, rows };
         throw new NotFound('Nenhuma venda encontrada.');
       }
@@ -31,12 +34,15 @@ const createVendaService = (Venda) => {
   const getVendaById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
-        const venda = await Venda.findByPk(id);
+        const venda = await Venda.findByPk(id,
+          { include: ['usuario', 'produto', 'estoque', 'cliente', 'endereco'] }
+        );
         if (venda) return venda;
         throw new NotFound('Venda não encontrada.');
       }
       throw new BadRequest('Parâmetros inválidos.');
     } catch (error) {
+      console.log(error)
       if (error instanceof NotFound || error instanceof BadRequest) throw error;
       throw new InternalServerError('Não foi possível buscar a Venda.');
     }
