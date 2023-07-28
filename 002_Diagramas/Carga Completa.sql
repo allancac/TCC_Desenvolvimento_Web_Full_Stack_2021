@@ -345,7 +345,26 @@ VALUES ('12345678903', 'CDE1236', 'Fernando Rodrigues', '(84) 6666-6666', 'ferna
 INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
 VALUES ('98765432103', 'EFG5680', 'Isabela Alves', '(62) 5555-5555', 'isabela.alves@email.com', current_timestamp, current_timestamp);
 
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('98102532103', 'ABC1234', 'Carlos Alves', '(21) 5522-5555', 'Carlos.alves@email.com', current_timestamp, current_timestamp);
 
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('55798433324', 'BCD6781', 'José Cardoso', '(21) 6666-6666', 'jose.c@email.com', current_timestamp, current_timestamp);
+
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('12345671134', 'GHI9101', 'Paulo Pereira', '(48) 9999-6179', 'Paulo.pereira@email.com', current_timestamp, current_timestamp);
+
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('55599213324', 'PQR1236', 'Renato', '(21) 9966-6666', 'renato.santos@email.com', current_timestamp, current_timestamp);
+
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('11972533345', 'STU5680', 'Thiago Almeida', '(92) 5555-5555', 'thiago.a@email.com', current_timestamp, current_timestamp);
+
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('22211329797', 'VWX9103', 'Luiz Batista', '(11) 6666-6666', 'luiz.bat@email.com', current_timestamp, current_timestamp);
+
+INSERT INTO EMASA.Motorista (CPF, PLACA, NOME, TELEFONE, EMAIL,  createdAt, updatedAt)
+VALUES ('98451877767', 'YZA2347', 'Jorge Rodrigues', '(98) 3333-3111', 'jorge.rodrigues@email.com', current_timestamp, current_timestamp);
 /****************************************************************
 ***************************PRODUTOS******************************
 ****************************************************************/
@@ -384,8 +403,176 @@ VALUES(uuid(), 'Allan Chaves', 'Allan', 'Chaves', '', false, 'allancac@gmail.com
 /****************************************************************
 ***************************VENDAS******************************
 ****************************************************************/
-INSERT INTO EMASA.Vendas(id_usuario, id_produto,id_estoque,id_cliente,id_endereco,cpf_motorista,placa,quantidade,preco_total,createdAt,updatedAt)
-VALUES(2,1,1,4,4,'12345678902','ABC1234',12,840,current_timestamp,current_timestamp);
 
-INSERT INTO EMASA.Vendas(id_usuario, id_produto,id_estoque,id_cliente,id_endereco,cpf_motorista,placa,quantidade,preco_total,createdAt,updatedAt)
-VALUES(1,1,1,4,4,'12345678902','ABC1234',10,700,current_timestamp,current_timestamp);
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 7, 22, '22211329797', 'VWX9103', 70.31, 4921.56, '2023-01-16 10:00:45', '2022-01-16 10:00:45', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 3, 29, '55798433324', 'BCD6781', 64.21, 4173.39, '2023-01-16 10:20:00', '2023-01-16 10:20:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 1, 25, '98102532103', 'ABC1234', 16.22, 1135.68, '2023-01-16 10:30:00', '2023-01-16 10:30:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 10, 10, '88899900044', 'BCD6789', 22.88, 1601.32, '2023-01-16 10:35:00', '2023-01-16 10:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 7, 22, '22211329797', 'VWX9103', 70.31, 4921.56, '2023-01-16 11:00:45', '2022-01-16 11:00:30', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 13, 13, '11122233345', 'VWX9102', 68.04, 4762.80, '2023-01-16 11:20:45', '2023-01-16 11:20:45', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 3, 29, '55798433324', 'BCD6781', 64.21, 4173.39, '2023-01-17 12:20:00', '2023-01-17 12:20:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 1, 25, '98102532103', 'ABC1234', 16.22, 1135.68, '2023-01-17 12:30:00', '2023-01-17 12:30:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 10, 10, '88899900044', 'BCD6789', 22.88, 1601.32, '2023-01-17 13:35:00', '2023-01-17 13:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-01-18 13:35:00', '2023-01-18 13:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-01-19 09:10:00', '2023-01-19 09:10:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-01-19 09:15:00', '2023-01-19 09:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-01-21 14:15:00', '2023-01-21 14:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-02-05 10:15:00', '2023-02-05 10:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 20, 20, '99988877767', 'MNO6780', 66.58, 4660.88, '2023-02-05 11:15:00', '2023-02-05 11:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 6, 6, '77788899900', 'PQR1234', 26.36, 1845.48, '2023-02-05 16:12:00', '2023-02-05 16:12:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 6, 6, '77788899900', 'PQR1234', 26.36, 1845.48, '2023-02-06 10:12:00', '2023-02-06 10:12:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-02-07 13:10:00', '2023-02-07 13:10:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-02-08 14:15:00', '2023-02-08 14:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-02-10 10:15:00', '2023-02-10 10:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-02-19 09:15:00', '2023-02-19 09:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-02-21 14:15:00', '2023-02-21 14:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-03-05 10:15:00', '2023-03-05 10:15:00', null);
+
+
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 1, 25, '98102532103', 'ABC1234', 16.22, 1135.68, '2023-03-17 12:30:00', '2023-03-17 12:30:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 10, 10, '88899900044', 'BCD6789', 22.88, 1601.32, '2023-03-17 13:35:00', '2023-03-17 13:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-03-18 13:35:00', '2023-03-18 13:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-03-19 09:10:00', '2023-03-19 09:10:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-03-19 09:15:00', '2023-03-19 09:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-03-21 14:15:00', '2023-03-21 14:15:00', null);
+
+
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 1, 25, '98102532103', 'ABC1234', 16.22, 1135.68, '2023-04-16 10:30:00', '2023-04-16 10:30:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 10, 10, '88899900044', 'BCD6789', 22.88, 1601.32, '2023-04-16 10:35:00', '2023-04-16 10:35:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 7, 22, '22211329797', 'VWX9103', 70.31, 4921.56, '2023-04-16 11:00:45', '2022-04-16 11:00:30', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 13, 13, '11122233345', 'VWX9102', 68.04, 4762.80, '2023-04-16 11:20:45', '2023-04-16 11:20:45', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 3, 29, '55798433324', 'BCD6781', 64.21, 4173.39, '2023-04-17 12:20:00', '2023-04-17 12:20:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 1, 25, '98102532103', 'ABC1234', 16.22, 1135.68, '2023-04-17 12:30:00', '2023-04-17 12:30:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 2, 2, 10, 10, '88899900044', 'BCD6789', 22.88, 1601.32, '2023-04-17 13:35:00', '2023-04-17 13:35:00', null);
+
+
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-04-19 09:15:00', '2023-04-19 09:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-04-21 14:15:00', '2023-04-21 14:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-05-05 10:15:00', '2023-05-05 10:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 20, 20, '99988877767', 'MNO6780', 66.58, 4660.88, '2023-05-05 11:15:00', '2023-05-05 11:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 6, 6, '77788899900', 'PQR1234', 26.36, 1845.48, '2023-05-05 16:12:00', '2023-05-05 16:12:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 6, 6, '77788899900', 'PQR1234', 26.36, 1845.48, '2023-05-06 10:12:00', '2023-05-06 10:12:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-05-07 13:10:00', '2023-05-07 13:10:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 2, 2, '11122233344', 'DEF5678', 18.45, 1291.50, '2023-05-08 14:15:00', '2023-05-08 14:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-05-10 10:15:00', '2023-05-10 10:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 9, 9, '66677788855', 'YZA2345', 22.50, 1575.00, '2023-05-19 09:15:00', '2023-05-19 09:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 1, 14, 14, '11122233346', 'YZA2346', 68.07, 4764.76, '2023-06-05 10:15:00', '2023-06-05 10:15:00', null);
+
+INSERT INTO EMASA.Vendas(id_usuario, id_produto, id_estoque, id_cliente, id_endereco, cpf_motorista, placa, quantidade, preco_total, createdAt, updatedAt, deletedAt)
+VALUES ('111264517468510770416', 1, 3, 20, 20, '99988877767', 'MNO6780', 66.58, 4660.88, '2023-06-05 16:15:00', '2023-06-05 16:15:00', null);
+
+
+
+
+
+## VERIFICAR INCONSISTÊNCIAS
+/*
+
+SELECT * 
+FROM EMASA.Clientes as T1
+left join EMASA.Enderecos as T2
+	on T1.id = T2.id_cliente
+left join EMASA.Veiculos as T3
+	on T1.id = T3.id_cliente
+WHERE T2.id is null or T3.placa is null;
+
+SELECT * 
+FROM EMASA.Veiculos 		as T1
+left join EMASA.Motorista 	as T2
+	on T1.placa = T2.placa
+WHERE T2.placa is null
+
+*/
