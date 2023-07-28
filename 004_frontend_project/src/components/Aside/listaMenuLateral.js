@@ -27,7 +27,7 @@ export const menuEstoques = [
 
 export const menuUsuarios = [
   { linkTo: '/usuarios/cadastrar', submenuTitle: 'Cadastrar Usuário' },
-  { linkTo: '/usuarios/buscar', submenuTitle: 'Buscar Usuário' },
+  // { linkTo: '/usuarios/buscar', submenuTitle: 'Buscar Usuário' },
 ];
 
 export const menuVendas = [

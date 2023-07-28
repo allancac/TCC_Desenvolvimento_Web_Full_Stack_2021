@@ -16,9 +16,9 @@ class UsuariosServices {
     }
   }
 
-  async buscarUsuario(cpf) {
+  async buscarUsuario(id) {
     try {
-      const response = await this.axiosInstance.get(`/usuarios/${cpf}`);
+      const response = await this.axiosInstance.get(`/usuarios/${id}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -37,30 +37,15 @@ class UsuariosServices {
   }
 
 
-  async atualizarDadosUsuario(cpf, dadosUsuario) {
-
+  async atualizarDadosUsuario(id, dadosUsuario) {
     try {
-      const response = await this.axiosInstance.put(`/usuarios/${cpf}`, dadosUsuario);
+      const response = await this.axiosInstance.put(`/usuarios/${id}`, dadosUsuario);
       return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-
-  async deletarUsuario(cpf) {
-    try {
-      console.log(cpf)
-      const response = await this.axiosInstance.delete(`/usuarios/${cpf}`);
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-
 
 }
 
