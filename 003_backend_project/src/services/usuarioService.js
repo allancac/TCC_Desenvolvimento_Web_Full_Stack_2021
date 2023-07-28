@@ -69,6 +69,7 @@ const createUsuarioService = (Usuario) => {
       if (usuario) { return usuario }
       throw new Error();
     } catch (error) {
+      console.log(error)
       if (error instanceof Conflict) {
         throw new Conflict('Usuário já cadastrado no sistema.')
       }
@@ -81,12 +82,17 @@ const createUsuarioService = (Usuario) => {
       const usuarioExiste = await Usuario.findByPk(id);
       if (usuarioExiste) {
         const { senha } = usuarioData
-        const senhaHashed = await hashPassword(senha)
-        const usuario = await Usuario.update({ ...usuarioData, senha: senhaHashed }, { where: { id } })
+        if (senha) {
+          const senhaHashed = await hashPassword(senha)
+          await Usuario.update({ ...usuarioData, senha: senhaHashed }, { where: { id } })
+        }
+        await Usuario.update({ ...usuarioData }, { where: { id } })
+
         return usuarioData;
       }
       throw new NotFound('Usuário não encontrado.');
     } catch (error) {
+      console.log(error)
       if (error instanceof NotFound) {
         throw error;
       }

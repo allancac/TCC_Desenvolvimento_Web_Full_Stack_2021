@@ -22,11 +22,12 @@ module.exports = (sequelize) => {
     },
     foto: {
       type: DataTypes.STRING(200),
+      allowNull: true
     },
     ativo: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-      allowNull: false
+
     },
     email: {
       type: DataTypes.STRING(50),
@@ -35,10 +36,11 @@ module.exports = (sequelize) => {
     },
     senha: {
       type: DataTypes.STRING(100),
+      allowNull: true,
     },
     perfil: {
       type: DataTypes.ENUM('vendedor', 'gerente', 'administrador'),
-
+      allowNull: true,
     }
   },
     {
