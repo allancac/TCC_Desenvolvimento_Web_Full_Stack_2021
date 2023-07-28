@@ -55,7 +55,8 @@ export const Pagina1 = () => {
   };
 
   useEffect(() => {
-    buscarMotoristas();
+    if(clienteSelecionado.id)
+      buscarMotoristas();
   }, [veiculoSelecionado]);
 
   const [buscaCliente, setBuscaCliente] = useState("");
@@ -86,7 +87,7 @@ export const Pagina1 = () => {
       </Form.Group>
       <h3>
         Cliente Selecionado:
-        <span>
+        <span className="m-4">
           {!clienteSelecionado.id ? " Nenhum" : clienteSelecionado.nome}
         </span>
       </h3>

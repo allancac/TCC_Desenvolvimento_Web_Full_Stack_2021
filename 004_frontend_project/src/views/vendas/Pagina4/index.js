@@ -51,6 +51,7 @@ export const Pagina4 = () => {
       });
       setShowAlert(true);
     } catch (error) {
+      const listaErros = error.response.data.status.errors;
       setMsgAlert(() => {
         return {
           variant: 'danger',
