@@ -17,6 +17,12 @@ const createvendaRoutes = (controller) => {
   router.get('/', controller.getAllVendas);
 
   /**
+   * @route   GET api/vendas
+   * @desc    Rota para buscar vendas com filtros opcionais (cliente, período, produto)
+   */
+  router.get('/filtrar', controller.getVendaByFilter);
+
+  /**
    * @route   GET api/vendas/:id
    * @desc    Rota para buscar um veículo pela id
   */

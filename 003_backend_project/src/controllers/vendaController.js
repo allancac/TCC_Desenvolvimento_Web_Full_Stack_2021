@@ -46,6 +46,36 @@ const createVendasController = (service) => {
     }
   };
 
+  const getVendaByFilter = async (req, res) => {
+    try {
+      const { id_cliente, periodo, id_produto } = req.query;
+      const vendas = await service.getVendaByFilter(id_cliente, periodo, id_produto);
+      if (vendas.length > 0) {
+        return res.status(200).json({
+          status: {
+            code: 200,
+            message: "OK",
+          },
+          data: vendas,
+        });
+      }
+      return res.status(404).json({
+        status: {
+          code: 404,
+          errors: ['Nenhuma venda encontrada.']
+        }
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        status: {
+          code: 500,
+          errors: [error.message]
+        }
+      });
+    }
+  };
+
   // Handler para obter uma venda pelo id
   const getVendaById = async (req, res) => {
     try {
@@ -175,6 +205,7 @@ const createVendasController = (service) => {
 
   return {
     getAllVendas,
+    getVendaByFilter,
     getVendaById,
     createVenda,
     updateVenda,

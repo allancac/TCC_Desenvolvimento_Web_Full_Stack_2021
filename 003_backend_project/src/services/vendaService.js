@@ -6,6 +6,7 @@ const {
   NotFound,             //404
   InternalServerError,  //500
 } = require('./serviceErrors');
+const { Op } = require('sequelize');
 
 const createVendaService = (Venda) => {
   // Função para obter todas os vendas
@@ -30,12 +31,37 @@ const createVendaService = (Venda) => {
     }
   }
 
+  // Buscar vendas por filtros (cliente, período, produto)
+  const getVendaByFilter = async (cliente, periodo, produto) => {
+    try {
+      const filtros = {};
+      if (cliente) {
+        filtros.id_cliente = { [Op.eq]: `${cliente}` };
+      }
+      if (periodo !== "") {
+        filtros.createdAt = { [Op.gt]: `%${periodo}%` };
+      }
+      if (produto !== "") {
+        filtros.id_produto = { [Op.like]: `%${produto}%` };
+      }
+      const vendas = await Venda.findAll({
+        include: ['usuario', 'produto', 'estoque', 'cliente', 'endereco'],
+        where: filtros,
+      });
+      return vendas;
+    } catch (error) {
+      throw new InternalServerError('Não foi possível buscar as vendas.');
+    }
+  };
+
   // Obtém uma Venda pelo id
   const getVendaById = async (id) => {
     try {
       if (id !== null || id !== undefined) {
         const venda = await Venda.findByPk(id,
-          { include: ['usuario', 'produto', 'estoque', 'cliente', 'endereco'] }
+          {
+            include: ['usuario', 'produto', 'estoque', 'cliente', 'endereco'],
+          }
         );
         if (venda) return venda;
         throw new NotFound('Venda não encontrada.');
@@ -62,34 +88,14 @@ const createVendaService = (Venda) => {
     }
   }
 
-  const updateVenda = async (id, vendaData) => {
-    try {
-      const idExiste = await Venda.findByPk(id);
-      if (idExiste) {
-        const venda = await Venda.update(vendaData, { where: { id } })
-        return vendaData;
-      } else {
-        throw new NotFound('Venda não encontrada.');
-      }
-    } catch (error) {
-      if (error instanceof NotFound) {
-        throw error;
-      } else {
-        throw new InternalServerError('Não foi possível atualizar a Venda.');
-      }
-    }
-  }
-
-
-
   // Deleta um Venda pelo id
   const deleteVenda = async (id) => {
     try {
       const idExiste = await Venda.findByPk(id);
       if (idExiste) {
-        const vendaApagado = await Venda.destroy({ where: { id } });
-        if (vendaApagado) {
-          return vendaApagado;
+        const vendaApagada = await Venda.destroy({ where: { id } });
+        if (vendaApagada) {
+          return vendaApagada;
         } else {
           throw new Error();
         }
@@ -107,9 +113,9 @@ const createVendaService = (Venda) => {
 
   return {
     getAllVendas,
+    getVendaByFilter,
     getVendaById,
     createVenda,
-    updateVenda,
     deleteVenda
   }
 

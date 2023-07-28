@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = (sequelize) => {
   return sequelize.define('Venda', {
@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       comment: 'Um número inteiro que identifica exclusivamente cada venda. Este campo é autoincrementado.'
     },
     id_usuario: {
-      type: DataTypes.STRING(30),
+      type: Sequelize.UUID,
       allowNull: false,
       comment: 'Um número inteiro que se refere ao ID do usuário que realizou a venda, na tabela "EMASA.USUARIOS".'
     },
@@ -57,6 +57,7 @@ module.exports = (sequelize) => {
   },
     {
       timestamps: true,
+      paranoid: true,
       engine: 'InnoDB',
       charset: 'utf8mb4',
       collate: 'utf8mb4_0900_ai_ci',
