@@ -7,6 +7,7 @@ const passport = require('passport')
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const { isAuthenticated } = require('../middleware/ensureAuthenticated')
+const originAppServer = process.env.ORIGIN
 
 //  TODO:Reafatorar em uma classe
 module.exports = configureApp = async (database) => {
@@ -91,9 +92,9 @@ module.exports = configureApp = async (database) => {
 
   // Middleware de configuração do CORS - Cross Origin Resource Sharing
   app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: originAppServer,
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
-    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept', // Cabeçalhos permitidos
+    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Credentials', // Cabeçalhos permitidos
     credentials: true // Permite o envio de credenciais, como cookies
   }));
 

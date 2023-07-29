@@ -3,6 +3,7 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken');
 const { isAuthenticated } = require('../middleware/ensureAuthenticated')
 const createAuthRoutes = () => {
+const originAppServer = process.env.ORIGIN
 
   router.post(
     '/login/local',
@@ -44,9 +45,9 @@ const createAuthRoutes = () => {
   router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
   router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }),
+    passport.authenticate('google', { failureRedirect: `${originAppServer}/login` }),
     (req, res) => {
-      res.redirect('http://localhost:3000/')
+      res.redirect(`${originAppServer}`)
     }
   )
 
