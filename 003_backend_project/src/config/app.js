@@ -72,7 +72,7 @@ module.exports = configureApp = async (database) => {
   const vendaRoutes = require('../routes/vendaRoutes')(vendaController);
 
   //  AUTH
-  const authRoutes = require('../routes/authRoutes')();
+  const authRoutes = require('../routes/authRoutes')(UsuarioModel);
 
   /******************************************************************************/
   /*********************************** MIDDLEWARES ******************************/
@@ -91,9 +91,9 @@ module.exports = configureApp = async (database) => {
 
   // Middleware de configuração do CORS - Cross Origin Resource Sharing
   app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3000',
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Cabeçalhos permitidos
+    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept', // Cabeçalhos permitidos
     credentials: true // Permite o envio de credenciais, como cookies
   }));
 

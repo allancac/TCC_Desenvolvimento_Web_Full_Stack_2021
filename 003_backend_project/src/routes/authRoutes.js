@@ -4,6 +4,18 @@ const jwt = require('jsonwebtoken');
 const { isAuthenticated } = require('../middleware/ensureAuthenticated')
 const createAuthRoutes = () => {
 
+  router.post(
+    '/login/local',
+    passport.authenticate('local', { failureRedirect: '/login/failed' }),
+    (req, res) => {
+      res.status(200).json({
+        success: true,
+        message: 'Login local realizado com sucesso',
+        user: req.user,
+      });
+    }
+  );
+
   router.get("/login/success", (req, res) => {
     if (req.user) {
       res.status(200).json({
