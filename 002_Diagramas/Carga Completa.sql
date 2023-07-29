@@ -398,7 +398,7 @@ VALUES(10000,"silo", "Pátio Inferior",5000, 1, current_timestamp, current_times
 ***************************USUÁRIOS******************************
 ****************************************************************/
 INSERT INTO EMASA.Usuarios(id, nomeUsuario, nome, sobrenome, foto, ativo, email, senha, perfil, createdAt, updatedAt) 
-VALUES(uuid(), 'admin', 'Administrador', '', '', true, '', 'pucminas21@', 'administrador',current_timestamp,current_timestamp);
+VALUES(uuid(), 'admin', 'Administrador', '', '', true, 'admin@admin.com', '$2b$08$V12M9bkzVOMh2K/qN4/dse3.O3xrZyQpmNYpFiytu1Om.AsLy9w/m', 'administrador',current_timestamp,current_timestamp);
 
 /****************************************************************
 ***************************VENDAS******************************
