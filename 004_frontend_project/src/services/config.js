@@ -1,5 +1,5 @@
-const schema = `http://`
-const server = `localhost:5500`
+const schema = `https://`
+const server = `tccpucminas.azurewebsites.net`
 
 const config = {
   baseURL: `${schema}${server}`

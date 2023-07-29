@@ -13,12 +13,11 @@ export const Signin = () => {
   const handleLocalLogin = async () => {
     try {
       const resultado = await axios.post(
-        "http://localhost:5500/auth/login/local",
+        "https://tccpucminas.azurewebsites.net/auth/login/local",
         {
           email,
           password: senha,
         }
-        
       );
 
       if (resultado.data.success) {
@@ -34,7 +33,7 @@ export const Signin = () => {
   };
 
   const handleLogin = () => {
-    window.open("http://localhost:5500/auth/google", "_self");
+    window.open("https://tccpucminas.azurewebsites.net/auth/google", "_self");
   };
 
   return (
