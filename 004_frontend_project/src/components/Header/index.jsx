@@ -57,9 +57,11 @@ export const Header = () => {
             <LinkContainer to="/estoques">
               <Nav.Link>Estoques</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/usuarios">
-              <Nav.Link>Usuários</Nav.Link>
-            </LinkContainer>
+            {user.perfil !== "vendedor" && (
+              <LinkContainer to="/usuarios">
+                <Nav.Link>Usuários</Nav.Link>
+              </LinkContainer>
+            )}
             <LinkContainer to="/relatorios">
               <Nav.Link disabled>Relatórios</Nav.Link>
             </LinkContainer>

@@ -4,6 +4,14 @@ import config from './config'
 class UsuariosServices {
   constructor() {
     this.axiosInstance = axios.create({ baseURL: `${config.baseURL}`, withCredentials: true });
+    // Verifica se o token está presente na local storage
+    this.token = localStorage.getItem('token');
+    if (this.token) {
+      this.setToken(this.token);
+    }
+  }
+  setToken(token) {
+    this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
   async buscarListaUsuarios(offset = 0, limit = 20) {
