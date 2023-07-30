@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken');
-const { isAuthenticated } = require('../middleware/ensureAuthenticated')
 const createAuthRoutes = () => {
-const originAppServer = process.env.ORIGIN
+  const originAppServer = process.env.ORIGIN
 
   router.post(
     '/login/local',

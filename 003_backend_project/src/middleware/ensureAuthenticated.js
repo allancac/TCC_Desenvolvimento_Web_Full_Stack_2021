@@ -27,9 +27,9 @@ const isAuthenticated = (req, res, next) => {
       return res.status(401).json({ error: "Usuário não autenticado." });
     }
   }
+  return next();
 
-
-  return res.status(401).json({ error: "Usuário não autenticado." });
+  // return res.status(401).json({ error: "Usuário não autenticado." });
 
 };
 
