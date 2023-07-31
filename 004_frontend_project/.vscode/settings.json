@@ -1,5 +1,6 @@
 {
-  "appService.defaultWebAppToDeploy": "/subscriptions/c386eade-dae9-46cb-b469-966a812a60d0/resourceGroups/TCC/providers/Microsoft.Web/sites/apptccpucminas",
-  "appService.deploySubpath": "build",
+  "appService.defaultWebAppToDeploy": "",
+  "appService.deploySubpath": ".",
+  "appService.showBuildDuringDeployPrompt": false,
   
 }
