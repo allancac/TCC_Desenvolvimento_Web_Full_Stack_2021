@@ -1,0 +1,22 @@
+{
+    "database":{
+        "host": "172.24.176.1",
+        "schema": "EMASA",
+        "user":"devpucminas",
+        "password":"ubuntu20"
+    },
+
+    "server":{
+        "port":5500
+    },
+
+    "jwt":{
+        "appSecret": ""
+    },
+
+    "google":{
+        "clientid": "768424978127-7cck2s9u0g3in8ua7o1tgjmnletlc6sa.apps.googleusercontent.com",
+        "clientSecret":"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",
+        "callbackUrl":"http://localhost:5500/auth/google/callback/"
+    }
+}

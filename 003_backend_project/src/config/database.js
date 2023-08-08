@@ -1,10 +1,10 @@
-
+const config = require('config')
 // Configuração do banco de dados
 const { Sequelize } = require('sequelize');
-const dbSchema = process.env.DBSCHEMA
-const dbUser = process.env.DBUSER
-const password = process.env.DBPASSWORD
-const dbHost = process.env.DBHOST
+const dbSchema = config.get('database.schema')
+const dbUser = config.get('database.user')
+const password = config.get('database.password')
+const dbHost = config.get('database.host')
 
 //  BUG: TimeZone com erro
 const configureDatabase = async () => {

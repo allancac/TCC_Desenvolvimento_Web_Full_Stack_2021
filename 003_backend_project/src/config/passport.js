@@ -1,3 +1,4 @@
+const config = require("config")
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/usuarioModel')
@@ -7,9 +8,9 @@ module.exports = function (passport, User) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK_URL, //https://tccpucminas.azurewebsites.net/auth/google/callback
+        clientID: config.get('google.clientid'),
+        clientSecret: config.get('google.clientSecret'),
+        callbackURL: config.get('google.callbackUrl'), //https://tccpucminas.azurewebsites.net/auth/google/callback
       },
       async (accessToken, refreshToken, profile, done) => {
         const newUser = {

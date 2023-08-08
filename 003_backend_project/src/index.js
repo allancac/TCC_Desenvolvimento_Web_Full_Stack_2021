@@ -1,5 +1,5 @@
 //  FIXME: Alerar todas importações de módulos de require para o import(ES6)
-require('dotenv').config(); // Carregar variáveis de ambiente
+const config = require('config')
 const os = require('os')
 const configureApp = require('./config/app')
 const configureDatabase = require('./config/database')
@@ -18,8 +18,8 @@ const startServer = async () => {
       console.log(`Conexão com o Banco de Dados ${connection.config.host}:${connection.config.port} estabelecida com sucesso.`);
       await connection.sync(
         {
-          // alter: true,
-          // force: true
+          alter: true,
+          force: true
         }
       );
       console.log('Os Modelos foram sincronizados com o Banco de Dados.');
@@ -28,7 +28,7 @@ const startServer = async () => {
       process.exit(1);
     }
     // Inicialização do servidor
-    const port = process.env.PORT || 5500;
+    const port = config.get('server.port') || 5500;
     const hostname = os.hostname
     const networkInterfaces = os.networkInterfaces();
     app.listen(port, () => {
